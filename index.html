@@ -27,6 +27,18 @@
 #disney .sh h2{font-size:var(--foot);color:var(--sub);font-weight:400}#disney .one{margin:1rem}#disney .route-label{color:var(--blueText);font-size:var(--foot);margin:.25rem 0}
 .report-open{display:flex;width:100%;justify-content:space-between;align-items:center;margin-top:1rem;min-height:44px;padding:.75rem;background:var(--seg);color:var(--blue);border-radius:10px;text-align:left}
 #reportScroll a:not(.leaflet-tile){min-height:44px;display:inline-flex;align-items:center}.hero-nav{flex-wrap:wrap;gap:0 1.25rem}
+#me .me-group{margin:0 1rem 1rem;background:var(--card);border-radius:10px;overflow:hidden}
+.me-row{display:grid;grid-template-columns:7rem 1fr;align-items:center;gap:.5rem;min-height:44px;padding:0 1rem;background:linear-gradient(var(--line),var(--line)) 1rem 100%/calc(100% - 1rem) 1px no-repeat}
+.me-row:last-child{background:none}.me-row span{font-size:var(--subhead);color:var(--sub)}
+.me-row input,.me-row textarea{border:0;background:none;padding:.65rem 0;min-width:0;width:100%;outline:none;font-size:var(--body)}
+.me-memo{align-items:start}.me-memo span{padding-top:.7rem}.me-memo textarea{resize:vertical}
+.me-status{margin:-.5rem 1rem .75rem;font-size:var(--foot);color:var(--sub);min-height:1rem}
+.me-file{display:flex;align-items:center;gap:.5rem;min-height:44px;padding:.25rem 1rem;background:linear-gradient(var(--line),var(--line)) 1rem 100%/calc(100% - 1rem) 1px no-repeat}
+.me-file:last-child{background:none}.me-file b{font-weight:400;flex:1}.me-file small{color:var(--sub);font-size:var(--foot)}
+.me-file button,.me-file label.up,.me-foot button{color:var(--blue);background:none;border:0;padding:.5rem;min-height:44px;cursor:pointer;font-size:var(--subhead)}
+.me-file .del{color:var(--redText)}.me-file input[type=file]{display:none}
+.me-foot{display:flex;justify-content:space-between;align-items:center;margin:0 1rem;font-size:var(--foot);color:var(--sub)}
+.kakao-btn{display:block;width:calc(100% - 2rem);margin:0 1rem;min-height:50px;border:0;border-radius:12px;background:#fee500;color:rgba(0,0,0,.85);font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -35,7 +47,7 @@
  <div class="eyebrow">2026년 11월 · HONG KONG</div>
  <h1>홍콩 여행</h1>
  <p class="dek">11월 24일 출발 · 돌아오는 날과 숙소를 골라보세요.</p>
-<section class="hero" aria-label="여행 예상 비용"><div class="hero-label">여행 예상 총액</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#disney">디즈니</a><a href="#extraSection">기타비용</a></nav></section>
+<section class="hero" aria-label="여행 예상 비용"><div class="hero-label">여행 예상 총액</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#disney">디즈니</a><a href="#extraSection">기타비용</a><a href="#me">내 정보</a></nav></section>
 
  
  <section class="step" id="fareWatch"><div class="sh"><h2>항공권 오늘 시세</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
@@ -68,6 +80,23 @@
 
 <section class="step report-scope" id="disney"><div class="sh"><h2 id="disneyHeading">디즈니랜드</h2></div><p class="one">11/25(수)가 제일 싸고 덜 붐벼요 — 수요일 20% 할인, 10:00~20:30</p><div class="gal"><figure><img src="img/area/dis_castle_1.jpg" alt="디즈니 성(Castle of Magical Dreams)" loading="lazy"><figcaption><b>디즈니 성(Castle of Magical Dreams)</b></figcaption></figure><details class="photo-more"><summary>사진 3장 보기<svg class="icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></summary><div class="photo-grid"><figure><img src="img/area/dis_frozen_0.jpg" alt="월드 오브 프로즌" loading="lazy"><figcaption><b>월드 오브 프로즌</b></figcaption></figure><figure><img src="img/area/dis_station_0.jpg" alt="써니베이역 환승" loading="lazy"><figcaption><b>써니베이역 환승</b></figcaption></figure></div></details></div><div class="card"><h4>언제 갈까</h4><ul><li>11/25(수) — 수요일 한정 20% 할인(HK$535), 운영 10:00~20:30, 혼잡 예상 중간</li><li>11/26(목) — 정가 HK$669, 10:00~20:30</li><li>11/27(금) — 비싼 날(HK$759), 대신 21:00까지</li><li>11/24(화) 도착일 — 빨라야 17시 입장인데 정가를 다 내고 캐리어도 맡겨야 해서 비추천</li></ul></div><div class="card"><h4>티켓 (성인 1인 1일권)</h4><div class="compare-list"><article class="compare-item"><h3 class="compare-title">공식(HKD)</h3><dl><div class="kv"><dt>11/25 수</dt><dd>535</dd></div><div class="kv"><dt>11/26 목</dt><dd>669</dd></div><div class="kv"><dt>11/27 금</dt><dd>759</dd></div><div class="kv"><dt>메모</dt><dd>MyDisney 로그인 구매 시 HK$100 바우처</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">클룩</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,500</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩101,600</dd></div><div class="kv"><dt>11/27 금</dt><dd>약 ₩117,000</dd></div><div class="kv"><dt>메모</dt><dd>취소불가형은 목 ₩92,800 · 날짜 지정하면 예약까지 끝</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">KKday</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,456</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩103,524~</dd></div><div class="kv"><dt>11/27 금</dt><dd>—</dd></div><div class="kv"><dt>메모</dt><dd>날짜 지정하면 예약까지 끝</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">트립닷컴</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,700~</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩113,485(정가)</dd></div><div class="kv"><dt>11/27 금</dt><dd>—</dd></div><div class="kv"><dt>메모</dt><dd>날짜별 값은 미확인</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">마이리얼트립</h3><dl><div class="kv"><dt>11/25 수</dt><dd>—</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩108,607</dd></div><div class="kv"><dt>11/27 금</dt><dd>못 씀</dd></div><div class="kv"><dt>메모</dt><dd>오픈티켓 · 공식 사이트에서 따로 파크 예약</dd></div></dl></article></div><p class="fine">날짜마다 4단계 요금이고 모든 입장객이 파크 예약을 해야 해요. 오후권은 없어요. 2일권은 연속 이틀, HK$769부터(클룩 ₩173,400). 2026-10-20 조회.</p></div><div class="card"><h4>우선 탑승권(DPA)</h4><ul><li>3개권 HK$199~ — 겨울왕국 어트랙션은 안 들어감</li><li>8개권 HK$429~ / 야간쇼 관람구역 포함 모멘터스권 HK$659~</li><li>평일이라 미리 살 필요는 적어요. 겨울왕국 대기가 길면 그날 앱에서 8개권</li><li>인스타 저장 #23: «11월 주말 13시 입장으로도 DPA로 다 하고 시간 남음»</li></ul></div><div class="card"><h4>동네별 가는 길</h4><div class="compare-list"><article class="compare-item"><h3 class="compare-title">침사추이</h3><dl><div class="kv"><dt>시간</dt><dd>40분</dd></div><div class="kv"><dt>요금</dt><dd>HK$22.2</dd></div><div class="kv"><dt>경로</dt><dd>라이킹·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">조던·야우마테이</h3><dl><div class="kv"><dt>시간</dt><dd>36~38분</dd></div><div class="kv"><dt>요금</dt><dd>HK$22.2</dd></div><div class="kv"><dt>경로</dt><dd>라이킹·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">센트럴·셩완</h3><dl><div class="kv"><dt>시간</dt><dd>38~41분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>홍콩역 퉁청선·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">코즈웨이베이</h3><dl><div class="kv"><dt>시간</dt><dd>45분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>센트럴·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">노스포인트</h3><dl><div class="kv"><dt>시간</dt><dd>51분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>센트럴·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">공항</h3><dl><div class="kv"><dt>시간</dt><dd>35~39분</dd></div><div class="kv"><dt>요금</dt><dd>HK$73</dd></div><div class="kv"><dt>경로</dt><dd>퉁청선·써니베이</dd></div></dl></article></div><p class="fine">디즈니역에서 시내로 가는 막차가 00:19~00:40이라 야간쇼 보고 나와도 여유 있어요. 택시는 HK$180~250 정도(미검증).</p></div><div class="card"><h4>하루 예시 — 11/25(수)</h4><ul><li>08:30 숙소 출발 → 09:20쯤 도착, 게이트 대기</li><li>10:00 개장하면 겨울왕국 구역부터(홍콩에만 있음)</li><li>오전: 빅 그리즐리 광산열차, 아이언맨, 하이퍼스페이스 마운틴 — 앱에서 대기 짧은 것부터</li><li>오후: 미스틱 매너는 대기가 길면 패스(인스타 #6)</li><li>저녁: 야간쇼 모멘터스, 11월 시간표는 아직 안 나옴(10월엔 폐장 시각 시작) — 자리는 미리 잡고, 끝나기 10분 전에 나오면 역이 덜 붐벼요</li></ul></div><div class="card"><h4>그때 파크 상황</h4><ul><li>크리스마스 시즌 11/20~2027-01-03 — 장식과 시즌 공연</li><li>캐슬 콘서트는 11/21·22, 12/5·6이라 우리 날짜와는 안 겹침</li><li>닫힌 곳: 타잔 트리하우스·뗏목, 레일로드 메인스트리트역</li><li>디즈니랜드 호텔은 10/12부터 휴관</li></ul></div><div class="card"><h4>챙길 것</h4><ul><li>외부 음식 반입 됨</li><li>바퀴 달린 캐리어는 크기 상관없이 반입 금지 — 체크아웃 날엔 숙소에 맡기고 가기</li><li>사물함 하루 HK$140쯤(미검증)</li><li>티켓은 날짜 지정형으로 — 마이리얼트립 오픈티켓은 금요일에 못 씀</li></ul><p class="fine">출처: hongkongdisneyland.com 티켓·일별 캘린더·오퍼 페이지, MTR 경로 조회, 클룩·KKday·트립닷컴·마이리얼트립 상품 페이지 (2026-10-20).</p></div></section>
  <section class="step" id="extraSection"><div class="sh"><span class="n">5</span><h2>그 밖에 드는 돈</h2><span class="hint">추정치 · 필요한 것만</span></div><div id="extras"></div><p class="note">스위치를 켠 항목만 합계에 포함돼요. 식비 등 일일 비용은 여행 일수에 맞춰 계산해요.</p></section>
+
+ <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
+  <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
+  <div id="meIn" hidden>
+   <div class="me-group">
+    <label class="me-row"><span>이름</span><input id="me_name" autocomplete="off"></label>
+    <label class="me-row"><span>항공 예약번호</span><input id="me_flight" autocomplete="off"></label>
+    <label class="me-row"><span>숙소 예약번호</span><input id="me_hotel" autocomplete="off"></label>
+    <label class="me-row"><span>여행자보험</span><input id="me_ins" placeholder="보험사 · 증권번호" autocomplete="off"></label>
+    <label class="me-row"><span>eSIM</span><input id="me_esim" autocomplete="off"></label>
+    <label class="me-row me-memo"><span>메모</span><textarea id="me_memo" rows="3"></textarea></label>
+   </div>
+   <p class="me-status" id="meSaved" aria-live="polite"></p>
+   <div class="me-group" id="meFiles"></div>
+   <div class="me-foot"><span id="meWho"></span><button type="button" id="meLogout">로그아웃</button></div>
+  </div>
+ </section>
 
  <p class="note" style="margin-top:26px">출처: Google 항공편(가는 편마다 오는 편 목록까지 조회) · Google 호텔 · Airbnb — 2026-10-20 조회. 지도 Google 지도. 환율 1 HKD ≈ 185원(추정). 숙소는 11/24~28 검색의 1박 요금으로 계산 — 23일 밤·28일 밤도 같은 값으로 잡음(추정).</p><div class="report-scope"><details class="cred"><summary>사진 출처 (Wikimedia Commons)<svg class="icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></summary><ul><li>스타페리 침사추이 부두 — <a href="https://commons.wikimedia.org/wiki/File:Tsim_Sha_Tsui_Ferry_Pier.jpg">Baycrest</a>, CC BY-SA 2.5</li><li>스타페리 침사추이 부두 — <a href="https://commons.wikimedia.org/wiki/File:2024-12-27_Tsim_Sha_Tsui_Ferry_Pier.jpg">Alexkom000</a>, CC BY 4.0</li><li>스타의 거리·하버 야경 — <a href="https://commons.wikimedia.org/wiki/File:Avenue_of_Stars_in_Hong_Kong(2).jpg">Alancrh</a>, Public domain</li><li>스타의 거리·하버 야경 — <a href="https://commons.wikimedia.org/wiki/File:Avenue_of_Stars,_Hong_Kong_(2052819038).jpg">yeowatzup</a>, CC BY 2.0</li><li>하버시티·캔턴로드 — <a href="https://commons.wikimedia.org/wiki/File:HK_TST_Canton_Road_Harbour_City_Gucci_shop_signs_Marc_Jacobs_Aug-2012.JPG">Magrealthkoo</a>, CC BY-SA 3.0</li><li>1881 헤리티지 — <a href="https://commons.wikimedia.org/wiki/File:1881_Heritage.JPG">Alan</a>, CC BY-SA 3.0</li><li>K11 뮤제아 — <a href="https://commons.wikimedia.org/wiki/File:Victoria_Dockside_202007.jpg">Wpcpey</a>, CC BY 4.0</li><li>구룡공원 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Park_44.jpg">Wilfredor</a>, CC0</li><li>템플스트리트 야시장 — <a href="https://commons.wikimedia.org/wiki/File:Mercado_en_Temple_St.,_Hong_Kong,_2013-08-11,_DD_01.JPG">Diego Delso</a>, CC BY-SA 3.0</li><li>여인가(통초이 스트리트) — <a href="https://commons.wikimedia.org/wiki/File:Kowloon_Tung_Choi_Street.jpg">Photo by TonySKTO</a>, CC BY-SA 2.5</li><li>금붕어 시장 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Goldfish_Market.jpg">Stevenliuyi</a>, CC BY-SA 4.0</li><li>야우마테이 과일시장 — <a href="https://commons.wikimedia.org/wiki/File:Yau_Ma_Tei_Fruit_Market_at_night_20231214.jpg">Cypp0847</a>, CC BY-SA 4.0</li><li>야우마테이 틴하우 사원 — <a href="https://commons.wikimedia.org/wiki/File:Tin_Hau_Temple_Complex,_Yau_Ma_Tei_03.jpg">Underwaterbuffalo</a>, CC BY-SA 4.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:Mong_Kok_Neon_Signs_Night_(48127904386).jpg">Benh LIEU SONG from Torcy, France</a>, CC BY-SA 2.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:HK_Mong_Kok_night_Soy_Street_shop_signs_Oct-2012.JPG">Ekratoem</a>, CC BY-SA 3.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:%E6%97%BA%E8%A7%92_Mong_Kok_%E8%8A%B1%E5%9C%92%E8%A1%97_Fa_Yuen_Street_%E5%85%AB%E7%8F%8D%E9%A3%9F%E5%93%81_Pat_Chun_%E9%9C%93%E8%99%B9%E7%87%88%E6%8B%9B%E7%89%8C_Neon_Sign,_2019.jpg">Lord Jaraxxus</a>, CC BY-SA 4.0</li><li>압리우 스트리트(삼수이포) — <a href="https://commons.wikimedia.org/wiki/File:Apliu_Street,_Sham_Shui_Po_part_1_in_February_2024.jpg">姒姓賢寧</a>, CC BY 4.0</li><li>미드레벨 에스컬레이터 — <a href="https://commons.wikimedia.org/wiki/File:Central-Mid-Levels_Escalator_and_Walkway_System_15-07-2015(2).jpg">LN9267</a>, CC BY-SA 4.0</li><li>타이쿤 — <a href="https://commons.wikimedia.org/wiki/File:Tai_Kwun_(1).jpg">SH6188</a>, CC BY-SA 4.0</li><li>PMQ — <a href="https://commons.wikimedia.org/wiki/File:PMQ_20-05-2022(3).jpg">LN9267</a>, CC BY-SA 4.0</li><li>만모사원 — <a href="https://commons.wikimedia.org/wiki/File:Interior_of_Man_Mo_Temple,_Hollywood_Road,_2006_(02).jpg">Bahnfrend</a>, CC BY-SA 4.0</li><li>캣 스트리트(골동품) — <a href="https://commons.wikimedia.org/wiki/File:HK_Sheung_Wan_Upper_Lascar_Row_Cat_Street_1.JPG">No machine-readable author provided. Saiyans16~commonswiki a</a>, CC BY-SA 3.0</li><li>트램(데보로드) — <a href="https://commons.wikimedia.org/wiki/File:202105_Hong_Kong_Tramways_148_at_Des_Voeux_Road_Central,_Sheung_Wan.jpg">LAUD Freiman Aldopoilslmy</a>, CC BY-SA 4.0</li><li>빅토리아 피크 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Harbour_Night_2019-06-11.jpg">Benh LIEU SONG (Flickr)</a>, CC BY-SA 4.0</li><li>리퉁 애비뉴 — <a href="https://commons.wikimedia.org/wiki/File:Lee_Tung_Avenue_201608.jpg">Wpcpey</a>, CC BY-SA 4.0</li><li>빅토리아 파크 — <a href="https://commons.wikimedia.org/wiki/File:Victoria_Park(Hong_Kong)_22-11-2023.jpg">LN9267</a>, CC BY-SA 4.0</li><li>해피밸리 경마장 — <a href="https://commons.wikimedia.org/wiki/File:Happy_Valley_Racecourse-001.jpg">TypeZero</a>, CC BY-SA 4.0</li><li>골든 보히니아 광장 — <a href="https://commons.wikimedia.org/wiki/File:GoldenBauhiniaSquare.jpg">No machine-readable author provided. Ilmari Karonen assumed</a>, CC BY 2.5</li><li>춘영 스트리트 트램 시장 — <a href="https://commons.wikimedia.org/wiki/File:HK_Tramways_120_at_Chun_Yeung_Street_(20181215091123).jpg">N509FZ</a>, CC BY-SA 4.0</li><li>춘영 스트리트 트램 시장 — <a href="https://commons.wikimedia.org/wiki/File:North_Point_Chun_Yeung_Street.jpg">Minseong Kim</a>, CC BY-SA 4.0</li><li>익청빌딩(몬스터 빌딩) — <a href="https://commons.wikimedia.org/wiki/File:Yick_Cheong_Building_and_Yick_Fat_Building._Aug._2015.A.JPG">Sakaori (talk)</a>, CC BY 3.0</li><li>노스포인트 페리 부두 — <a href="https://commons.wikimedia.org/wiki/File:North_Point_Ferry_Pier_201808.jpg">Wpcpey</a>, CC BY-SA 4.0</li><li>스테이트 극장 — <a href="https://commons.wikimedia.org/wiki/File:HK_North_Point_277-291_King%27s_Road_%E7%9A%87%E9%83%BD%E6%88%B2%E9%99%A2%E5%A4%A7%E5%BB%88_State_Theatre_Building_facade_Jan-2013.JPG">Skiawems</a>, CC BY-SA 3.0</li><li>디즈니 성(Castle of Magical Dreams) — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Disneyland_Castle.jpg">Ashwin Kumar</a>, CC BY-SA 2.0</li><li>월드 오브 프로즌 — <a href="https://commons.wikimedia.org/wiki/File:World_of_Frozen,_Hong_Kong_Disneyland_2023.jpg">Tombus20032000</a>, CC BY-SA 4.0</li><li>써니베이역 환승 — <a href="https://commons.wikimedia.org/wiki/File:HK_Sunny_Bay_Station_Platform_3.jpg">WiNG</a>, CC BY-SA 3.0</li></ul></details></div>
 </div>
@@ -321,5 +350,61 @@ const rows=[...routeCard.querySelectorAll('.compare-item')];const label=document
 function syncRoute(){const s=stayById(S.stay),k=s?.[1]||S.area;const idx=keys.indexOf(k);rows.forEach((r,i)=>r.classList.toggle('chosen-route',i===idx));label.textContent=s?'선택한 숙소 · '+s[0]+' → 디즈니랜드':'';}
 new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{childList:true});syncRoute();
 })();
-</script></body>
+</script>
+<script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// hatsalplay 공용 Supabase — 각자 내 정보(app='hk'), 파일은 docs/{uid}/hk/{slot}/ . RLS로 본인만.
+(()=>{
+ if(!window.supabase)return;
+ const sb=supabase.createClient('https://lamjaczwhytcecbjjqlp.supabase.co','sb_publishable__IfpRW3ny89IHeIsgxIH7A_JYOwDJ4Q');
+ const APP='hk',F=['name','flight','hotel','ins','esim','memo'],SLOTS=[['passport','여권'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
+ const $=id=>document.getElementById(id);let uid=null,timer=null;
+ $('meLogin').onclick=()=>sb.auth.signInWithOAuth({provider:'kakao',options:{redirectTo:location.origin+location.pathname}});
+ $('meLogout').onclick=async()=>{await sb.auth.signOut();show(null)};
+ async function show(user){
+  uid=user?.id||null;$('meOut').hidden=!!uid;$('meIn').hidden=!uid;
+  $('meHint').textContent=uid?'나만 보여요':'카카오로 로그인하면 본인만 보여요';
+  if(!uid)return;
+  const nick=user.user_metadata?.name||user.user_metadata?.full_name||user.user_metadata?.preferred_username||'';
+  $('meWho').textContent=nick?`카카오 · ${nick}`:'카카오 로그인됨';
+  const {data}=await sb.from('my_info').select('data').eq('app',APP).maybeSingle();
+  const d=data?.data||{};F.forEach(k=>$('me_'+k).value=d[k]||'');
+  if(!d.name&&nick)$('me_name').value=nick;
+  files();
+ }
+ async function save(){
+  const d={};F.forEach(k=>d[k]=$('me_'+k).value.trim());
+  const {error}=await sb.from('my_info').upsert({user_id:uid,app:APP,data:d,updated_at:new Date().toISOString()});
+  $('meSaved').textContent=error?'저장 실패 — '+error.message:'저장됨';
+ }
+ F.forEach(k=>$('me_'+k).addEventListener('input',()=>{$('meSaved').textContent='저장 중…';clearTimeout(timer);timer=setTimeout(save,800)}));
+ async function files(){
+  const box=$('meFiles');box.textContent='';
+  for(const [slot,label] of SLOTS){
+   const dir=`${uid}/${APP}/${slot}`;const {data:list}=await sb.storage.from('docs').list(dir,{sortBy:{column:'created_at',order:'desc'}});
+   const row=document.createElement('div');row.className='me-file';
+   const b=document.createElement('b');b.textContent=label;row.append(b);
+   const items=(list||[]).filter(f=>f.name!=='.emptyFolderPlaceholder');
+   if(items.length){
+    const sm=document.createElement('small');sm.textContent=items.length+'개';row.append(sm);
+    const v=document.createElement('button');v.type='button';v.textContent='보기';
+    v.onclick=async()=>{const w=window.open('','_blank');const {data:u}=await sb.storage.from('docs').createSignedUrl(`${dir}/${items[0].name}`,60);if(u&&w)w.location=u.signedUrl;else if(u)location.href=u.signedUrl};
+    const del=document.createElement('button');del.type='button';del.className='del';del.textContent='삭제';
+    del.onclick=async()=>{if(del.dataset.ok){await sb.storage.from('docs').remove(items.map(f=>`${dir}/${f.name}`));files()}else{del.dataset.ok=1;del.textContent='정말 삭제'}};
+    row.append(v,del);
+   }
+   const up=document.createElement('label');up.className='up';up.textContent=items.length?'바꾸기':'올리기';
+   const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';
+   inp.onchange=async()=>{const f=inp.files[0];if(!f)return;up.textContent='올리는 중…';
+    const ext=(f.name.split('.').pop()||'jpg').toLowerCase();
+    const {error}=await sb.storage.from('docs').upload(`${dir}/${Date.now()}.${ext}`,f,{contentType:f.type});
+    if(!error&&items.length)await sb.storage.from('docs').remove(items.map(x=>`${dir}/${x.name}`));
+    if(error)up.textContent='실패 — 다시';else files()};
+   up.append(inp);row.append(up);box.append(row);
+  }
+ }
+ sb.auth.onAuthStateChange((e,s)=>{if((s?.user?.id||null)!==uid)show(s?.user||null);if(e==='SIGNED_IN'&&/access_token|code=/.test(location.href)){history.replaceState(null,'',location.pathname);setTimeout(()=>$('me').scrollIntoView(),300)}});
+})();
+</script>
+</body>
 </html>
