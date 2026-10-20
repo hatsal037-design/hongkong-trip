@@ -80,6 +80,22 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visibl
 @media(prefers-contrast:more){#appTabs{background:var(--card)}.trip-card{outline:1px solid var(--line)}}
 @media(max-width:420px){.me-row{grid-template-columns:1fr;gap:0;padding-top:.5rem}.trip-links{gap:0 .75rem}}
 
+
+/* Liquid Glass 하단 탭 — 떠 있는 캡슐 + 선택 탭 뒤 렌즈 */
+:root{--app-tab-height:calc(5rem + env(safe-area-inset-bottom));--lg-fill:rgba(255,255,255,.52);--lg-rim:rgba(255,255,255,.75);--lg-rim2:rgba(255,255,255,.25);--lg-shadow:0 10px 30px rgba(0,0,0,.14),0 1px 3px rgba(0,0,0,.08);--lg-lens:rgba(118,118,128,.16)}
+@media(prefers-color-scheme:dark){:root{--lg-fill:rgba(44,44,46,.48);--lg-rim:rgba(255,255,255,.22);--lg-rim2:rgba(255,255,255,.06);--lg-shadow:0 10px 30px rgba(0,0,0,.5);--lg-lens:rgba(255,255,255,.14)}}
+#appTabs{inset:auto max(1rem,env(safe-area-inset-right)) max(.5rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));max-width:28rem;margin:0 auto;min-height:0;padding:.3rem;border:0;border-radius:999px;background:var(--lg-fill);backdrop-filter:blur(14px) saturate(190%) brightness(1.05);-webkit-backdrop-filter:blur(14px) saturate(190%) brightness(1.05);box-shadow:inset 0 1px 0 var(--lg-rim),inset 0 -1px 0 var(--lg-rim2),inset 0 0 0 .5px var(--lg-rim2),var(--lg-shadow);isolation:isolate}
+#appTabs::before{content:'';position:absolute;z-index:-1;top:.3rem;bottom:.3rem;left:.3rem;width:calc((100% - .6rem)/4);border-radius:999px;background:var(--lg-lens);box-shadow:inset 0 1px 0 var(--lg-rim2);transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+#appTabs:has(button:nth-child(2)[aria-selected="true"])::before{transform:translateX(100%)}
+#appTabs:has(button:nth-child(3)[aria-selected="true"])::before{transform:translateX(200%)}
+#appTabs:has(button:nth-child(4)[aria-selected="true"])::before{transform:translateX(300%)}
+#appTabs button{min-height:3.4rem;border-radius:999px;padding:.3rem .1rem;font-size:.66rem;color:var(--label)}
+#appTabs button[aria-selected="true"]{color:var(--systemBlue);font-weight:600}
+#appTabs button:active{transform:scale(.94);transition:transform .1s}
+.bar{bottom:var(--app-tab-height);left:max(1rem,env(safe-area-inset-left));right:max(1rem,env(safe-area-inset-right));max-width:28rem;margin:0 auto;border:0;border-radius:22px;padding:.6rem 1.1rem;background:var(--lg-fill);backdrop-filter:blur(14px) saturate(190%);-webkit-backdrop-filter:blur(14px) saturate(190%);box-shadow:inset 0 1px 0 var(--lg-rim),inset 0 0 0 .5px var(--lg-rim2),var(--lg-shadow)}
+@media(prefers-reduced-motion:reduce){#appTabs::before{transition:none}}
+@media(prefers-reduced-transparency:reduce){#appTabs{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){#appTabs{box-shadow:0 0 0 1px var(--label)}}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
