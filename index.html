@@ -2,116 +2,27 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>홍콩 여행 견적</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--ink:#1c1a17;--sub:#6b645b;--line:#ddd6cb;--paper:#faf7f1;--card:#fff;--acc:#2f6f4f;--acc2:#5d9277;--warn:#a83a2a;--bg:#efeae1;--sel:#f3f8f4}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--ink:#ece8e1;--sub:#b3aa9f;--line:#3a3631;--paper:#1f1d1a;--card:#2a2723;--acc:#7cc39c;--acc2:#5d9277;--warn:#e07a6a;--bg:#151412;--sel:#24302a}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);padding-bottom:130px;font:15px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",sans-serif;-webkit-font-smoothing:antialiased}
-.sheet{max-width:960px;margin:24px auto;background:var(--paper);padding:36px 44px 48px;box-shadow:0 1px 3px rgba(0,0,0,.1),0 12px 32px rgba(0,0,0,.07);border-radius:2px}
-.eyebrow{font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--acc);text-transform:uppercase}
-h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 4px}
-.dek{color:var(--sub);font-size:13.5px;margin:0}
-.step{margin:32px 0 0}
-.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.sh .n{font:600 11px/1 ui-monospace,Menlo,monospace;color:#fff;background:var(--acc);border-radius:3px;padding:5px 7px}
-.sh h2{font-size:16.5px;margin:0}
-.sh .hint{font-size:12.5px;color:var(--sub);margin-left:auto}
-.opt{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
-.opt:hover{border-color:var(--acc2)}
-.opt[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 2px rgba(47,111,79,.18);background:var(--sel)}
-.fl{display:grid;grid-template-columns:118px 1fr auto;gap:2px 12px;align-items:center}
-.tm{font:700 17px/1.2 ui-monospace,Menlo,monospace;white-space:nowrap}
-.tm small{display:block;font:600 11px/1.3 -apple-system,sans-serif;color:var(--sub)}
-.al{font-weight:600;font-size:14px}
-.al .s{display:block;font-weight:400;font-size:12px;color:var(--sub)}
-.warn{display:block;color:var(--warn);font-size:11.5px;font-weight:500}
-.pr{font-weight:700;font-size:15px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.pr small{display:block;font-weight:400;font-size:11px;color:var(--sub)}
-.opt[aria-pressed=true] .pr{color:var(--acc)}
-.list{display:flex;flex-direction:column;gap:7px;margin-top:12px}
-.more{margin-top:8px;font:600 13px/1 inherit;color:var(--acc);background:none;border:0;cursor:pointer;padding:6px 0}
-.best{font:600 9.5px/1 ui-monospace,Menlo,monospace;background:var(--acc);color:#fff;padding:3px 5px;border-radius:2px;vertical-align:2px}
-.lcc{font-size:10px;padding:1px 5px;border-radius:2px;background:#fbecea;color:#a83a2a;border:1px solid #f0d5d0;vertical-align:1px}
-.daytabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.daytabs button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:10px 12px;cursor:pointer;text-align:left}
-.daytabs button[aria-pressed=true]{border-color:var(--acc);background:var(--sel);box-shadow:0 0 0 2px rgba(47,111,79,.18)}
-.daytabs b{display:block;font-size:15px}.daytabs span{font-size:12px;color:var(--sub)}
-.empty{font-size:13px;color:var(--sub);padding:14px;border:1px dashed var(--line);border-radius:6px;margin-top:12px}
-.trip{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
-.trip .row{display:grid;grid-template-columns:70px 1fr;gap:4px 10px;font-size:13.5px;padding:3px 0}
-.trip .row b{color:var(--sub);font-weight:600}
-.trip .nights{font-size:18px;font-weight:700;margin-top:6px}
-#map{height:380px;border-radius:6px;border:1px solid var(--line);margin-top:12px;z-index:0}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chips button{font:600 12.5px/1 inherit;border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:20px;padding:8px 12px;cursor:pointer}
-.chips button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
-.chips i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0}
-.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-.hcard{padding:0;overflow:hidden}
-.hcard img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--line)}
-.hcard .bd{padding:10px 12px 12px}
-.hcard .nm{font-weight:600;font-size:14px;line-height:1.35}
-.hcard .sz{font-size:12.5px;font-weight:600;margin-top:3px;color:var(--acc)}.hcard .sz span{font-weight:400;color:var(--sub)}
-.hcard .s{font-size:12px;color:var(--sub);margin-top:3px}
-.hcard .pr{text-align:left;margin-top:6px}
-.hcard a{color:var(--acc);font-size:12px;text-decoration:none}
-.ty{font-size:10px;padding:1px 6px;border-radius:2px;border:1px solid var(--line);color:var(--sub);margin-right:4px}
-.ty.airbnb{border-color:#f3c3c9;color:#c13547;background:#fdf0f2}
-.ty.guest{border-color:#e9dcb8;color:#8a6a1a;background:#fbf6e8}
-.pin{background:var(--card);color:var(--ink);border:1.5px solid var(--c);border-radius:10px;padding:1px 6px;font:700 11px/1.4 -apple-system,sans-serif;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:translate(-50%,-50%);display:inline-block}
-.pin.ab{border-style:dashed}
-.pin.on{background:var(--c);color:#fff;font-size:12.5px}
-.extra{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
-.extra input{width:18px;height:18px;accent-color:var(--acc)}
-.extra .nm{flex:1}.extra small{display:block;color:var(--sub);font-size:12px}
-.extra .v{font-variant-numeric:tabular-nums;font-weight:600}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:10px}
-.seg button{font:600 13px/1 inherit;border:0;background:var(--card);color:var(--sub);padding:9px 16px;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--acc);color:#fff}
-.note{font-size:12.5px;color:var(--sub);margin-top:10px}
-.bar{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);z-index:1000;padding:12px 16px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(0,0,0,.08)}
-.bar .in{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.bar .tot{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--acc)}
-.bar .pp{font-size:13px;color:var(--sub)}
-.bar .sum{font-size:12px;color:var(--sub);margin-left:auto;text-align:right}
-.ainfo{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.ainfo .ph{display:grid;grid-template-columns:1fr 1fr;gap:2px}.ainfo .ph img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
-.ainfo .bd{padding:14px 16px 16px}.ainfo h3{margin:0;font-size:17px}.ainfo .one{color:var(--acc);font-weight:600;font-size:13.5px;margin-top:2px}
-.ainfo p{margin:8px 0 0;font-size:13.5px}.ainfo .cols{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:10px}
-.ainfo h4{margin:10px 0 2px;font-size:12px;color:var(--sub);font-weight:600}.ainfo ul{margin:0;padding-left:17px;font-size:13px}.ainfo li{margin:1px 0}
-.ainfo .kv{font-size:13px;margin-top:8px}.ainfo .kv b{color:var(--sub);font-weight:600;margin-right:6px}
-.ainfo .cr{font-size:10.5px;color:var(--sub);margin-top:10px}
-.atable{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}.atable td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
-.atable tr{cursor:pointer}.atable tr:hover td{background:var(--sel)}.atable .an{font-weight:600;white-space:nowrap}.atable .ap{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
-@media (max-width:640px){.ainfo .cols{grid-template-columns:1fr}}
-.sites{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.site{display:inline-flex;align-items:baseline;gap:4px;font-size:11.5px;padding:4px 7px;border:1px solid var(--line);border-radius:4px;color:var(--ink)!important;text-decoration:none;background:var(--paper)}
-.site.nolink{color:var(--sub)!important;border-style:dashed}.site.cmp{background:none;border:0;color:var(--acc)!important;font-weight:600}
-.site b{font-weight:700;font-variant-numeric:tabular-nums}.site.low{border-color:var(--acc);color:var(--acc)!important}
-.fw{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
-.fwtop{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}.fwtop .big{font-size:24px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
-.fwtop .chg{font-size:13px;font-weight:600}.fwtop .up{color:var(--warn)}.fwtop .dn{color:var(--acc)}.fwtop .meta{font-size:12px;color:var(--sub)}
-.fwchart{width:100%;height:auto;margin-top:10px;display:block}.fwchart text{fill:var(--sub);font-size:10px}
-.fwt{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;font-variant-numeric:tabular-nums}.fwt td,.fwt th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}.fwt th{font-size:11.5px;color:var(--sub);font-weight:600}.fwt td.r{text-align:right}.fwt tr.low td{color:var(--acc);font-weight:600}
-.fwscroll{overflow-x:auto}.fwbag{margin-top:10px;font-size:13px}.fwbag summary{cursor:pointer;color:var(--acc);font-weight:600}
-.fwbagp{font-size:13px;margin-top:2px}.fwbagp b{font-variant-numeric:tabular-nums}.fwbagp span{color:var(--sub);font-size:12px}
-.fwcols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}.fwcol{min-width:0}.fwlab{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}.fwlab i,.fwlegend i{display:inline-block;width:10px;height:10px;border-radius:50%}.fwlegend{display:flex;gap:14px;font-size:12px;color:var(--sub);margin-top:4px}.fwlegend span{display:flex;align-items:center;gap:5px}.fw .meta{font-size:12px;color:var(--sub)}
-@media (max-width:640px){.fwcols{grid-template-columns:1fr}}
-@media (max-width:640px){.sheet{margin:0;padding:22px 16px 32px}.hgrid{grid-template-columns:1fr 1fr}#map{height:300px}.fl{grid-template-columns:96px 1fr auto}.tm{font-size:15px}.bar .sum{margin-left:0;text-align:left}}
-@media (max-width:400px){.hgrid{grid-template-columns:1fr}}
+:root{color-scheme:light dark;--ink:#1c1c1e;--sub:#626269;--line:#d9d9de;--paper:#f2f2f7;--card:#fff;--acc:#248a3d;--acc2:#34c759;--blue:#007aff;--warn:#c9342d;--bg:#f2f2f7;--sel:#f0faf2;--seg:#e5e5ea;--glass:rgba(249,249,252,.88)}
+@media(prefers-color-scheme:dark){:root{--ink:#f5f5f7;--sub:#aaaab2;--line:#38383a;--paper:#000;--card:#1c1c1e;--acc:#30d158;--acc2:#30d158;--blue:#0a84ff;--warn:#ff6961;--bg:#000;--sel:#15291c;--seg:#2c2c2e;--glass:rgba(28,28,30,.9)}}
+*{box-sizing:border-box}html{font-size:100%;scroll-padding-bottom:10rem}body{margin:0;background:var(--bg);color:var(--ink);padding-bottom:calc(9rem + env(safe-area-inset-bottom));font:1rem/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased}button,input,a,summary{touch-action:manipulation}button{font:inherit;color:inherit;cursor:pointer}a{color:var(--blue);text-underline-offset:3px}button:focus-visible,a:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button:active{opacity:.72}[hidden]{display:none!important}.sheet{max-width:64rem;margin:auto;padding:3rem 2rem}.eyebrow{font-size:.8125rem;color:var(--sub);font-weight:600;letter-spacing:.04em}h1{font-size:2.125rem;line-height:1.15;letter-spacing:-.035em;margin:.5rem 0}h2{font-size:1.375rem;letter-spacing:-.02em;line-height:1.3;margin:0}.dek{color:var(--sub);font-size:.9375rem;margin:.5rem 0 1.5rem}.step{margin-top:2rem}.sh{display:flex;align-items:center;gap:.625rem;flex-wrap:wrap;margin-bottom:.75rem}.sh .hint{font-size:.8125rem;color:var(--sub);margin-left:auto}.n{display:none}.section-icon{width:1.5rem;height:1.5rem;color:var(--blue);flex:none}.hero{background:var(--card);border-radius:1.5rem;padding:1.5rem}.hero-label{font-size:.875rem;color:var(--sub)}.hero-total{font-size:clamp(2rem,7vw,2.75rem);font-weight:700;letter-spacing:-.045em;line-height:1.2;margin:.5rem 0;font-variant-numeric:tabular-nums}.hero-person{color:var(--acc);font-weight:600}.hero-detail{border-top:1px solid var(--line);padding-top:1rem;margin-top:1rem;font-size:.8125rem;color:var(--sub)}.hero-nav{display:flex;gap:1.5rem;margin-top:1rem}.hero-nav a{display:inline-flex;align-items:center;min-height:2.75rem;font-size:.875rem;text-decoration:none;font-weight:600}.fw,.trip,.ainfo{background:var(--card);border-radius:1.25rem;padding:1.25rem}.fw{display:flex;flex-direction:column}.fw>.meta{order:0}.fwcols{order:1;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem}.fwchart{order:2;width:100%;height:auto;margin-top:1.5rem;min-height:7rem}.fwchart text{fill:var(--sub);font-size:11px}.fwlegend{order:3;display:flex;justify-content:center;gap:1.5rem;font-size:.8125rem;color:var(--sub)}.fw>.note{order:4}.fwlab{display:flex;align-items:center;gap:.5rem;font-size:.875rem;font-weight:600}.fwlab i,.fwlegend i{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;margin-right:.25rem}.fwtop{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}.fwtop .big{font-size:1.875rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.fwtop .chg{font-size:.8125rem}.up,.warn{color:var(--warn)}.dn{color:var(--acc)}.fwbagt{margin:.25rem 0 .5rem}.fwbagt td{padding:.5rem .25rem}
+.fwbagp{font-size:.875rem;margin:.25rem 0 .5rem}.fwbagp span,.meta{font-size:.75rem;color:var(--sub)}.fwt{width:100%;border-collapse:collapse;font-size:.8125rem;font-variant-numeric:tabular-nums;margin-top:.75rem}.fwt td,.fwt th{padding:.75rem .25rem;border-bottom:1px solid var(--line);text-align:left}.fwt th{color:var(--sub);font-weight:500}.fwt .r{text-align:right;white-space:nowrap}.fwt .low{color:var(--acc);font-weight:600}.fwbag{padding:.5rem 1rem;background:var(--card);border-radius:1rem;margin-top:.5rem}.fwbag summary{min-height:2.75rem;align-content:center;color:var(--blue);font-size:.875rem;cursor:pointer}.note{font-size:.8125rem;color:var(--sub);line-height:1.65;margin:.75rem 0 0}.opt{border:1px solid transparent;background:var(--card);border-radius:1rem;padding:1rem;width:100%;text-align:left;color:inherit;font:inherit}.opt[aria-pressed=true]{border-color:var(--acc);background:var(--sel)}.list{display:grid;gap:.5rem;margin-top:.75rem}.fl{display:grid;grid-template-columns:7rem 1fr auto;align-items:center;gap:.75rem}.tm{font-size:1.5rem;line-height:1.3;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.025em}.tm small{display:block;font-size:.75rem;color:var(--sub);font-weight:400;letter-spacing:0}.al{font-size:.9375rem;font-weight:600}.al .s{display:block;font-size:.8125rem;color:var(--sub);font-weight:400}.pr{font-size:1rem;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}.pr small{display:block;font-size:.75rem;color:var(--sub);font-weight:400}.best,.lcc{display:none}.warn{font-size:.8125rem}.daytabs,.seg{display:flex;padding:.25rem;gap:.25rem;border-radius:.875rem;background:var(--seg);margin-top:.75rem}.daytabs button,.seg button{flex:1;border:0;border-radius:.625rem;min-height:2.75rem;padding:.625rem .5rem;background:transparent;text-align:center;font-size:.9375rem}.daytabs button[aria-pressed=true],.seg button[aria-pressed=true]{background:var(--card);box-shadow:0 2px 5px #00000018;font-weight:600}.daytabs b{display:block;font-size:.9375rem}.daytabs span{display:none}.seg{max-width:16rem}.trip{margin-top:.75rem}.trip .row{display:grid;grid-template-columns:4rem 1fr;gap:.5rem;padding:.375rem 0;font-size:.875rem}.trip .row b{font-weight:400;color:var(--sub)}.trip .nights{border-top:1px solid var(--line);padding-top:.875rem;margin-top:.75rem;font-size:.9375rem;font-weight:600}#map{height:23rem;border-radius:1.25rem;z-index:0;background:var(--seg);overflow:hidden}.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.chips button{min-height:2.75rem;padding:.625rem 1rem;border:1px solid var(--line);border-radius:2rem;background:var(--card);font-size:.8125rem;font-weight:500;color:var(--sub)}.chips button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--card)}.chips i{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;margin-right:.375rem}.atable{width:100%;border-collapse:collapse;font-size:.875rem;margin-top:1rem;background:var(--card);border-radius:1rem;overflow:hidden}.atable td{padding:1rem .75rem;border-bottom:1px solid var(--line)}.atable tr{cursor:pointer}.atable tr:hover{background:var(--sel)}.atable .an{font-weight:600}.atable .ap{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.hgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.5rem}.hcard{padding:0;overflow:hidden;border-radius:1.25rem;position:relative;align-self:start}.hcard[aria-pressed=true]{box-shadow:0 0 0 2px var(--acc)}.hcard[aria-pressed=true]:before{content:'선택한 숙소';position:absolute;top:.75rem;left:.75rem;background:var(--card);color:var(--acc);padding:.375rem .75rem;border-radius:2rem;font-size:.75rem;font-weight:700}.hcard img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:var(--seg)}.hcard .bd{padding:1rem}.hcard .nm{font-size:1.125rem;font-weight:600;line-height:1.4}.hcard .sz{font-size:.875rem;margin-top:.5rem;color:var(--acc);font-weight:600}.hcard .sz span{color:var(--sub);font-size:.75rem;font-weight:400}.hcard .s{font-size:.8125rem;color:var(--sub);margin-top:.5rem}.hcard .pr{text-align:left;font-size:1.25rem;margin-top:1rem}.ty{font-size:.75rem;padding-right:.5rem}.sites{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}.site{display:inline-flex;align-items:center;gap:.375rem;min-height:2.75rem;padding:.5rem .75rem;border:1px solid var(--line);border-radius:.75rem;color:var(--ink);text-decoration:none;font-size:.8125rem;background:var(--card)}.site.low{border-color:var(--acc);color:var(--acc)}.site.nolink{border-style:dashed;color:var(--sub)}.site.cmp{border:0;color:var(--blue);padding-left:0}.hcard .s>a{display:inline-flex;align-items:center;min-height:2.75rem}.ainfo{margin-top:1rem;padding:0;overflow:hidden}.ainfo .ph{display:grid;grid-template-columns:1fr 1fr;gap:2px}.ainfo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.ainfo .bd{padding:1.25rem}.ainfo h3{font-size:1.25rem;margin:0}.ainfo .one{color:var(--acc);font-size:.9375rem;font-weight:600;margin-top:.25rem}.ainfo p,.ainfo ul,.ainfo .kv{font-size:.875rem}.ainfo h4{font-size:.8125rem;color:var(--sub);margin:1rem 0 .5rem}.ainfo ul{padding-left:1.25rem;margin:0}.ainfo li{margin:.375rem 0}.ainfo .cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.ainfo .kv{margin-top:.75rem}.ainfo .kv b{margin-right:.5rem}.ainfo .cr{font-size:.6875rem;color:var(--sub);margin-top:1rem}.pin{display:inline-block;background:var(--card);color:var(--ink);border:2px solid var(--c);border-radius:1rem;padding:.25rem .5rem;font:600 .75rem/1.4 -apple-system,sans-serif;white-space:nowrap;box-shadow:0 2px 6px #0003;transform:translate(-50%,-50%)}.pin.ab{border-style:dashed}.pin.on{background:var(--ink);color:var(--card)}.leaflet-touch .leaflet-bar a{width:44px;height:44px;line-height:44px}.extra{display:flex;align-items:center;gap:.75rem;padding:1rem;border-bottom:1px solid var(--line);font-size:.9375rem;cursor:pointer}.extra:last-child{border-bottom:0}.extra input{width:1.5rem;height:1.5rem;flex:none;accent-color:var(--acc);margin:0}.extra .nm{flex:1}.extra small{display:block;font-size:.75rem;color:var(--sub);margin-top:.25rem}.extra .v{font-size:.875rem;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}#extras{background:var(--card);border-radius:1.25rem;overflow:hidden}.bar{position:fixed;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border-top:1px solid var(--line);padding:1rem max(1rem,env(safe-area-inset-left)) calc(1rem + env(safe-area-inset-bottom));z-index:1000}.bar .in{max-width:60rem;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}.bar .tot{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.bar .pp{font-size:.8125rem;color:var(--sub)}.bar .sum{font-size:.75rem;color:var(--sub);text-align:right;max-width:50%}.empty{padding:1rem;color:var(--sub)}
+@media(max-width:640px){.sheet{padding:1.5rem 1rem}.fwcols{grid-template-columns:1fr;gap:1.5rem}.fwcol+.fwcol{border-top:1px solid var(--line);padding-top:1.25rem}.sh .hint{margin-left:0;width:100%}.hgrid{grid-template-columns:1fr}.fl{grid-template-columns:6rem 1fr;gap:.5rem}.fl .pr{grid-column:2;text-align:left}.fl .tm{grid-row:1/3}.fl .pr small{display:inline;margin-left:.375rem}.ainfo .cols{grid-template-columns:1fr}#map{height:20rem}.atable td:nth-child(2){display:none}.bar .sum{display:none}.bar .in{justify-content:center;text-align:center}.trip .nights{line-height:1.6}.hero{padding:1.25rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}@media(prefers-reduced-transparency:reduce){.bar{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}@media(prefers-contrast:more){:root{--sub:var(--ink)}.opt,.hero,.fw{border:1px solid var(--line)}}
 </style>
 </head>
 <body>
 <div class="sheet">
- <div class="eyebrow">Hong Kong · 11/23·24 출발</div>
- <h1>홍콩 여행 견적</h1>
- <p class="dek">가는 비행기 → 오는 비행기를 고르면 숙박일이 정해지고, 그 박수로 숙소값이 계산됩니다. 금액은 2026-10-20 구글 항공(왕복 실제 조합가)·구글 호텔·에어비앤비 기준.</p>
+ <div class="eyebrow">2026년 11월 · HONG KONG</div>
+ <h1>홍콩 여행</h1>
+ <p class="dek">11월 24일 출발 · 돌아오는 날과 숙소를 골라보세요.</p>
+<section class="hero" aria-label="여행 예상 비용"><div class="hero-label">여행 예상 총액</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#extraSection">기타비용</a></nav></section>
 
  
- <section class="step" id="fareWatch"><div class="sh"><h2>항공권 가격 추적</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
+ <section class="step" id="fareWatch"><div class="sh"><h2>항공권 오늘 시세</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
   <div class="fw" id="fwBody"><p class="note">매일 아침 한 번 조회한 기록이 여기 쌓여요. 불러오는 중…</p></div>
   <details class="fwbag"><summary>수하물 옵션 (홍콩익스프레스)</summary>
    <table class="fwt"><tr><th>운임</th><th>기내</th><th>위탁</th></tr>
@@ -119,7 +30,7 @@ h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 4px}
    <tr><td>Essential</td><td>소지품만</td><td>20kg 1개</td></tr><tr><td>Max</td><td>7kg</td><td>32kg 1개</td></tr></table>
    <p class="note">위탁 20kg 따로 추가: 예약할 때 HK$310/구간(약 5.7만원) · 예약 관리 HK$380 · 온라인 체크인 HK$460 · 공항 HK$600. 왕복이면 예약 때 2구간 약 11.5만원. 운임별 실제 원화 차액은 <a href="https://mybooking.hkexpress.com/ko/flight-booking/select?SearchType=roundTrip&amp;Adults=1&amp;currency=KRW&amp;OriginStation=ICN&amp;DestinationStation=HKG&amp;DepartureDate=2026-11-24&amp;ReturnDate=2026-11-28" target="_blank" rel="noopener">홍콩익스프레스 예약 화면</a>에서.</p></details>
  </section>
-<section class="step"><div class="sh"><span class="n">1</span><h2>가는 비행기 · 11/24 (화)</h2><span class="hint">홍콩익스프레스 12:25 고정</span></div>
+<section class="step" id="flightSection"><div class="sh"><span class="n">1</span><h2>가는 비행기 · 11/24 (화)</h2><span class="hint">홍콩익스프레스 12:25 고정</span></div>
   <div class="daytabs" id="deps" hidden></div>
   <div class="list" id="outs" style="margin-top:12px"></div><button class="more" id="outMore" hidden></button></section>
 
@@ -131,7 +42,7 @@ h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 4px}
  <section class="step"><div class="sh"><span class="n">3</span><h2>몇 명</h2></div>
   <div class="seg" id="pax"><button data-p="1">1명</button><button data-p="2">2명</button></div></section>
 
- <section class="step"><div class="sh"><span class="n">4</span><h2>숙소</h2><span class="hint" id="hhint"></span></div>
+ <section class="step" id="staySection"><div class="sh"><span class="n">4</span><h2>숙소</h2><span class="hint" id="hhint"></span></div>
   <div id="map"></div>
   <div class="chips" id="types"></div>
   <div class="chips" id="areas"></div>
@@ -139,7 +50,7 @@ h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 4px}
   <div class="hgrid" id="hotels"></div>
   <p class="note">지도 핀 = 1박 최저가(만원), 점선 핀은 에어비앤비. 호텔 카드의 사이트 버튼 = 사이트별 1박 요금(구글 호텔 가격 비교, 11/24~28 기준). 아고다·트립닷컴·호텔스닷컴·익스피디아는 누르면 그 호텔 예약 페이지가 고른 날짜로 열립니다. 점선(부킹닷컴·클룩·공식)은 요금만 — «구글에서 전체 비교»로 들어가세요. 초록 테두리가 최저가. 객실 크기는 트립닷컴에 올라온 방 종류별 면적(가장 작은 방~가장 큰 방) — 최저가는 보통 가장 작은 방. 에어비앤비는 면적 표기가 없어 생략. 홍콩은 허가 없는 단기임대가 불법이라 에어비앤비는 숙소 등록번호(牌照)가 적힌 곳으로.</p></section>
 
- <section class="step"><div class="sh"><span class="n">5</span><h2>그 밖에 드는 돈</h2><span class="hint">추정치 · 필요한 것만</span></div><div id="extras"></div></section>
+ <section class="step" id="extraSection"><div class="sh"><span class="n">5</span><h2>그 밖에 드는 돈</h2><span class="hint">추정치 · 필요한 것만</span></div><div id="extras"></div></section>
 
  <p class="note" style="margin-top:26px">출처: Google 항공편(가는 편마다 오는 편 목록까지 조회) · Google 호텔 · Airbnb — 2026-10-20 조회. 지도 Google 지도. 환율 1 HKD ≈ 185원(추정). 숙소는 11/24~28 검색의 1박 요금으로 계산 — 23일 밤·28일 밤도 같은 값으로 잡음(추정).</p>
 </div>
@@ -303,7 +214,7 @@ function draw(all){if(!all.length){el.innerHTML='<p class="note">아직 기록�
   const sites=Object.entries(last.sites||{}).sort((a,b)=>a[1]-b[1]);
   return `<div class="fwcol"><div class="fwlab"><i style="background:${S.c}"></i>${S.lab} · 16:40</div><div class="fwtop"><span class="big">${W(last.min)}</span>
   ${prev?`<span class="chg ${d>0?'up':'dn'}">${d===0?'어제와 같음':(d>0?'▲ ':'▼ ')+W(Math.abs(d))+' ('+(d>0?'+':'')+(d/prev.min*100).toFixed(1)+'%)'}</span>`:''}</div>
-  <div class="fwbagp">위탁 20kg 왕복 추가 시 <b>${W(last.min+BAG)}</b> <span>(+${W(BAG)})</span></div>
+  ${last.bagSites?(()=>{const bs=Object.entries(last.bagSites).sort((x,y)=>x[1]-y[1]);return `<div class="fwbagp">위탁 20kg 포함 최저 <b>${W(bs[0][1])}</b> <span>${bs[0][0]}</span></div><table class="fwt fwbagt">${bs.map(([k,v],i)=>`<tr class="${i===0?'low':''}"><td>${k}</td><td class="r">${W(v)}</td></tr>`).join('')}</table>${last.bagNote?`<div class="meta">${last.bagNote}</div>`:''}`})():`<div class="fwbagp">위탁 20kg 왕복 추가 시 <b>${W(last.min+BAG)}</b> <span>(공식 추가요금 +${W(BAG)} 기준)</span></div>`}
   <div class="meta">최저 ${last.minSite||''} · 기록 중 최저 ${W(low)} · ${last.verdict||''}</div>
   <table class="fwt">${sites.map(([k,v])=>`<tr class="${v===last.min?'low':''}"><td>${k}</td><td class="r">${W(v)}</td></tr>`).join('')}</table></div>`};
  const latest=dates[dates.length-1];
@@ -313,6 +224,18 @@ function draw(all){if(!all.length){el.innerHTML='<p class="note">아직 기록�
   <p class="note">위탁 수하물은 홍콩익스프레스 공식 요금 HK$310/구간(예약할 때 추가 기준, 1 HKD≈185원). 나중에 추가하면 HK$380(예약 관리)~600(공항). 아래 견적 합계는 이 최신 가격으로 계산되고, «그 밖에 드는 돈»의 위탁수하물을 켜면 수하물도 더해져요.</p>`;
  window.FWL={};SER.forEach(S=>{const r=by(S.d);if(r.length)FWL[S.d]=r[r.length-1].min});if(typeof render==='function')render()}
 fetch('fares.json?t='+Date.now()).then(r=>r.json()).then(draw).catch(()=>{el.innerHTML='<p class="note">가격 기록을 불러오지 못했어요. 새로고침해 주세요.</p>'});})();
+</script>
+<script>
+// Presentation only: mirror the original computed totals, without recalculating them.
+const syncSummary=()=>{[['tot','heroTotal'],['pp','heroPerson'],['sum','heroDetail']].forEach(([from,to])=>document.getElementById(to).innerHTML=document.getElementById(from).innerHTML)};
+new MutationObserver(syncSummary).observe(document.querySelector('.bar'),{subtree:true,childList:true,characterData:true});syncSummary();
+const iconPaths={flightSection:'M3 12h18M13 4l8 8-8 8M5 8l3 4-3 4',staySection:'M4 21V4h16v17M2 21h20M8 8h2m4 0h2M8 12h2m4 0h2M10 21v-5h4v5',extraSection:'M5 5h14v16l-3-2-4 2-4-2-3 2V5ZM8 9h8M8 13h5'};
+Object.entries(iconPaths).forEach(([id,d])=>document.querySelector('#'+id+' .sh').insertAdjacentHTML('afterbegin',`<svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`));
+// Existing area rows receive the same keyboard activation as their click behavior.
+function decorateAreas(){document.querySelectorAll('.atable tr[data-area]').forEach(row=>{row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-label',row.innerText.replace(/\n/g,' '))});}
+new MutationObserver(decorateAreas).observe(document.getElementById('areaInfo'),{childList:true});decorateAreas();
+document.addEventListener('keydown',e=>{if(e.target.matches('.atable tr[data-area]')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.target.click()}});
+document.getElementById('days').setAttribute('aria-label','귀국일 선택');document.getElementById('pax').setAttribute('aria-label','여행 인원');
 </script>
 </body>
 </html>
