@@ -157,6 +157,12 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
 #areaBar button{flex:1 0 auto;min-height:40px;padding:.35rem .8rem;border:0;border-radius:999px;background:none;color:var(--label);font-size:.85rem;white-space:nowrap;cursor:pointer}
 #areaBar button[aria-pressed="true"]{background:var(--lg-lens);color:var(--systemBlue);font-weight:600}
 @media(prefers-reduced-transparency:reduce){#areaBar{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
+.meal-pick{padding:.25rem 1rem 1rem;display:grid;gap:.6rem;background:linear-gradient(var(--line),var(--line)) 1rem 100%/calc(100% - 1rem) 1px no-repeat}
+.meal-row{display:grid;grid-template-columns:2.5rem 1fr;align-items:center;gap:.5rem}.meal-row>span{font-size:var(--foot);color:var(--sub)}
+.meal-seg{display:flex;gap:.3rem;flex-wrap:wrap}
+.meal-seg button{flex:1 1 0;min-width:5.5rem;min-height:44px;padding:.35rem .4rem;border:0;border-radius:10px;background:var(--seg);color:var(--ink);font-size:.8rem;line-height:1.2;cursor:pointer}
+.meal-seg button small{display:block;font-size:.7rem;color:var(--sub);margin-top:.1rem}
+.meal-seg button[aria-pressed="true"]{background:var(--systemBlue);color:#fff}.meal-seg button[aria-pressed="true"] small{color:rgba(255,255,255,.85)}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
@@ -232,15 +238,19 @@ const EXTRAS=[
  ['disney','디즈니 1일권','11/25 (수) 클룩 · 1인 ₩90,500',90500,'trip',1],
  ['bag','위탁수하물 20kg','홍콩익스프레스 공식 59,000원/구간 · 예약할 때 추가 기준',59000,'leg',1],
  ['ael','공항철도 왕복','구룡역 편도 HK$115. 2명이면 그룹권이 더 쌈',115*2*HKD,'trip',1],
- ['food','밥값','1인 1일 HK$400',400*HKD,'day',1],
+ ['food','밥값','',0,'trip',1],
  ['move','교통·입장료','1인 1일 HK$150 (MTR·트램·페리·피크트램)',150*HKD,'day',1],
  ['sim','eSIM','1인 약 1만원',10000,'trip',1],
  ['ins','여행자보험','1인 약 1.5만원',15000,'trip',0],
  ['fine','미쉐린 한 끼','틴룽힌 런치 세트 HK$668 + 10%',Math.round(668*1.1*HKD),'trip',0]];
 
-const S={dep:24,o:'UO12:25',day:28,r:null,pax:2,type:'all',area:'all',stay:null,ex:{},outAll:false};
+const MEALS={b:['아침',[['skip','안 먹음',0],['cha','차찬텡 세트',55],['hotel','호텔 조식',180]]],l:['점심',[['noodle','완탕면·차찬텡',70],['dimsum','딤섬집',150],['mall','쇼핑몰 식당',220]]],d:['저녁',[['local','로컬·다이파이동',160],['rest','레스토랑',320],['nice','분위기 좋은 곳',600]]]};
+const SNACK=60; // 밀크티·에그타르트·디저트, 하루
+const S={dep:24,o:'UO12:25',day:28,r:null,pax:2,type:'all',area:'all',stay:null,ex:{},outAll:false,meal:{b:'cha',l:'noodle',d:'rest',snack:true}};
 try{Object.assign(S,JSON.parse(localStorage.getItem('hk-quote-web3')||'{}'))}catch(e){}
-EXTRAS.forEach(e=>{if(!(e[0] in S.ex))S.ex[e[0]]=!!e[5]});
+EXTRAS.forEach(e=>{if(!(e[0] in S.ex))S.ex[e[0]]=!!e[5]});S.meal={b:'cha',l:'noodle',d:'rest',snack:true,...(S.meal||{})};
+const mealPrice=k=>MEALS[k][1].find(o=>o[0]===S.meal[k])?.[2]??0;
+document.addEventListener('click',e=>{const m=e.target.closest('[data-meal]');if(!m)return;const [k,v]=m.dataset.meal.split(':');S.meal[k]=k==='snack'?!S.meal.snack:v;render()});
 const save=()=>{try{localStorage.setItem('hk-quote-web3',JSON.stringify(S))}catch(e){};window.publishTripFromQuote?.()};
 const won=v=>v==null?'—':'₩'+Math.round(v).toLocaleString('ko-KR');
 const man=v=>(Math.round(v/1000)/10).toLocaleString('ko-KR')+'만';
@@ -329,8 +339,9 @@ function render(fit){
  drawMap(L2);if(map&&fit&&L2.length)map.fitBounds(L2.map(s=>[s[8],s[9]]),{padding:[30,30],maxZoom:16});
  // 5
  const legs=lcc(o.al)?2:0;
+ {const fd=EXTRAS.find(x=>x[0]==='food'),day=mealPrice('b')+mealPrice('l')+mealPrice('d');fd[3]=Math.round((day*N+(S.meal.snack?SNACK*(N+1):0))*HKD);fd[2]=`1인 · 끼니 하루 HK$${day} × ${N}일치${S.meal.snack?` + 간식 HK$${SNACK} × ${N+1}일`:''} (첫날 저녁~마지막 날 점심)`}
  document.getElementById('extras').innerHTML=EXTRAS.map(([k,n2,ds,u,per])=>{const mult=per==='day'?N+1:per==='leg'?legs:1;const off=per==='leg'&&!legs;
-  return `<label class="extra" style="${off?'opacity:.4':''}"><input type="checkbox" role="switch" aria-label="${n2}" data-ex="${k}" ${S.ex[k]?'checked':''} ${off?'disabled':''}><span class="nm">${n2}<small>${ds}${off?' — 지금 항공은 포함':''}</small></span><span class="v">${won(u*mult)}</span></label>`}).join('');
+  return `<label class="extra" style="${off?'opacity:.4':''}"><input type="checkbox" role="switch" aria-label="${n2}" data-ex="${k}" ${S.ex[k]?'checked':''} ${off?'disabled':''}><span class="nm">${n2}<small>${ds}${off?' — 지금 항공은 포함':''}</small></span><span class="v">${won(u*mult)}</span></label>${k==='food'&&S.ex.food?`<div class="meal-pick">${Object.entries(MEALS).map(([mk,[lab,opts]])=>`<div class="meal-row"><span>${lab}</span><div class="meal-seg">${opts.map(([v,t,hk])=>`<button type="button" data-meal="${mk}:${v}" aria-pressed="${S.meal[mk]===v}">${t}<small>${hk?'HK$'+hk:'—'}</small></button>`).join('')}</div></div>`).join('')}<div class="meal-row"><span>간식</span><div class="meal-seg"><button type="button" data-meal="snack:1" aria-pressed="${!!S.meal.snack}">밀크티·에그타르트·디저트<small>하루 HK$${SNACK}</small></button></div></div></div>`:''}`}).join('');
  // 합계
  const f=r?r.p*S.pax:0,h=sel?sel[6]*N:0;let e=0;EXTRAS.forEach(([k,,,u,per])=>{if(!S.ex[k])return;if(per==='leg'&&!legs)return;e+=u*S.pax*(per==='day'?N+1:per==='leg'?legs:1)});
  document.getElementById('tot').textContent=won((f+h+e)/S.pax);
