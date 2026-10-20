@@ -241,7 +241,7 @@ const EXTRAS=[
  ['food','밥값','',0,'trip',1],
  ['move','교통·입장료','1인 1일 HK$150 (MTR·트램·페리)',150*HKD,'day',1],
  ['peak','피크트램 야경','왕복 + 스카이테라스428 · 19시 이후 야간 콤보 HK$155',155*HKD,'trip',1],
- ['sim','eSIM','1인 약 1만원',10000,'trip',1],
+      ['sim','eSIM','1인 약 1만원',10000,'trip',1],
  ['ins','여행자보험','1인 약 1.5만원',15000,'trip',0],
  ['fine','미쉐린 한 끼','틴룽힌 런치 세트 HK$668 + 10%',Math.round(668*1.1*HKD),'trip',0]];
 
@@ -519,6 +519,7 @@ const DAYS = {
       ['kowloon','+25분','공항철도 구룡역','機場快綫 九龍站','Airport Express Kowloon Station','九龍柯士甸道西1號',22.3049,114.1617,'구룡역에서 무료 셔틀버스(K번)가 주요 호텔을 돈다 — 숙소 정해지면 노선 확인',''],
       ['ckm','저녁','청킹맨션','重慶大廈','Chungking Mansions','九龍尖沙咀彌敦道36-44號',22.2963,114.1722,'중경삼림 전반부(금성무·임청하). 지금도 게스트하우스·인도식당','film'],
       ['aos','20:00','침사추이 해변·스타의 거리','星光大道','Avenue of Stars','九龍尖沙咀梳士巴利道',22.2935,114.1740,'매일 20시 «심포니 오브 라이트» 레이저쇼. 홍콩섬 야경 정면','night'],
+      ['ferry','20:30','스타페리 (침사추이→센트럴)','天星小輪 尖沙咀碼頭','Star Ferry Tsim Sha Tsui Pier','九龍尖沙咀天星碼頭',22.2939,114.1685,'야경 보며 10분, 옥토퍼스로 몇 홍콩달러. 2층 앞쪽 자리. 센트럴에서 MTR로 숙소','must'],
     ]},
   d2: { label:'D2 센트럴', sub:'영화 반나절 + 피크', desc:'센트럴·미드레벨은 다 걸어서. 에스컬레이터는 오전엔 내려가는 방향, 10시 이후 올라가는 방향(운행 방향 현장 확인).',
     stops:[
@@ -526,6 +527,8 @@ const DAYS = {
       ['esc','10:00','미드레벨 에스컬레이터','中環至半山自動扶梯','Central–Mid-Levels Escalator','中環皇后大道中至干德道',22.2828,114.1548,'중경삼림 — 왕페이가 663(양조위) 집을 몰래 드나들던 길. 663 집은 에스컬레이터 바로 옆(크리스토퍼 도일의 실제 집)','film'],
       ['potti','10:40','포팅거 스트리트 돌계단','砵典乍街','Pottinger Street','中環砵典乍街',22.2827,114.1560,'중경삼림 거리 장면 (출처 1곳)','film'],
       ['lkf','11:10','란콰이퐁 D\'Aguilar St','德己立街 蘭桂坊','D\'Aguilar Street, Lan Kwai Fong','中環德己立街',22.2808,114.1556,'미드나잇 익스프레스(왕페이 가게) 자리 — 지금은 세븐일레븐','gone'],
+      ['soho','11:30','소호 거리','蘇豪區','SoHo (Staunton St · Elgin St)','中環士丹頓街',22.2826,114.1522,'에스컬레이터 따라 카페·바 골목. 점심은 여기서','must'],
+      ['bakehouse','12:30','베이크하우스 에그타르트','Bakehouse 蘇豪','Bakehouse SoHo','中環士丹頓街14號',22.2829,114.1527,'사워도우 에그타르트. 줄은 금방 빠짐. 완차이 본점도 있음(소호점 주소는 가기 전 확인)','must'],
       ['wall','13:30','캐슬로드·컨딧로드 돌담','衛城道與干德道交界','Castle Rd / Conduit Rd','半山衛城道與干德道交界',22.2795,114.1478,'아비정전 — 전화를 기다리던 돌담. 팬들이 아직 찾는 자리','film'],
       ['gdi','15:00','광동투자빌딩 (성완)','粵海投資大廈','Guangdong Investment Tower','上環干諾道中148號',22.2877,114.1520,'무간도 — 옥상에서 떨어진 인물이 떨어지는 자리(합성)','film'],
       ['peak','17:00','피크트램 → 빅토리아 피크','山頂纜車 花園道總站','Peak Tram Lower Terminus','中環花園道33號',22.2777,114.1597,'11/26 해 지는 시각 17:40쯤 — 노을부터 보려면 17시 전 탑승. 올라갈 땐 오른쪽, 내려올 땐 왼쪽 자리가 전망. 표는 공식 웹스토어(줄 안 섬): 밤만 볼 거면 19시 이후 «야간 콤보» 왕복+스카이테라스428 HK$155, 편도만 HK$82~. 운행 7:30~23:00, 스카이테라스 22:00까지. 대기 길면 15번 버스','night'],
@@ -533,13 +536,17 @@ const DAYS = {
     ]},
   d3: { label:'D3 구룡', sub:'카메라 거리·몽콕', desc:'심시티는 11시쯤부터 문을 연다. 정품보증가·병행가를 따로 부르니 둘 다 물어볼 것.',
     stops:[
+      ['adc','08:30','오스트레일리아 데어리 컴퍼니','澳洲牛奶公司','Australia Dairy Company','九龍佐敦白加士街47-49號',22.3046,114.1704,'차찬텡 토스트·스크램블 에그·밀크티. 합석, 빨리 먹고 나가는 분위기. 목요일 휴무(이날은 금요일)','must'],
+      ['choi','09:45','초이홍 아파트 (무지개 아파트)','彩虹邨','Choi Hung Estate','九龍彩虹邨',22.3352,114.2058,'무지개색 공공아파트 + 농구장. 주민 사는 곳이라 조용히, 옥상 금지. MTR 초이홍역 C3 출구','must'],
       ['sim','11:00','심시티 (카메라 상가)','星際城市','Sim City','九龍旺角山東街47-51號',22.3175,114.1697,'3층 건물 대부분이 카메라 가게·중고. Showa도 몽콕에 있음',''],
       ['mk','13:00','몽콕 골목·통초이가','旺角通菜街','Tung Choi Street, Mong Kok','九龍旺角通菜街',22.3190,114.1710,'열혈남아·타락천사의 동네. 특정 지점보다 분위기','film'],
       ['apliu','15:00','압리우가 (삼수이포)','鴨寮街','Ap Liu Street','九龍深水埗鴨寮街',22.3302,114.1624,'중고 렌즈·빈티지 카메라 노점. 무간도 양조위 오디오가게 쪽(출처 1곳)','film'],
+      ['duck','18:30','북경오리 — 북경루','北京樓 星光行','Peking Garden, Star House','九龍尖沙咀梳士巴利道3號星光行3樓',22.2951,114.1693,'오리는 미리 예약(반 마리 가능). 침사추이 스타페리 바로 옆','must'],
       ['temple','20:00','템플 스트리트 야시장','廟街夜市','Temple Street Night Market','九龍油麻地廟街',22.3068,114.1700,'저녁 노점·포장마차','night'],
     ]},
   d4: { label:'D4 무간도', sub:'사틴 → 북각 → 코즈웨이베이', desc:'동쪽으로 길게 도는 날. 만불사는 계단 400개 — 오전에.',
     stops:[
+      ['yick','09:00','익청빌딩 (몬스터 빌딩)','益昌大廈','Yick Cheong Building (Monster Building)','鰂魚涌英皇道1028號',22.2848,114.2124,'마당 한가운데서 위로 찍기 — 마피아 영화 같은 그 장면. 주민 거주지라 조용히, 삼각대 자제. MTR 쿼리베이역 A 출구','must'],
       ['tbm','10:00','만불사','萬佛寺','Ten Thousand Buddhas Monastery','新界沙田排頭村',22.3876,114.1848,'무간도 오프닝. 사틴역에서 걸어서 + 계단','film'],
       ['cht','13:00','해저터널 (버스로 통과)','紅磡海底隧道','Cross-Harbour Tunnel','紅磡海底隧道',22.3005,114.1823,'타락천사 엔딩 — 오토바이로 달리던 터널. 홍함 쪽에서 섬으로 가는 버스 타면 된다','film'],
       ['npgo','14:00','북각 정부합동청사','北角政府合署','North Point Government Offices','北角渣華道333號',22.2913,114.1990,'무간도 옥상 — 양조위·유덕화 대치. 옥상은 출입 불가, 밖에서만','film'],
@@ -610,6 +617,12 @@ const RETURN = [
 
 /* ───── 꿀팁 — (추정)은 확인 못 한 것 ───── */
 const TIPS = [
+  ['들은 추천', [
+    ['필수','익청빌딩·초이홍 아파트 같은 건물 구경, 차찬텡 토스트+밀크티, 북경오리, 베이크하우스 에그타르트, 소호 거리, 스타페리 — 일정에 «필수»로 넣어둠'],
+    ['굳이?','제니베이커리 — 기다려서 먹을 정도는 아님. 줄 없으면 그때'],
+    ['시간 되면 마카오','셩완·침사추이에서 페리로 약 1시간, 강주아오 대교 버스도 있음. 당일치기면 11/27(구룡) 대신. 가면 베네치안(실내 운하·곤돌라) 꼭 — 코타이 쪽, 호텔 무료 셔틀'],
+    ['디즈니 좋아하면','디즈니랜드 — 11/25(수)로 잡아둠'],
+  ]],
   ['교통', [
     ['옥토퍼스 충전액','3박4일 교통비 1인 HK$300~400 정도면 된다는 후기. 모자라면 편의점에서 충전'],
     ['트램(딩딩)','홍콩섬 어디까지 가도 균일 약 HK$3. 내릴 때 찍고, 현금이면 거스름돈 없음'],
@@ -794,12 +807,12 @@ function buildDay(){const sunday=TripState.get().returnDay===29;let stops,title,
  if(day==='24'){legacy='d1';title='11/24(화) · 도착';summary='12:25 인천 → 15:30 홍콩 → 숙소 → 침사추이';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';rail[8]='숙소 위치에 맞춰 공항철도·버스·택시 선택';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===0?['09:55 인천공항 도착 · 터미널은 예약 확인',...d.steps.slice(1)]:i===2?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)).join('');}
  if(day==='25'){legacy='disney';title='11/25(수) · 디즈니';summary='08:30 숙소 → 써니베이 → 파크 → 야간쇼';stops=disney();steps=proc('챙길 것',['날짜 지정 티켓·파크 예약·QR 저장','외부 음식 반입 가능 · 작은 우산·겉옷','바퀴 달린 캐리어는 숙소에 맡기기']);}
  if(day==='26'||day==='27'){legacy=day==='26'?'d2':'d3';title=day==='26'?'11/26(목) · 센트럴':'11/27(금) · 구룡';summary=DAYS[legacy].sub;stops=DAYS[legacy].stops;steps=`<p class="muted">${esc(DAYS[legacy].desc)}</p>`;}
- if(day==='28'){legacy='d4';title=sunday?'11/28(토) · 홍콩섬':'11/28(토) · 오전 산책';summary=sunday?'만불사 → 해저터널 → 북각 → 코즈웨이베이':'짧은 산책 → 숙소·짐 찾기 → 14:10 공항';if(sunday){stops=DAYS.d4.stops;steps=`<p class="muted">${esc(DAYS.d4.desc)}</p>`}else{const short=[...DAYS.d4.stops[3]];short[1]='09:00';short[8]+=' · 이동이 길면 생략';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];}}
+ if(day==='28'){legacy='d4';title=sunday?'11/28(토) · 홍콩섬':'11/28(토) · 오전 산책';summary=sunday?'익청빌딩 → 만불사 → 해저터널 → 북각 → 코즈웨이베이':'익청빌딩 → 숙소·짐 찾기 → 14:10 공항';if(sunday){stops=DAYS.d4.stops;steps=`<p class="muted">${esc(DAYS.d4.desc)}</p>`}else{const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(코즈웨이베이)에서 MTR 10분';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];}}
  if(day==='return'){legacy='return';title=`11/${sunday?'29(일)':'28(토)'} · 귀국`;summary='14:10 공항 → 16:40 홍콩 → 21:05 인천';stops=[hotelStop(sunday?'오전 자유 · 체크아웃':'체크아웃·짐 찾기'),airport()];steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s));if(sunday)steps='<p class="muted">오전 자유</p>'+steps;}
  return {stops,title,summary,legacy,steps};}
 function proc(title,steps){return `<details class="trip-card"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
 function renderDates(){const ret=TripState.get().returnDay===29?'11/29(일)':'11/28(토)';const dates=[['24','11/24(화)','도착'],['25','11/25(수)','디즈니'],['26','11/26(목)','센트럴'],['27','11/27(금)','구룡'],['28','11/28(토)',ret==='11/29(일)'?'홍콩섬':'오전 산책'],['return','귀국',ret]];$('tripDates').innerHTML=dates.map(([key,label,sub])=>`<button id="trip-date-${key}" role="tab" aria-selected="${day===key}" aria-controls="tripDay" tabindex="${day===key?0:-1}" data-trip-date="${key}">${label}<span>${sub}</span></button>`).join('');$('tripDay').setAttribute('aria-labelledby','trip-date-'+day)}
-function stopCard(s,n,legacy){const [key,time,ko,zh,en,addr,lat,lng,memo,tag]=s,id=legacy+'-'+key;return `<article class="trip-card trip-stop${checks[id]?' is-done':''}" id="trip-stop-${key}"><div class="stop-top"><time>${esc(time)}</time><div class="stop-actions"><button class="icon-button" data-trip-fav="${key}" aria-label="${esc(ko)} 즐겨찾기" aria-pressed="${!!favs[key]}">${icon(paths.star)}</button><button class="icon-button" data-trip-check="${id}" aria-label="${esc(ko)} 방문 완료" aria-pressed="${!!checks[id]}">${icon(paths.check)}</button></div></div><button class="stop-name" data-trip-pin="${key}"><h3>${esc(ko)}${tag?`<span class="stop-tag">${({film:'영화',night:'야간',gone:'없어짐',opt:'선택'})[tag]}</span>`:''}</h3></button>${zh?`<p class="stop-zh">${esc(zh)}</p>`:''}<p class="stop-en">${esc(en)}</p>${addr?`<p class="stop-address">${esc(addr)}</p>`:''}${memo?`<p class="muted">${esc(memo)}</p>`:''}<div class="trip-links"><a href="${directions(s)}" target="_blank" rel="noopener">길찾기</a><a href="${search(s)}" target="_blank" rel="noopener">구글</a>${Number.isFinite(lat)?`<a href="https://maps.apple.com/?daddr=${lat},${lng}&dirflg=r">애플지도</a>`:''}<button data-trip-taxi="${key}">택시카드</button><button data-trip-note="${key}" aria-expanded="${!!notes[key]}" aria-controls="trip-note-wrap-${key}">메모</button></div><label class="trip-note" id="trip-note-wrap-${key}" ${notes[key]?'':'hidden'}><span>${esc(ko)} 메모</span><textarea data-trip-note-input="${key}">${esc(notes[key]||'')}</textarea><span class="trip-note-status" aria-live="polite"></span></label></article>`}
+function stopCard(s,n,legacy){const [key,time,ko,zh,en,addr,lat,lng,memo,tag]=s,id=legacy+'-'+key;return `<article class="trip-card trip-stop${checks[id]?' is-done':''}" id="trip-stop-${key}"><div class="stop-top"><time>${esc(time)}</time><div class="stop-actions"><button class="icon-button" data-trip-fav="${key}" aria-label="${esc(ko)} 즐겨찾기" aria-pressed="${!!favs[key]}">${icon(paths.star)}</button><button class="icon-button" data-trip-check="${id}" aria-label="${esc(ko)} 방문 완료" aria-pressed="${!!checks[id]}">${icon(paths.check)}</button></div></div><button class="stop-name" data-trip-pin="${key}"><h3>${esc(ko)}${tag?`<span class="stop-tag">${({film:'영화',night:'야간',gone:'없어짐',opt:'선택',must:'필수'})[tag]}</span>`:''}</h3></button>${zh?`<p class="stop-zh">${esc(zh)}</p>`:''}<p class="stop-en">${esc(en)}</p>${addr?`<p class="stop-address">${esc(addr)}</p>`:''}${memo?`<p class="muted">${esc(memo)}</p>`:''}<div class="trip-links"><a href="${directions(s)}" target="_blank" rel="noopener">길찾기</a><a href="${search(s)}" target="_blank" rel="noopener">구글</a>${Number.isFinite(lat)?`<a href="https://maps.apple.com/?daddr=${lat},${lng}&dirflg=r">애플지도</a>`:''}<button data-trip-taxi="${key}">택시카드</button><button data-trip-note="${key}" aria-expanded="${!!notes[key]}" aria-controls="trip-note-wrap-${key}">메모</button></div><label class="trip-note" id="trip-note-wrap-${key}" ${notes[key]?'':'hidden'}><span>${esc(ko)} 메모</span><textarea data-trip-note-input="${key}">${esc(notes[key]||'')}</textarea><span class="trip-note-status" aria-live="polite"></span></label></article>`}
 function renderDay(){scheduleDirty=false;if(tripMap){tripMap.remove();tripMap=null;mapLayer=null}renderDates();const d=buildDay();dayStops=d.stops;$('tripDay').innerHTML=`<div class="day-overview"><h2>${esc(d.title)}</h2><p>${esc(d.summary)}</p></div>${d.steps}<div id="tripMap" role="region" aria-label="그날 장소 지도"></div>${d.stops.map((s,i)=>stopCard(s,i,d.legacy)).join('')}<p class="muted">지도 핀은 개략 위치</p>`;if(active==='schedule')drawTripMap()}
 function refreshPins(){if(!mapLayer)return;const legacy=buildDay().legacy;mapLayer.eachLayer(marker=>{if(!marker.tripKey)return;const dot=marker.getElement()?.firstElementChild;if(dot){dot.style.background=checks[legacy+'-'+marker.tripKey]?'#8e8e93':'var(--systemBlue)';dot.style.borderColor=favs[marker.tripKey]?'#ffcc00':'white'}})}
 function drawTripMap(){const el=$('tripMap');if(!window.L){el.textContent='지도를 불러오지 못했어요.';return}tripMap=L.map(el,{scrollWheelZoom:false}).setView([22.30,114.17],12);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(tripMap);mapLayer=L.layerGroup().addTo(tripMap);const pts=[];dayStops.forEach((s,i)=>{if(!Number.isFinite(s[6])||!Number.isFinite(s[7]))return;pts.push([s[6],s[7]]);const marker=L.marker([s[6],s[7]],{icon:L.divIcon({className:'',iconSize:[28,28],html:`<div style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--systemBlue);color:white;border:2px solid white;font:500 12px system-ui">${i+1}</div>`})}).addTo(mapLayer).bindTooltip(esc(s[2])).on('click',()=>$('trip-stop-'+s[0]).scrollIntoView({block:'center',behavior:'instant'}));marker.tripKey=s[0]});refreshPins();if(pts.length){L.polyline(pts,{weight:2,dashArray:'5 7',color:'#007aff'}).addTo(mapLayer);tripMap.fitBounds(pts,{padding:[25,25],maxZoom:15})}requestAnimationFrame(()=>tripMap.invalidateSize())}
