@@ -152,6 +152,11 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
 .talk-h{position:relative}.ck-grp{height:2.4rem;width:auto;margin-left:auto;align-self:flex-end}
 .ck-peek{display:block;width:min(70%,20rem);margin:2rem auto 0;opacity:.95}
 .ck-hide{display:none}.ck-credit{margin:1rem;font-size:.7rem;color:var(--sub);text-align:center}
+#areaBar{position:fixed;z-index:1090;left:max(1rem,env(safe-area-inset-left));right:max(1rem,env(safe-area-inset-right));max-width:28rem;margin:0 auto;bottom:calc(var(--app-tab-height) + 4.6rem);display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none;padding:.3rem;border-radius:999px;background:var(--lg-fill);backdrop-filter:blur(14px) saturate(190%);-webkit-backdrop-filter:blur(14px) saturate(190%);box-shadow:inset 0 1px 0 var(--lg-rim),inset 0 0 0 .5px var(--lg-rim2),var(--lg-shadow)}
+#areaBar::-webkit-scrollbar{display:none}
+#areaBar button{flex:1 0 auto;min-height:40px;padding:.35rem .8rem;border:0;border-radius:999px;background:none;color:var(--label);font-size:.85rem;white-space:nowrap;cursor:pointer}
+#areaBar button[aria-pressed="true"]{background:var(--lg-lens);color:var(--systemBlue);font-weight:600}
+@media(prefers-reduced-transparency:reduce){#areaBar{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
@@ -828,8 +833,9 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
  async function pullMarks(first){if(!uid)return;if(first){const {data:m}=await sb.from('trip_members').select('user_id').eq('user_id',uid).maybeSingle();member=!!m}if(!member)return;
   const {data,error}=await sb.from('trip_marks').select('kind,key,value').eq('app',APP);if(error)return;
   const remote={};KINDS.forEach(k=>remote[k]={});(data||[]).forEach(r=>{if(remote[r.kind])remote[r.kind][r.key]=r.value});
-  for(const k of KINDS){if(first){const add=Object.entries(readLS(k)).filter(([key,v])=>!(key in remote[k])&&ok(v));if(add.length){await sb.from('trip_marks').upsert(add.map(([key,value])=>({app:APP,kind:k,key,value})));add.forEach(([key,v])=>remote[k][key]=v)}}
+  const migrate=first&&(()=>{try{return !localStorage.getItem('hk-marks-migrated')}catch{return false}})();for(const k of KINDS){if(migrate){const add=Object.entries(readLS(k)).filter(([key,v])=>!(key in remote[k])&&ok(v));if(add.length){await sb.from('trip_marks').upsert(add.map(([key,value])=>({app:APP,kind:k,key,value})));add.forEach(([key,v])=>remote[k][key]=v)}}
    sent[k]={...remote[k]};if(JSON.stringify(remote[k])!==JSON.stringify(readLS(k)))window.applyMarks?.(k,{...remote[k]})}
+  if(migrate)try{localStorage.setItem('hk-marks-migrated','1')}catch{}
   if(first&&!chan)chan=sb.channel('marks').on('postgres_changes',{event:'*',schema:'public',table:'trip_marks'},p=>{const r=p.eventType==='DELETE'?p.old:p.new;if(!r||!KINDS.includes(r.kind)||(r.app&&r.app!==APP))return;const cur={...(sent[r.kind]||{})};if(p.eventType==='DELETE')delete cur[r.key];else cur[r.key]=r.value;sent[r.kind]=cur;const mine=readLS(r.kind);if(JSON.stringify(cur)!==JSON.stringify(Object.fromEntries(Object.entries(mine).filter(([,v])=>ok(v)))))window.applyMarks?.(r.kind,{...cur})}).subscribe()}
  window.markSync=(k,obj)=>{if(!member)return;clearTimeout(timers[k]);timers[k]=setTimeout(async()=>{const prev=sent[k]||{},up=[],del=[];for(const [key,v] of Object.entries(obj))if(ok(v)&&JSON.stringify(prev[key])!==JSON.stringify(v))up.push({app:APP,kind:k,key,value:v});for(const key of Object.keys(prev))if(!ok(obj[key]))del.push(key);sent[k]=Object.fromEntries(Object.entries(obj).filter(([,v])=>ok(v)));if(up.length)await sb.from('trip_marks').upsert(up);if(del.length)await sb.from('trip_marks').delete().eq('app',APP).eq('kind',k).in('key',del)},k==='hk-note'?700:0)};
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')pullMarks(false)});
@@ -876,6 +882,20 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
  toggle.addEventListener('change',()=>{root.classList.toggle('soft-theme',toggle.checked);try{localStorage.setItem('hk-soft-theme-v1',toggle.checked?'on':'off');note.textContent='이 브라우저에만 적용돼요.'}catch{note.textContent='지금만 적용돼요. 설정을 저장할 수 없어요.'}});
  window.addEventListener('storage',event=>{if(event.key==='hk-soft-theme-v1'||event.key===null){const on=event.key!==null&&event.newValue==='on';root.classList.toggle('soft-theme',on);toggle.checked=on}});
  document.querySelectorAll('.app-panel>h1').forEach(heading=>heading.insertAdjacentHTML('beforeend','<svg class="soft-doodle" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path fill="var(--soft-sky)" d="M9 30c-9 0-9-13 0-14 1-12 18-14 22-3 11-4 18 12 7 17Z"/><path fill="var(--soft-yellow)" d="m46 4 2.5 6 6.5 1-5 4.5 1 6.5-5-3-6 3 1.5-6.5-4.5-4.5 6.5-1Z"/></svg>'));
+})();
+</script>
+<script>
+/* 숙소 구역에 들어오면 동네 바를 띄운다 — 드롭다운 대신 한 번에 누르기 */
+(()=>{const cur=()=>document.getElementById('areaSelect'),sel0=cur(),sec=document.getElementById('staySection');if(!sel0||!sec)return;
+ const short={all:'전체',tst:'침사추이',cen:'센트럴',cwb:'코즈웨이',np:'노스포인트',mk:'몽콕'};
+ const bar=document.createElement('nav');bar.id='areaBar';bar.setAttribute('aria-label','동네');bar.hidden=true;
+ bar.innerHTML=[...sel0.options].map(o=>`<button type="button" data-v="${o.value}">${short[o.value]||o.textContent}</button>`).join('');document.body.append(bar);
+ const mark=()=>{const v=cur()?.value;bar.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)))};mark();
+ bar.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const sel=cur();sel.value=b.dataset.v;sel.dispatchEvent(new Event('change',{bubbles:true}));mark();const t=document.getElementById('areaInfo')||sec;const y=t.getBoundingClientRect().top+scrollY-80;if(Math.abs(y-scrollY)>window.innerHeight)scrollTo({top:y,behavior:'smooth'})});
+ new MutationObserver(mark).observe(document.getElementById('areas'),{childList:true});
+ let inView=false;const upd=()=>{bar.hidden=!(inView&&document.body.dataset.appTab==='quote'&&!document.querySelector('dialog[open]'))};
+ new IntersectionObserver(es=>{inView=es[0].isIntersecting;upd()},{rootMargin:'-20% 0px -35% 0px'}).observe(sec);
+ new MutationObserver(upd).observe(document.body,{attributes:true,attributeFilter:['data-app-tab'],subtree:true,attributeOldValue:false});
 })();
 </script>
 </body>
