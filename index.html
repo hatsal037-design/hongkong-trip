@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>홍콩 여행 견적</title>
+<title>홍콩 여행</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 /* iOS semantic palette (classic UIKit); contrast variants are used for small text.
@@ -40,14 +40,54 @@
 .me-foot{display:flex;justify-content:space-between;align-items:center;margin:0 1rem;font-size:var(--foot);color:var(--sub)}
 .kakao-btn{display:block;width:calc(100% - 2rem);margin:0 1rem;min-height:50px;border:0;border-radius:12px;background:#fee500;color:rgba(0,0,0,.85);font-weight:600;cursor:pointer}
 </style>
-</head>
+<style>
+/* App shell: quote is removable; trip panels consume TripState only. */
+[hidden]{display:none!important}
+:root{--app-tab-height:calc(4.25rem + env(safe-area-inset-bottom))}
+html{scroll-padding-bottom:calc(var(--app-tab-height) + 7rem)}
+body{padding-bottom:var(--app-tab-height)}
+body[data-app-tab="quote"]{padding-bottom:calc(var(--app-tab-height) + 7rem)}
+body:not([data-app-tab="quote"])>.nav-bar{display:none}
+body>.bar{bottom:var(--app-tab-height);padding-bottom:.75rem}
+#appTabs{position:fixed;inset:auto 0 0;z-index:1100;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--glass);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-top:1px solid var(--line);padding:.25rem max(.25rem,env(safe-area-inset-right)) max(.25rem,env(safe-area-inset-bottom)) max(.25rem,env(safe-area-inset-left));min-height:var(--app-tab-height)}
+#appTabs button{border:0;background:none;min-width:0;min-height:3.75rem;color:var(--sub);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.2rem;padding:.35rem .1rem;font-size:.7rem;line-height:1.2;font-weight:500}
+#appTabs button[aria-selected="true"]{color:var(--blueText)}
+#appTabs svg{width:1.5rem;height:1.5rem;flex:none}
+.app-panel{min-width:0}.app-panel:not(#quote){padding-top:calc(1.5rem + env(safe-area-inset-top))}
+#accountPanel #me>.sh{display:none}#accountPanel #me{margin-top:1.5rem}
+.trip-ui{line-height:1.5}.trip-ui h2{font-size:1.3rem;font-weight:600;margin:1.5rem 0 .75rem}.trip-ui h3{font-size:1.05rem;font-weight:600;margin:0 0 .5rem}.trip-ui p{margin:.4rem 0}.trip-ui .muted{color:var(--sub);font-size:.875rem}
+.date-chips{display:flex;gap:.5rem;overflow-x:auto;max-width:100%;padding:.75rem 0 1rem;scrollbar-width:none}
+.date-chips button{flex:none;min-height:44px;padding:.5rem .85rem;border:0;border-radius:10px;background:var(--seg);font-size:.875rem;line-height:1.4;color:var(--ink)}
+.date-chips button span{display:block;font-size:.75rem;color:var(--sub)}
+.date-chips button[aria-selected="true"]{background:var(--systemBlue);color:white}.date-chips button[aria-selected="true"] span{color:white}
+.trip-card{background:var(--card);border-radius:12px;margin:.75rem 0;padding:1rem;min-width:0;overflow-wrap:anywhere}
+.trip-card summary{min-height:44px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.75rem;font-weight:500;list-style:none}.trip-card summary::after{content:'›';color:var(--sub)}.trip-card[open]>summary::after{transform:rotate(90deg)}
+.trip-card summary::-webkit-details-marker{display:none}.trip-card ol{padding-left:1.3rem;margin:.5rem 0}.trip-card li{padding:.35rem 0}
+.day-overview{padding:.5rem 0 .75rem}.day-overview h2{margin:.25rem 0}.day-overview p{color:var(--sub);font-size:.875rem}
+#tripMap{height:17rem;border-radius:12px;isolation:isolate;background:var(--seg);margin:.75rem 0 1rem}
+.trip-stop{position:relative}.stop-top{display:flex;align-items:center;gap:.5rem;justify-content:space-between}.stop-top time{font-size:.875rem;color:var(--blueText);font-variant-numeric:tabular-nums}.stop-actions{display:flex;gap:.25rem}
+.trip-ui button,.trip-ui a{touch-action:manipulation}.icon-button{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;color:var(--sub);border-radius:8px}.icon-button svg{width:1.3rem;height:1.3rem}.icon-button[aria-pressed="true"]{color:var(--blueText);background:var(--seg)}
+.trip-stop.is-done h3{color:var(--sub);text-decoration:line-through}.stop-name{display:block;text-align:left;background:none;border:0;padding:0;color:var(--ink);font:inherit;width:100%;min-height:44px}.stop-name h3{margin:0}
+.trip-ui .stop-zh{font-size:1rem}.trip-ui .stop-en,.trip-ui .stop-address{font-size:.8rem;color:var(--sub)}.stop-tag{font-size:.75rem;color:var(--blueText);font-weight:400;margin-left:.5rem}
+.trip-links{display:flex;flex-wrap:wrap;gap:.25rem .85rem;margin-top:.5rem}.trip-links a,.trip-links button{display:inline-flex;align-items:center;min-height:44px;font:inherit;font-size:.875rem;color:var(--blueText);background:none;border:0;padding:0;text-decoration:none}
+.trip-note{display:block;margin-top:.5rem}.trip-note span{font-size:.8rem;color:var(--sub)}.trip-note textarea{display:block;width:100%;min-height:4.5rem;resize:vertical;font:inherit;line-height:1.5;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.65rem;margin-top:.25rem}.trip-note-status{font-size:.75rem;color:var(--sub);min-height:1.125rem}
+.prep-head{display:flex;gap:.5rem;align-items:center}.prep-head>div{min-width:0}.prep-head h3{margin:0}.prep-item.is-done h3{color:var(--sub);text-decoration:line-through}.prep-when{font-size:.75rem;color:var(--blueText)}
+.tip-row{padding:.75rem 0;border-bottom:1px solid var(--line)}.tip-row:last-child{border:0}.tip-row h3{font-size:.95rem;font-weight:500}.tip-row p{font-size:.875rem;color:var(--sub)}
+.taxi-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}.taxi-list button{background:var(--card);color:var(--blueText);border:0;border-radius:10px;min-height:52px;padding:.75rem;text-align:left;font:inherit;font-size:.875rem}
+#tripTaxi{width:min(92vw,32rem);max-height:85dvh;overflow:auto;border:0;border-radius:20px;padding:1.5rem;background:var(--card);color:var(--ink);text-align:center}#tripTaxi::backdrop{background:rgba(0,0,0,.45)}#tripTaxi .taxi-big{font-size:2.15rem;font-weight:600;line-height:1.3;overflow-wrap:anywhere;margin:1.5rem 0 1rem}#tripTaxi .taxi-address{font-size:1.2rem;overflow-wrap:anywhere}#tripTaxi .taxi-en{color:var(--sub);margin:1rem 0;overflow-wrap:anywhere}#tripTaxiClose{min-height:44px;width:100%;border:0;border-radius:10px;color:white;background:var(--systemBlue);font:inherit;padding:.6rem}
+button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--systemBlue);outline-offset:3px}
+@media(prefers-reduced-transparency:reduce){#appTabs{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){#appTabs{background:var(--card)}.trip-card{outline:1px solid var(--line)}}
+@media(max-width:420px){.me-row{grid-template-columns:1fr;gap:0;padding-top:.5rem}.trip-links{gap:0 .75rem}}
+
+</style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
-<div class="sheet">
+<main id="quote" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-quote">
  <div class="eyebrow">2026년 11월 · HONG KONG</div>
  <h1>홍콩 여행</h1>
  <p class="dek">11월 24일 출발 · 돌아오는 날과 숙소를 골라보세요.</p>
-<section class="hero" aria-label="여행 예상 비용"><div class="hero-label">여행 예상 총액</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#disney">디즈니</a><a href="#extraSection">기타비용</a><a href="#me">내 정보</a></nav></section>
+<section class="hero" aria-label="여행 예상 비용"><div class="hero-label">여행 예상 총액</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#disney">디즈니</a><a href="#extraSection">기타비용</a></nav></section>
 
  
  <section class="step" id="fareWatch"><div class="sh"><h2>항공권 오늘 시세</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
@@ -81,25 +121,10 @@
 <section class="step report-scope" id="disney"><div class="sh"><h2 id="disneyHeading">디즈니랜드</h2></div><p class="one">11/25(수)가 제일 싸고 덜 붐벼요 — 수요일 20% 할인, 10:00~20:30</p><div class="gal"><figure><img src="img/area/dis_castle_1.jpg" alt="디즈니 성(Castle of Magical Dreams)" loading="lazy"><figcaption><b>디즈니 성(Castle of Magical Dreams)</b></figcaption></figure><details class="photo-more"><summary>사진 3장 보기<svg class="icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></summary><div class="photo-grid"><figure><img src="img/area/dis_frozen_0.jpg" alt="월드 오브 프로즌" loading="lazy"><figcaption><b>월드 오브 프로즌</b></figcaption></figure><figure><img src="img/area/dis_station_0.jpg" alt="써니베이역 환승" loading="lazy"><figcaption><b>써니베이역 환승</b></figcaption></figure></div></details></div><div class="card"><h4>언제 갈까</h4><ul><li>11/25(수) — 수요일 한정 20% 할인(HK$535), 운영 10:00~20:30, 혼잡 예상 중간</li><li>11/26(목) — 정가 HK$669, 10:00~20:30</li><li>11/27(금) — 비싼 날(HK$759), 대신 21:00까지</li><li>11/24(화) 도착일 — 빨라야 17시 입장인데 정가를 다 내고 캐리어도 맡겨야 해서 비추천</li></ul></div><div class="card"><h4>티켓 (성인 1인 1일권)</h4><div class="compare-list"><article class="compare-item"><h3 class="compare-title">공식(HKD)</h3><dl><div class="kv"><dt>11/25 수</dt><dd>535</dd></div><div class="kv"><dt>11/26 목</dt><dd>669</dd></div><div class="kv"><dt>11/27 금</dt><dd>759</dd></div><div class="kv"><dt>메모</dt><dd>MyDisney 로그인 구매 시 HK$100 바우처</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">클룩</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,500</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩101,600</dd></div><div class="kv"><dt>11/27 금</dt><dd>약 ₩117,000</dd></div><div class="kv"><dt>메모</dt><dd>취소불가형은 목 ₩92,800 · 날짜 지정하면 예약까지 끝</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">KKday</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,456</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩103,524~</dd></div><div class="kv"><dt>11/27 금</dt><dd>—</dd></div><div class="kv"><dt>메모</dt><dd>날짜 지정하면 예약까지 끝</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">트립닷컴</h3><dl><div class="kv"><dt>11/25 수</dt><dd>₩90,700~</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩113,485(정가)</dd></div><div class="kv"><dt>11/27 금</dt><dd>—</dd></div><div class="kv"><dt>메모</dt><dd>날짜별 값은 미확인</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">마이리얼트립</h3><dl><div class="kv"><dt>11/25 수</dt><dd>—</dd></div><div class="kv"><dt>11/26 목</dt><dd>₩108,607</dd></div><div class="kv"><dt>11/27 금</dt><dd>못 씀</dd></div><div class="kv"><dt>메모</dt><dd>오픈티켓 · 공식 사이트에서 따로 파크 예약</dd></div></dl></article></div><p class="fine">날짜마다 4단계 요금이고 모든 입장객이 파크 예약을 해야 해요. 오후권은 없어요. 2일권은 연속 이틀, HK$769부터(클룩 ₩173,400). 2026-10-20 조회.</p></div><div class="card"><h4>우선 탑승권(DPA)</h4><ul><li>3개권 HK$199~ — 겨울왕국 어트랙션은 안 들어감</li><li>8개권 HK$429~ / 야간쇼 관람구역 포함 모멘터스권 HK$659~</li><li>평일이라 미리 살 필요는 적어요. 겨울왕국 대기가 길면 그날 앱에서 8개권</li><li>인스타 저장 #23: «11월 주말 13시 입장으로도 DPA로 다 하고 시간 남음»</li></ul></div><div class="card"><h4>동네별 가는 길</h4><div class="compare-list"><article class="compare-item"><h3 class="compare-title">침사추이</h3><dl><div class="kv"><dt>시간</dt><dd>40분</dd></div><div class="kv"><dt>요금</dt><dd>HK$22.2</dd></div><div class="kv"><dt>경로</dt><dd>라이킹·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">조던·야우마테이</h3><dl><div class="kv"><dt>시간</dt><dd>36~38분</dd></div><div class="kv"><dt>요금</dt><dd>HK$22.2</dd></div><div class="kv"><dt>경로</dt><dd>라이킹·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">센트럴·셩완</h3><dl><div class="kv"><dt>시간</dt><dd>38~41분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>홍콩역 퉁청선·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">코즈웨이베이</h3><dl><div class="kv"><dt>시간</dt><dd>45분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>센트럴·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">노스포인트</h3><dl><div class="kv"><dt>시간</dt><dd>51분</dd></div><div class="kv"><dt>요금</dt><dd>HK$27.9</dd></div><div class="kv"><dt>경로</dt><dd>센트럴·써니베이 환승</dd></div></dl></article><article class="compare-item"><h3 class="compare-title">공항</h3><dl><div class="kv"><dt>시간</dt><dd>35~39분</dd></div><div class="kv"><dt>요금</dt><dd>HK$73</dd></div><div class="kv"><dt>경로</dt><dd>퉁청선·써니베이</dd></div></dl></article></div><p class="fine">디즈니역에서 시내로 가는 막차가 00:19~00:40이라 야간쇼 보고 나와도 여유 있어요. 택시는 HK$180~250 정도(미검증).</p></div><div class="card"><h4>하루 예시 — 11/25(수)</h4><ul><li>08:30 숙소 출발 → 09:20쯤 도착, 게이트 대기</li><li>10:00 개장하면 겨울왕국 구역부터(홍콩에만 있음)</li><li>오전: 빅 그리즐리 광산열차, 아이언맨, 하이퍼스페이스 마운틴 — 앱에서 대기 짧은 것부터</li><li>오후: 미스틱 매너는 대기가 길면 패스(인스타 #6)</li><li>저녁: 야간쇼 모멘터스, 11월 시간표는 아직 안 나옴(10월엔 폐장 시각 시작) — 자리는 미리 잡고, 끝나기 10분 전에 나오면 역이 덜 붐벼요</li></ul></div><div class="card"><h4>그때 파크 상황</h4><ul><li>크리스마스 시즌 11/20~2027-01-03 — 장식과 시즌 공연</li><li>캐슬 콘서트는 11/21·22, 12/5·6이라 우리 날짜와는 안 겹침</li><li>닫힌 곳: 타잔 트리하우스·뗏목, 레일로드 메인스트리트역</li><li>디즈니랜드 호텔은 10/12부터 휴관</li></ul></div><div class="card"><h4>챙길 것</h4><ul><li>외부 음식 반입 됨</li><li>바퀴 달린 캐리어는 크기 상관없이 반입 금지 — 체크아웃 날엔 숙소에 맡기고 가기</li><li>사물함 하루 HK$140쯤(미검증)</li><li>티켓은 날짜 지정형으로 — 마이리얼트립 오픈티켓은 금요일에 못 씀</li></ul><p class="fine">출처: hongkongdisneyland.com 티켓·일별 캘린더·오퍼 페이지, MTR 경로 조회, 클룩·KKday·트립닷컴·마이리얼트립 상품 페이지 (2026-10-20).</p></div></section>
  <section class="step" id="extraSection"><div class="sh"><span class="n">5</span><h2>그 밖에 드는 돈</h2><span class="hint">추정치 · 필요한 것만</span></div><div id="extras"></div><p class="note">스위치를 켠 항목만 합계에 포함돼요. 식비 등 일일 비용은 여행 일수에 맞춰 계산해요.</p></section>
 
- <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
-  <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
-  <div id="meIn" hidden>
-   <div class="me-group">
-    <label class="me-row"><span>이름</span><input id="me_name" autocomplete="off"></label>
-    <label class="me-row"><span>항공 예약번호</span><input id="me_flight" autocomplete="off"></label>
-    <label class="me-row"><span>숙소 예약번호</span><input id="me_hotel" autocomplete="off"></label>
-    <label class="me-row"><span>여행자보험</span><input id="me_ins" placeholder="보험사 · 증권번호" autocomplete="off"></label>
-    <label class="me-row"><span>eSIM</span><input id="me_esim" autocomplete="off"></label>
-    <label class="me-row me-memo"><span>메모</span><textarea id="me_memo" rows="3"></textarea></label>
-   </div>
-   <p class="me-status" id="meSaved" aria-live="polite"></p>
-   <div class="me-group" id="meFiles"></div>
-   <div class="me-foot"><span id="meWho"></span><button type="button" id="meLogout">로그아웃</button></div>
-  </div>
- </section>
+
 
  <p class="note" style="margin-top:26px">출처: Google 항공편(가는 편마다 오는 편 목록까지 조회) · Google 호텔 · Airbnb — 2026-10-20 조회. 지도 Google 지도. 환율 1 HKD ≈ 185원(추정). 숙소는 11/24~28 검색의 1박 요금으로 계산 — 23일 밤·28일 밤도 같은 값으로 잡음(추정).</p><div class="report-scope"><details class="cred"><summary>사진 출처 (Wikimedia Commons)<svg class="icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></summary><ul><li>스타페리 침사추이 부두 — <a href="https://commons.wikimedia.org/wiki/File:Tsim_Sha_Tsui_Ferry_Pier.jpg">Baycrest</a>, CC BY-SA 2.5</li><li>스타페리 침사추이 부두 — <a href="https://commons.wikimedia.org/wiki/File:2024-12-27_Tsim_Sha_Tsui_Ferry_Pier.jpg">Alexkom000</a>, CC BY 4.0</li><li>스타의 거리·하버 야경 — <a href="https://commons.wikimedia.org/wiki/File:Avenue_of_Stars_in_Hong_Kong(2).jpg">Alancrh</a>, Public domain</li><li>스타의 거리·하버 야경 — <a href="https://commons.wikimedia.org/wiki/File:Avenue_of_Stars,_Hong_Kong_(2052819038).jpg">yeowatzup</a>, CC BY 2.0</li><li>하버시티·캔턴로드 — <a href="https://commons.wikimedia.org/wiki/File:HK_TST_Canton_Road_Harbour_City_Gucci_shop_signs_Marc_Jacobs_Aug-2012.JPG">Magrealthkoo</a>, CC BY-SA 3.0</li><li>1881 헤리티지 — <a href="https://commons.wikimedia.org/wiki/File:1881_Heritage.JPG">Alan</a>, CC BY-SA 3.0</li><li>K11 뮤제아 — <a href="https://commons.wikimedia.org/wiki/File:Victoria_Dockside_202007.jpg">Wpcpey</a>, CC BY 4.0</li><li>구룡공원 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Park_44.jpg">Wilfredor</a>, CC0</li><li>템플스트리트 야시장 — <a href="https://commons.wikimedia.org/wiki/File:Mercado_en_Temple_St.,_Hong_Kong,_2013-08-11,_DD_01.JPG">Diego Delso</a>, CC BY-SA 3.0</li><li>여인가(통초이 스트리트) — <a href="https://commons.wikimedia.org/wiki/File:Kowloon_Tung_Choi_Street.jpg">Photo by TonySKTO</a>, CC BY-SA 2.5</li><li>금붕어 시장 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Goldfish_Market.jpg">Stevenliuyi</a>, CC BY-SA 4.0</li><li>야우마테이 과일시장 — <a href="https://commons.wikimedia.org/wiki/File:Yau_Ma_Tei_Fruit_Market_at_night_20231214.jpg">Cypp0847</a>, CC BY-SA 4.0</li><li>야우마테이 틴하우 사원 — <a href="https://commons.wikimedia.org/wiki/File:Tin_Hau_Temple_Complex,_Yau_Ma_Tei_03.jpg">Underwaterbuffalo</a>, CC BY-SA 4.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:Mong_Kok_Neon_Signs_Night_(48127904386).jpg">Benh LIEU SONG from Torcy, France</a>, CC BY-SA 2.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:HK_Mong_Kok_night_Soy_Street_shop_signs_Oct-2012.JPG">Ekratoem</a>, CC BY-SA 3.0</li><li>몽콕 네온 거리 — <a href="https://commons.wikimedia.org/wiki/File:%E6%97%BA%E8%A7%92_Mong_Kok_%E8%8A%B1%E5%9C%92%E8%A1%97_Fa_Yuen_Street_%E5%85%AB%E7%8F%8D%E9%A3%9F%E5%93%81_Pat_Chun_%E9%9C%93%E8%99%B9%E7%87%88%E6%8B%9B%E7%89%8C_Neon_Sign,_2019.jpg">Lord Jaraxxus</a>, CC BY-SA 4.0</li><li>압리우 스트리트(삼수이포) — <a href="https://commons.wikimedia.org/wiki/File:Apliu_Street,_Sham_Shui_Po_part_1_in_February_2024.jpg">姒姓賢寧</a>, CC BY 4.0</li><li>미드레벨 에스컬레이터 — <a href="https://commons.wikimedia.org/wiki/File:Central-Mid-Levels_Escalator_and_Walkway_System_15-07-2015(2).jpg">LN9267</a>, CC BY-SA 4.0</li><li>타이쿤 — <a href="https://commons.wikimedia.org/wiki/File:Tai_Kwun_(1).jpg">SH6188</a>, CC BY-SA 4.0</li><li>PMQ — <a href="https://commons.wikimedia.org/wiki/File:PMQ_20-05-2022(3).jpg">LN9267</a>, CC BY-SA 4.0</li><li>만모사원 — <a href="https://commons.wikimedia.org/wiki/File:Interior_of_Man_Mo_Temple,_Hollywood_Road,_2006_(02).jpg">Bahnfrend</a>, CC BY-SA 4.0</li><li>캣 스트리트(골동품) — <a href="https://commons.wikimedia.org/wiki/File:HK_Sheung_Wan_Upper_Lascar_Row_Cat_Street_1.JPG">No machine-readable author provided. Saiyans16~commonswiki a</a>, CC BY-SA 3.0</li><li>트램(데보로드) — <a href="https://commons.wikimedia.org/wiki/File:202105_Hong_Kong_Tramways_148_at_Des_Voeux_Road_Central,_Sheung_Wan.jpg">LAUD Freiman Aldopoilslmy</a>, CC BY-SA 4.0</li><li>빅토리아 피크 — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Harbour_Night_2019-06-11.jpg">Benh LIEU SONG (Flickr)</a>, CC BY-SA 4.0</li><li>리퉁 애비뉴 — <a href="https://commons.wikimedia.org/wiki/File:Lee_Tung_Avenue_201608.jpg">Wpcpey</a>, CC BY-SA 4.0</li><li>빅토리아 파크 — <a href="https://commons.wikimedia.org/wiki/File:Victoria_Park(Hong_Kong)_22-11-2023.jpg">LN9267</a>, CC BY-SA 4.0</li><li>해피밸리 경마장 — <a href="https://commons.wikimedia.org/wiki/File:Happy_Valley_Racecourse-001.jpg">TypeZero</a>, CC BY-SA 4.0</li><li>골든 보히니아 광장 — <a href="https://commons.wikimedia.org/wiki/File:GoldenBauhiniaSquare.jpg">No machine-readable author provided. Ilmari Karonen assumed</a>, CC BY 2.5</li><li>춘영 스트리트 트램 시장 — <a href="https://commons.wikimedia.org/wiki/File:HK_Tramways_120_at_Chun_Yeung_Street_(20181215091123).jpg">N509FZ</a>, CC BY-SA 4.0</li><li>춘영 스트리트 트램 시장 — <a href="https://commons.wikimedia.org/wiki/File:North_Point_Chun_Yeung_Street.jpg">Minseong Kim</a>, CC BY-SA 4.0</li><li>익청빌딩(몬스터 빌딩) — <a href="https://commons.wikimedia.org/wiki/File:Yick_Cheong_Building_and_Yick_Fat_Building._Aug._2015.A.JPG">Sakaori (talk)</a>, CC BY 3.0</li><li>노스포인트 페리 부두 — <a href="https://commons.wikimedia.org/wiki/File:North_Point_Ferry_Pier_201808.jpg">Wpcpey</a>, CC BY-SA 4.0</li><li>스테이트 극장 — <a href="https://commons.wikimedia.org/wiki/File:HK_North_Point_277-291_King%27s_Road_%E7%9A%87%E9%83%BD%E6%88%B2%E9%99%A2%E5%A4%A7%E5%BB%88_State_Theatre_Building_facade_Jan-2013.JPG">Skiawems</a>, CC BY-SA 3.0</li><li>디즈니 성(Castle of Magical Dreams) — <a href="https://commons.wikimedia.org/wiki/File:Hong_Kong_Disneyland_Castle.jpg">Ashwin Kumar</a>, CC BY-SA 2.0</li><li>월드 오브 프로즌 — <a href="https://commons.wikimedia.org/wiki/File:World_of_Frozen,_Hong_Kong_Disneyland_2023.jpg">Tombus20032000</a>, CC BY-SA 4.0</li><li>써니베이역 환승 — <a href="https://commons.wikimedia.org/wiki/File:HK_Sunny_Bay_Station_Platform_3.jpg">WiNG</a>, CC BY-SA 3.0</li></ul></details></div>
-</div>
+</main>
 <div class="bar" role="region" aria-label="여행 견적 합계"><div class="in"><div><div class="tot" id="tot">-</div><div class="pp" id="pp"></div></div><div class="sum" id="sum"></div></div></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -139,7 +164,7 @@ const EXTRAS=[
 const S={dep:24,o:'UO12:25',day:28,r:null,pax:2,type:'all',area:'all',stay:null,ex:{},outAll:false};
 try{Object.assign(S,JSON.parse(localStorage.getItem('hk-quote-web3')||'{}'))}catch(e){}
 EXTRAS.forEach(e=>{if(!(e[0] in S.ex))S.ex[e[0]]=!!e[5]});
-const save=()=>{try{localStorage.setItem('hk-quote-web3',JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem('hk-quote-web3',JSON.stringify(S))}catch(e){};window.publishTripFromQuote?.()};
 const won=v=>v==null?'—':'₩'+Math.round(v).toLocaleString('ko-KR');
 const man=v=>(Math.round(v/1000)/10).toLocaleString('ko-KR')+'만';
 const H=t=>+t.slice(0,2);
@@ -351,6 +376,240 @@ function syncRoute(){const s=stayById(S.stay),k=s?.[1]||S.area;const idx=keys.in
 new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{childList:true});syncRoute();
 })();
 </script>
+
+<main id="schedule" class="sheet app-panel trip-ui" role="tabpanel" aria-labelledby="tab-schedule" hidden>
+ <div class="eyebrow">2026년 11월 · HONG KONG</div><h1 tabindex="-1">일정</h1>
+ <div class="date-chips" id="tripDates" role="tablist" aria-label="여행 날짜"></div>
+ <div id="tripDay" role="tabpanel" aria-label="선택한 날 일정"></div>
+</main>
+<main id="prep" class="sheet app-panel trip-ui" role="tabpanel" aria-labelledby="tab-prep" hidden>
+ <div class="eyebrow">출발 전</div><h1 tabindex="-1">준비</h1><div id="prepContent"></div>
+</main>
+<main id="accountPanel" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-me" hidden>
+ <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1> <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
+  <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
+  <div id="meIn" hidden>
+   <div class="me-group">
+    <label class="me-row"><span>이름</span><input id="me_name" autocomplete="off"></label>
+    <label class="me-row"><span>항공 예약번호</span><input id="me_flight" autocomplete="off"></label>
+    <label class="me-row"><span>숙소 예약번호</span><input id="me_hotel" autocomplete="off"></label>
+    <label class="me-row"><span>여행자보험</span><input id="me_ins" placeholder="보험사 · 증권번호" autocomplete="off"></label>
+    <label class="me-row"><span>eSIM</span><input id="me_esim" autocomplete="off"></label>
+    <label class="me-row me-memo"><span>메모</span><textarea id="me_memo" rows="3"></textarea></label>
+   </div>
+   <p class="me-status" id="meSaved" aria-live="polite"></p>
+   <div class="me-group" id="meFiles"></div>
+   <div class="me-foot"><span id="meWho"></span><button type="button" id="meLogout">로그아웃</button></div>
+  </div>
+ </section></main>
+<dialog id="tripTaxi" aria-label="택시 기사에게 보여주기"><div class="taxi-content" id="tripTaxiContent"></div><button type="button" id="tripTaxiClose">닫기</button></dialog>
+<nav id="appTabs" role="tablist" aria-label="홍콩 여행"></nav>
+<script>
+/* Shared contract: persisted hotel + returnDay. Schedule/prep have no quote DOM dependencies. */
+window.TripState=(()=>{
+ const key='hk-trip-state-v1';let memory=null;
+ const read=()=>{try{return JSON.parse(localStorage.getItem(key))||memory}catch{return memory}};
+ return {get:()=>read()||{returnDay:28,hotel:null},set(value){memory=value;try{localStorage.setItem(key,JSON.stringify(value))}catch{}window.dispatchEvent(new Event('hk-trip-change'))}};
+})();
+/* Removable quote adapter. */
+window.publishTripFromQuote=()=>{const h=stayById(S.stay);const next={returnDay:S.day===29?29:28,hotel:h?{ko:h[0],en:h[12]||h[0],zh:'',addrZh:'',addrEn:'',lat:h[8],lng:h[9],area:h[1]}:null};if(JSON.stringify(next)!==JSON.stringify(TripState.get()))TripState.set(next)};
+publishTripFromQuote();
+(()=>{
+'use strict';
+const DAYS = {
+  d1: { label:'D1 도착', sub:'공항 → 침사추이', desc:'도착 시간에 따라 앞뒤로 밀린다. 공항철도 구룡역 → 무료 셔틀(K번 버스)로 호텔. 저녁은 침사추이 걷기.',
+    stops:[
+      ['hkia','도착','홍콩국제공항 T1','香港國際機場 一號客運大樓','HKIA Terminal 1','大嶼山赤鱲角',22.3089,113.9146,'입국심사 → 짐 → 세관 녹색통로 → 도착홀. 공항철도는 도착홀에서 바로, 택시는 «To City» 표지 따라',''],
+      ['kowloon','+25분','공항철도 구룡역','機場快綫 九龍站','Airport Express Kowloon Station','九龍柯士甸道西1號',22.3049,114.1617,'구룡역에서 무료 셔틀버스(K번)가 주요 호텔을 돈다 — 숙소 정해지면 노선 확인',''],
+      ['ckm','저녁','청킹맨션','重慶大廈','Chungking Mansions','九龍尖沙咀彌敦道36-44號',22.2963,114.1722,'중경삼림 전반부(금성무·임청하). 지금도 게스트하우스·인도식당','film'],
+      ['aos','20:00','침사추이 해변·스타의 거리','星光大道','Avenue of Stars','九龍尖沙咀梳士巴利道',22.2935,114.1740,'매일 20시 «심포니 오브 라이트» 레이저쇼. 홍콩섬 야경 정면','night'],
+    ]},
+  d2: { label:'D2 센트럴', sub:'영화 반나절 + 피크', desc:'센트럴·미드레벨은 다 걸어서. 에스컬레이터는 오전엔 내려가는 방향, 10시 이후 올라가는 방향(운행 방향 현장 확인).',
+    stops:[
+      ['lfy','09:00','란퐁유엔 (밀크티)','蘭芳園','Lan Fong Yuen','中環結志街2號',22.2834,114.1547,'스타킹 밀크티 원조. 에스컬레이터 출발점 바로 옆',''],
+      ['esc','10:00','미드레벨 에스컬레이터','中環至半山自動扶梯','Central–Mid-Levels Escalator','中環皇后大道中至干德道',22.2828,114.1548,'중경삼림 — 왕페이가 663(양조위) 집을 몰래 드나들던 길. 663 집은 에스컬레이터 바로 옆(크리스토퍼 도일의 실제 집)','film'],
+      ['potti','10:40','포팅거 스트리트 돌계단','砵典乍街','Pottinger Street','中環砵典乍街',22.2827,114.1560,'중경삼림 거리 장면 (출처 1곳)','film'],
+      ['lkf','11:10','란콰이퐁 D\'Aguilar St','德己立街 蘭桂坊','D\'Aguilar Street, Lan Kwai Fong','中環德己立街',22.2808,114.1556,'미드나잇 익스프레스(왕페이 가게) 자리 — 지금은 세븐일레븐','gone'],
+      ['wall','13:30','캐슬로드·컨딧로드 돌담','衛城道與干德道交界','Castle Rd / Conduit Rd','半山衛城道與干德道交界',22.2795,114.1478,'아비정전 — 전화를 기다리던 돌담. 팬들이 아직 찾는 자리','film'],
+      ['gdi','15:00','광동투자빌딩 (성완)','粵海投資大廈','Guangdong Investment Tower','上環干諾道中148號',22.2877,114.1520,'무간도 — 옥상에서 떨어진 인물이 떨어지는 자리(합성)','film'],
+      ['peak','18:00','피크트램 → 빅토리아 피크','山頂纜車 花園道總站','Peak Tram Lower Terminus','中環花園道33號',22.2777,114.1597,'해 질 녘 올라가 야경. 대기 길면 15번 버스','night'],
+    ]},
+  d3: { label:'D3 구룡', sub:'카메라 거리·몽콕', desc:'심시티는 11시쯤부터 문을 연다. 정품보증가·병행가를 따로 부르니 둘 다 물어볼 것.',
+    stops:[
+      ['sim','11:00','심시티 (카메라 상가)','星際城市','Sim City','九龍旺角山東街47-51號',22.3175,114.1697,'3층 건물 대부분이 카메라 가게·중고. Showa도 몽콕에 있음',''],
+      ['mk','13:00','몽콕 골목·통초이가','旺角通菜街','Tung Choi Street, Mong Kok','九龍旺角通菜街',22.3190,114.1710,'열혈남아·타락천사의 동네. 특정 지점보다 분위기','film'],
+      ['apliu','15:00','압리우가 (삼수이포)','鴨寮街','Ap Liu Street','九龍深水埗鴨寮街',22.3302,114.1624,'중고 렌즈·빈티지 카메라 노점. 무간도 양조위 오디오가게 쪽(출처 1곳)','film'],
+      ['temple','20:00','템플 스트리트 야시장','廟街夜市','Temple Street Night Market','九龍油麻地廟街',22.3068,114.1700,'저녁 노점·포장마차','night'],
+    ]},
+  d4: { label:'D4 무간도', sub:'사틴 → 북각 → 코즈웨이베이', desc:'동쪽으로 길게 도는 날. 만불사는 계단 400개 — 오전에.',
+    stops:[
+      ['tbm','10:00','만불사','萬佛寺','Ten Thousand Buddhas Monastery','新界沙田排頭村',22.3876,114.1848,'무간도 오프닝. 사틴역에서 걸어서 + 계단','film'],
+      ['cht','13:00','해저터널 (버스로 통과)','紅磡海底隧道','Cross-Harbour Tunnel','紅磡海底隧道',22.3005,114.1823,'타락천사 엔딩 — 오토바이로 달리던 터널. 홍함 쪽에서 섬으로 가는 버스 타면 된다','film'],
+      ['npgo','14:00','북각 정부합동청사','北角政府合署','North Point Government Offices','北角渣華道333號',22.2913,114.1990,'무간도 옥상 — 양조위·유덕화 대치. 옥상은 출입 불가, 밖에서만','film'],
+      ['gold','16:00','란퐁로 (골드핀치 자리)','銅鑼灣蘭芳道','Lan Fong Road, Causeway Bay','銅鑼灣蘭芳道',22.2800,114.1838,'화양연화·2046 — 양조위·장만옥 첫 식사. 2018 폐업, 이전한 «Nostalgia»도 폐업','gone'],
+      ['lym','선택','레이유문 공원 (채완)','鯉魚門公園','Lei Yue Mun Park','柴灣鯉魚門公園',22.2775,114.2370,'무간도 경찰학교 (출처 1곳)','opt'],
+    ]},
+};
+
+/* ───── 준비: 미리 등록 / 가서 쓸 것 / 안 되는 것 ───── */
+const PREP = [
+  { grp:'미리 등록·결제 연결', items:[
+    ['p-octo','Octopus for Tourists','출발 1주 전','아이폰 옥토퍼스. 미니버스·노점·편의점용',
+      ['앱스토어에서 «Octopus for Tourists» 설치 (아이폰 X 이상)','앱에서 새 옥토퍼스 만들기','충전: 한국 비자·마스터를 앱에 연결해 충전 (지갑 앱에서 바로 추가·충전은 한국 카드로 안 됨)','소액만 충전 — 한도 HK$3,000, 남은 돈은 귀국 전 앱에서 환불'],
+      '지갑(Wallet) 앱 직접 충전은 본토 유니온페이만 된다 — 반드시 «앱» 경로로 (옥토퍼스 공식)'],
+    ['p-applepay','애플페이 카드 확인','출발 전','MTR 개찰구에 바로 찍을 카드',
+      ['지갑에 비자·마스터가 있는지 확인','카드사 앱에서 «해외결제 허용»·«비대면(컨택리스) 허용» 켜기','개찰구에서 들어갈 때·나올 때 같은 카드·같은 기기로'],
+      'MTR 전 개찰구 컨택리스 카드 가능(2026, 복수 여행가이드 · 공식 미확인). 할인요금은 옥토퍼스만'],
+    ['p-kakao','카카오페이·네이버페이·토스','출발 전 확인','홍콩 알리페이+ 매장에서 QR 결제',
+      ['각 앱 «해외결제» 메뉴에서 홍콩 사용 가능 확인','결제 수단(국내 카드·계좌) 연결','가게에 «Alipay+» 또는 «AlipayHK» 표시가 있으면 내 앱의 결제 바코드 보여주기'],
+      '2024-04부터 카카오페이·네이버페이·토스페이가 홍콩 알리페이+ 가맹점에서 결제됨 (알리페이 발표)'],
+    ['p-uber','Uber','출발 전','택시 호출. 길에서 잡은 택시도 앱으로 결제(Pair & Pay)',
+      ['한국에서 쓰던 우버 계정 그대로','결제수단에 해외결제 되는 카드','택시 탈 때 «Pair & Pay»로 앱 결제 가능 — 미터 요금 그대로, 수수료 없음'],
+      ''],
+    ['p-klook','클룩 (또는 KKday)','날짜 확정 후','공항철도·피크트램 할인 QR',
+      ['공항철도 «2인 그룹권»(같이 통과해야 함)','피크트램 시간 지정권','QR은 폰에 저장 — 개찰구에서 바로'],
+      ''],
+    ['p-esim','eSIM','출발 2~3일 전 설치','현지에서 켜기',
+      ['홍콩 전용 eSIM 구매 → QR로 설치(집 와이파이에서)','출발 전엔 «회선 끔», 도착 후 켜고 데이터 로밍 ON','선전·마카오 넘어갈 거면 «홍콩+중국» 겸용 (중국에선 구글·카톡 막힘)'],
+      ''],
+  ]},
+  { grp:'아이폰에서 할 것', items:[
+    ['p-home','이 앱을 홈 화면에','지금','사파리로 열고 앱처럼 쓰기',
+      ['사파리로 이 페이지 열기','아래 공유 버튼 → «홈 화면에 추가»','홈 화면 아이콘으로 열면 주소창 없이 앱처럼 뜬다 — 체크·메모는 이 폰에 저장'],
+      '체크·메모는 사파리 저장소에 남는다. 사파리 방문 기록을 지우면 같이 지워짐'],
+    ['p-trans','번역 앱 + 카메라 번역','출발 전','메뉴판·간판',
+      ['번역 앱에서 «중국어(번체)» 오프라인 언어 다운로드','카메라로 메뉴판 비추고 오른쪽 아래 텍스트 인식 → 번역','광둥어 음성은 약하다 — 글자 번역 위주로'],''],
+    ['p-esim2','eSIM 설치 (아이폰)','출발 2~3일 전','설정 → 셀룰러',
+      ['설정 → 셀룰러 → eSIM 추가 → QR 스캔','회선 이름을 «홍콩»으로 바꿔 두기','출발 전엔 이 회선 꺼 두기, 도착하면 켜고 «셀룰러 데이터»를 홍콩 회선으로 + 데이터 로밍 ON','한국 회선은 문자 인증용으로 켜 두되 데이터는 끄기'],''],
+  ]},
+  { grp:'가서 쓸 것 (설치만)', items:[
+    ['p-gmap','구글 지도','출발 전','길찾기 기본 — 이 앱의 «길찾기»·«구글» 버튼이 여기로. 애플지도도 홍콩 대중교통이 되니 «애플지도» 버튼은 비교용',
+      ['설정 → 오프라인 지도 → 홍콩 영역 다운로드','숙소·갈 곳을 «저장» 목록으로'],''],
+    ['p-city','Citymapper','출발 전','버스·미니버스까지 경로',['설치 → 도시 «Hong Kong» 선택'],''],
+    ['p-mtr','MTR Mobile','출발 전','지하철 노선·요금, 오프라인',['설치만'],''],
+    ['p-hktaxi','HKTaxi','출발 전','택시 호출(우버 대안)',['가입 → 결제수단 확인(해외카드 되는지 미확인)'],'2026-04부터 모든 택시가 전자결제 두 가지 이상 받음(QR 하나 + 옥토퍼스·카드 등 하나)'],
+    ['p-openrice','OpenRice','출발 전','현지 맛집 평점',['설치만'],''],
+  ]},
+];
+const NOPE = [
+  ['네이버지도·카카오맵','해외 길찾기 거의 안 됨 → 구글 지도'],
+  ['카카오택시','홍콩 안 됨 → 우버·HKTaxi'],
+  ['고덕지도·알리페이 승차코드','광저우용. 홍콩 안에선 필요 없음 (선전 넘어가면 다시)'],
+  ['VPN','홍콩은 구글·카톡·인스타 다 됨. 필요 없음'],
+];
+
+/* ───── 출국·도착 / 귀국 ───── */
+const DEPART = [
+  { t:'인천 출국', steps:['출발 2시간 30분 전 도착 — 터미널은 항공사 따라 다름(대한항공 T2, 나머지는 예약 확인)','체크인·수하물 (모바일 체크인 했으면 셀프 백드랍)','보안검색 → 자동출입국 심사','면세 인도장(인터넷 면세 샀으면) → 탑승구'] },
+  { t:'홍콩 도착 (T1)', steps:['입국심사 — 여권만. 입국카드 없음(2024-10 폐지), 무비자 90일','수하물 찾기','세관 — 신고할 것 없으면 녹색 통로','도착홀에서 eSIM 켜기·데이터 로밍 ON'] },
+  { t:'공항 → 시내', steps:['공항철도(AEL): 도착홀 바로 앞. 구룡역 약 22분·HK$115, 홍콩역 약 HK$130 (요금 재확인)','둘이면 2인 그룹권이 쌈(최대 42%, 같이 통과)','구룡·홍콩역에서 무료 셔틀버스(K번·H번)로 호텔','택시: 도착홀 «To City» 표지 → T1·T2 사이 택시 승강장. 빨강=시내(구룡·홍콩섬), 초록=신계, 파랑=란타우'] },
+];
+const RETURN = [
+  '체크아웃 전 옥토퍼스 잔액 환불(앱에서)',
+  '공항철도 타기 — 홍콩역 «인타운 체크인»은 캐세이퍼시픽 등 일부 항공사만(대한항공·홍콩익스프레스 미확인)',
+  '공항 출발 2시간 30분 전',
+  '남은 홍콩달러는 공항에서 쓰기 — 동전은 환전 안 됨',
+];
+
+/* ───── 꿀팁 — (추정)은 확인 못 한 것 ───── */
+const TIPS = [
+  ['교통', [
+    ['옥토퍼스 충전액','3박4일 교통비 1인 HK$300~400 정도면 된다는 후기. 모자라면 편의점에서 충전'],
+    ['트램(딩딩)','홍콩섬 어디까지 가도 균일 약 HK$3. 내릴 때 찍고, 현금이면 거스름돈 없음'],
+    ['스타페리','2층 앞쪽 자리가 항구·스카이라인 제일 잘 보임. 몇 홍콩달러짜리 야경'],
+    ['공항버스','공항철도 대신 버스면 약 HK$35 (A21 등). 시간보다 돈이면 버스'],
+    ['택시 기본요금','시내(빨강) 기본 약 HK$29. 잔돈은 반올림해서 주는 정도'],
+    ['MTR 안 음식 금지','물 포함 먹고 마시면 벌금 최대 HK$2,000. 실제로 단속함'],
+  ]],
+  ['돈', [
+    ['소액 현금','작은 식당·노점·오래된 차찬텡은 현금만. HK$20·50 지폐 몇 장'],
+    ['환전','공항·거리 환전소보다 ATM 인출이 보통 쌈'],
+    ['팁','중급 이상 식당은 봉사료 10%가 계산서에 포함. 따로 팁 안 줌. 차찬텡·노점은 원래 없음'],
+  ]],
+  ['식당', [
+    ['합석','차찬텡·다이파이동·딤섬집은 모르는 사람과 합석이 기본. 앉으라는 데 앉으면 됨'],
+    ['차찬텡은 빨리','메뉴 오래 고르면 눈치. 미리 정해 두기 (밀크티·파인애플번·토스트)'],
+    ['뜨거운 물 그릇','마시는 물이 아니라 젓가락·컵 헹구는 물'],
+    ['차 리필','찻주전자 뚜껑을 열어 걸쳐 두면 직원이 채워 줌. 누가 따라 주면 손가락 두 개로 식탁 톡톡 = 고맙다'],
+    ['하루 식사 리듬','아침 차찬텡 → 점심 딤섬 → 오후 에그타르트 → 저녁 완탕면·거위구이'],
+    ['란콰이퐁 술','저녁 7시 전 해피아워가 쌈'],
+  ]],
+  ['사진', [
+    ['몬스터빌딩(익청빌딩)','쿼리베이역 A출구. 안뜰은 출입 금지·«사진 허가 받으라» 현수막 — 사는 집이니 거리에서 찍기'],
+    ['크리스마스 조명','침사추이 동쪽 신화그룹 빌딩 외벽, 보통 11월 중순 점등 · 17:30~23:00 (작년 기준). 페닌슐라 호텔 20·22시 쇼'],
+    ['매일 20시','심포니 오브 라이트 — 침사추이 해변에서 홍콩섬 정면'],
+  ]],
+  ['카메라 쇼핑', [
+    ['모델명·한국가 들고 가기','정확한 모델명과 한국 최저가를 캡처해 가서 비교'],
+    ['보증 확인','영수증에 «홍콩 보증/국제 보증» 어느 쪽인지 적혀 있는지. 병행수입은 싸지만 보증 약함'],
+    ['구성품','박스·설명서·부속 다 있는지 계산 전에 확인. 중고는 환불 없음이 기본'],
+    ['새 제품은 체인','새 장비는 Fortress·Broadway 같은 체인이나 애플 IFC가 안전. 심시티·삼수이포는 중고·빈티지 구경용으로'],
+    ['피할 곳','침사추이 나단로드 관광객 상대 카메라 가게는 오래전부터 평판이 나쁨'],
+    ['사기 신고','사기 신고 핫라인 18222'],
+  ]],
+  ['안전·날씨', [
+    ['호객','소호·란콰이퐁 골목 메뉴판 호객은 눈 안 마주치고 지나가기'],
+    ['소매치기','란콰이퐁·침사추이 유흥가 밤엔 가방 앞으로'],
+    ['11월 날씨','건조·선선. 밤엔 19도 아래로 내려가고 바람 불면 쌀쌀 → 얇은 겉옷. 갑자기 소나기 → 작은 우산'],
+    ['신발','언덕·계단이 많다. 편한 신발'],
+    ['복장','고급 식당·바는 반바지·샌들 안 되는 곳이 있음'],
+    ['여권·보험','여권 유효기간 6개월 이상. 사고 나면 병원비를 먼저 내야 해서 여행자보험 권장'],
+  ]],
+];
+
+const $=id=>document.getElementById(id),read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}},write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}};
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icon=(path)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"/></svg>`;
+const paths={quote:'M5 3h14v18l-3-2-4 2-4-2-3 2V3ZM8 7h8M8 11h8M8 15h4',schedule:'M4 5h16v16H4zM8 3v4M16 3v4M4 10h16M8 14h2M14 14h2',prep:'M9 6h11M9 12h11M9 18h11M3 6l1 1 2-3M3 12l1 1 2-3M3 18l1 1 2-3',me:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2',check:'M5 12l4 4L19 6',star:'m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z'};
+const tabs=[['quote','견적·예약'],['schedule','일정'],['prep','준비'],['me','내 정보']],panel={quote:$('quote'),schedule:$('schedule'),prep:$('prep'),me:$('accountPanel')};
+let active=null,positions=read('hk-app-scroll-v1',{}),day=read('hk-trip-day-v1','24'),checks=read('hk-check',{}),favs=read('hk-fav',{}),notes=read('hk-note',{}),tripMap=null,mapLayer=null,dayStops=[],scheduleDirty=true;
+if(!['24','25','26','27','28','return'].includes(day))day='24';
+$('appTabs').innerHTML=tabs.map(([k,label])=>`<button type="button" id="tab-${k}" role="tab" aria-controls="${panel[k].id}" data-app-tab="${k}" aria-selected="false">${icon(paths[k])}<span>${label}</span></button>`).join('');
+function chooseTab(k,updateHash=true){if(!panel[k])return;if(active===k)return;if(active){positions[active]=window.scrollY;write('hk-app-scroll-v1',positions)}active=k;Object.entries(panel).forEach(([key,el])=>el&&(el.hidden=key!==k));document.body.dataset.appTab=k;(()=>{const bar=document.querySelector('body>.bar');if(bar)bar.hidden=k!=='quote'})();tabs.forEach(([key])=>{$('tab-'+key).setAttribute('aria-selected',String(key===k));$('tab-'+key).tabIndex=key===k?0:-1});if(k==='schedule'&&(scheduleDirty||!$('tripDay').innerHTML))renderDay();if(k==='prep'&&!$('prepContent').innerHTML)renderPrep();write('hk-app-tab-v1',k);if(updateHash&&!/access_token|error_description/.test(location.hash))history.replaceState(null,'','#'+k);requestAnimationFrame(()=>{window.scrollTo({top:positions[k]||0,behavior:'instant'});if(k==='schedule')tripMap?.invalidateSize();if(k==='quote'&&typeof map!=='undefined')map?.invalidateSize()})}
+$('appTabs').addEventListener('click',e=>{const b=e.target.closest('[data-app-tab]');if(b)chooseTab(b.dataset.appTab)});
+$('appTabs').addEventListener('keydown',e=>{const index=tabs.findIndex(([k])=>k===active);const next=e.key==='ArrowRight'?(index+1)%4:e.key==='ArrowLeft'?(index+3)%4:e.key==='Home'?0:e.key==='End'?3:null;if(next!==null){e.preventDefault();chooseTab(tabs[next][0]);$('tab-'+tabs[next][0]).focus()}});
+window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(panel[k])chooseTab(k,false)});
+window.addEventListener('pagehide',()=>{positions[active]=window.scrollY;write('hk-app-scroll-v1',positions)});
+const directions=s=>'https://www.google.com/maps/dir/?api=1&travelmode=transit&destination='+encodeURIComponent([s[3]||s[4],s[5]||'',s[4]].join(' '));
+const search=s=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((s[3]||'')+' '+s[4]);
+const hotelStop=(time='숙소')=>{const h=TripState.get().hotel;return ['hotel',time,h?.ko||'숙소 미정',h?.zh||'',h?.en||'',h?.addrZh||h?.addrEn||'',h?.lat,h?.lng,'','']};
+const airport=(time='14:10')=>{const s=[...DAYS.d1.stops[0]];s[1]=time;s[8]='체크인·수하물 → 보안검색 → 탑승구 · 16:40 출발';return s};
+const routes={tst:'침사추이 → 라이킹 → 써니베이 · 약 40분',mk:'조던·야우마테이 → 라이킹 → 써니베이 · 약 36~38분',cen:'홍콩역 퉁청선 → 써니베이 · 약 38~41분',cwb:'센트럴 → 홍콩역 퉁청선 → 써니베이 · 약 45분',np:'센트럴 → 홍콩역 퉁청선 → 써니베이 · 약 51분'};
+function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().hotel?.area]||'가까운 MTR → 퉁청선 → 써니베이';return [home,
+ ['sunny','09:10쯤','써니베이역 환승','欣澳站','Sunny Bay Station','',22.3317,114.0290,'퉁청선 → 디즈니랜드 리조트선',''],
+ ['disney-station','09:20쯤','디즈니랜드역','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'파크까지 걷기 · 게이트 대기',''],
+ ['disney','10:00','홍콩 디즈니랜드','香港迪士尼樂園','Hong Kong Disneyland','大嶼山 香港迪士尼樂園',22.3130,114.0413,'겨울왕국부터. 오전은 광산열차·아이언맨·하이퍼스페이스 마운틴, 오후는 미스틱 매너. 대기시간은 앱에서 확인.',''],
+ ['disney-show','저녁','모멘터스 야간쇼','迪士尼星夢光影之旅','Momentous, Hong Kong Disneyland','香港迪士尼樂園',22.3130,114.0413,'운영 10:00~20:30 · 야간쇼 시각은 당일 확인. 자리는 미리 잡기.','night'],
+ ['disney-last','쇼 이후','디즈니랜드역 → 숙소','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'써니베이에서 시내 방향 환승. 기존 자료 막차 00:19~00:40 · 당일 역에서 확인.','']];}
+function buildDay(){const sunday=TripState.get().returnDay===29;let stops,title,summary,legacy,steps='';
+ if(day==='24'){legacy='d1';title='11/24(화) · 도착';summary='12:25 인천 → 15:30 홍콩 → 숙소 → 침사추이';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';rail[8]='숙소 위치에 맞춰 공항철도·버스·택시 선택';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===0?['09:55 인천공항 도착 · 터미널은 예약 확인',...d.steps.slice(1)]:i===2?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)).join('');}
+ if(day==='25'){legacy='disney';title='11/25(수) · 디즈니';summary='08:30 숙소 → 써니베이 → 파크 → 야간쇼';stops=disney();steps=proc('챙길 것',['날짜 지정 티켓·파크 예약·QR 저장','외부 음식 반입 가능 · 작은 우산·겉옷','바퀴 달린 캐리어는 숙소에 맡기기']);}
+ if(day==='26'||day==='27'){legacy=day==='26'?'d2':'d3';title=day==='26'?'11/26(목) · 센트럴':'11/27(금) · 구룡';summary=DAYS[legacy].sub;stops=DAYS[legacy].stops;steps=`<p class="muted">${esc(DAYS[legacy].desc)}</p>`;}
+ if(day==='28'){legacy='d4';title=sunday?'11/28(토) · 홍콩섬':'11/28(토) · 오전 산책';summary=sunday?'만불사 → 해저터널 → 북각 → 코즈웨이베이':'짧은 산책 → 숙소·짐 찾기 → 14:10 공항';if(sunday){stops=DAYS.d4.stops;steps=`<p class="muted">${esc(DAYS.d4.desc)}</p>`}else{const short=[...DAYS.d4.stops[3]];short[1]='09:00';short[8]+=' · 이동이 길면 생략';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];}}
+ if(day==='return'){legacy='return';title=`11/${sunday?'29(일)':'28(토)'} · 귀국`;summary='14:10 공항 → 16:40 홍콩 → 21:05 인천';stops=[hotelStop(sunday?'오전 자유 · 체크아웃':'체크아웃·짐 찾기'),airport()];steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s));if(sunday)steps='<p class="muted">오전 자유</p>'+steps;}
+ return {stops,title,summary,legacy,steps};}
+function proc(title,steps){return `<details class="trip-card"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
+function renderDates(){const ret=TripState.get().returnDay===29?'11/29(일)':'11/28(토)';const dates=[['24','11/24(화)','도착'],['25','11/25(수)','디즈니'],['26','11/26(목)','센트럴'],['27','11/27(금)','구룡'],['28','11/28(토)',ret==='11/29(일)'?'홍콩섬':'오전 산책'],['return','귀국',ret]];$('tripDates').innerHTML=dates.map(([key,label,sub])=>`<button id="trip-date-${key}" role="tab" aria-selected="${day===key}" aria-controls="tripDay" tabindex="${day===key?0:-1}" data-trip-date="${key}">${label}<span>${sub}</span></button>`).join('');$('tripDay').setAttribute('aria-labelledby','trip-date-'+day)}
+function stopCard(s,n,legacy){const [key,time,ko,zh,en,addr,lat,lng,memo,tag]=s,id=legacy+'-'+key;return `<article class="trip-card trip-stop${checks[id]?' is-done':''}" id="trip-stop-${key}"><div class="stop-top"><time>${esc(time)}</time><div class="stop-actions"><button class="icon-button" data-trip-fav="${key}" aria-label="${esc(ko)} 즐겨찾기" aria-pressed="${!!favs[key]}">${icon(paths.star)}</button><button class="icon-button" data-trip-check="${id}" aria-label="${esc(ko)} 방문 완료" aria-pressed="${!!checks[id]}">${icon(paths.check)}</button></div></div><button class="stop-name" data-trip-pin="${key}"><h3>${esc(ko)}${tag?`<span class="stop-tag">${({film:'영화',night:'야간',gone:'없어짐',opt:'선택'})[tag]}</span>`:''}</h3></button>${zh?`<p class="stop-zh">${esc(zh)}</p>`:''}<p class="stop-en">${esc(en)}</p>${addr?`<p class="stop-address">${esc(addr)}</p>`:''}${memo?`<p class="muted">${esc(memo)}</p>`:''}<div class="trip-links"><a href="${directions(s)}" target="_blank" rel="noopener">길찾기</a><a href="${search(s)}" target="_blank" rel="noopener">구글</a>${Number.isFinite(lat)?`<a href="https://maps.apple.com/?daddr=${lat},${lng}&dirflg=r">애플지도</a>`:''}<button data-trip-taxi="${key}">택시카드</button><button data-trip-note="${key}" aria-expanded="${!!notes[key]}" aria-controls="trip-note-wrap-${key}">메모</button></div><label class="trip-note" id="trip-note-wrap-${key}" ${notes[key]?'':'hidden'}><span>${esc(ko)} 메모</span><textarea data-trip-note-input="${key}">${esc(notes[key]||'')}</textarea><span class="trip-note-status" aria-live="polite"></span></label></article>`}
+function renderDay(){scheduleDirty=false;if(tripMap){tripMap.remove();tripMap=null;mapLayer=null}renderDates();const d=buildDay();dayStops=d.stops;$('tripDay').innerHTML=`<div class="day-overview"><h2>${esc(d.title)}</h2><p>${esc(d.summary)}</p></div>${d.steps}<div id="tripMap" role="region" aria-label="그날 장소 지도"></div>${d.stops.map((s,i)=>stopCard(s,i,d.legacy)).join('')}<p class="muted">지도 핀은 개략 위치</p>`;if(active==='schedule')drawTripMap()}
+function refreshPins(){if(!mapLayer)return;const legacy=buildDay().legacy;mapLayer.eachLayer(marker=>{if(!marker.tripKey)return;const dot=marker.getElement()?.firstElementChild;if(dot){dot.style.background=checks[legacy+'-'+marker.tripKey]?'#8e8e93':'var(--systemBlue)';dot.style.borderColor=favs[marker.tripKey]?'#ffcc00':'white'}})}
+function drawTripMap(){const el=$('tripMap');if(!window.L){el.textContent='지도를 불러오지 못했어요.';return}tripMap=L.map(el,{scrollWheelZoom:false}).setView([22.30,114.17],12);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(tripMap);mapLayer=L.layerGroup().addTo(tripMap);const pts=[];dayStops.forEach((s,i)=>{if(!Number.isFinite(s[6])||!Number.isFinite(s[7]))return;pts.push([s[6],s[7]]);const marker=L.marker([s[6],s[7]],{icon:L.divIcon({className:'',iconSize:[28,28],html:`<div style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--systemBlue);color:white;border:2px solid white;font:500 12px system-ui">${i+1}</div>`})}).addTo(mapLayer).bindTooltip(esc(s[2])).on('click',()=>$('trip-stop-'+s[0]).scrollIntoView({block:'center',behavior:'instant'}));marker.tripKey=s[0]});refreshPins();if(pts.length){L.polyline(pts,{weight:2,dashArray:'5 7',color:'#007aff'}).addTo(mapLayer);tripMap.fitBounds(pts,{padding:[25,25],maxZoom:15})}requestAnimationFrame(()=>tripMap.invalidateSize())}
+$('tripDates').addEventListener('click',e=>{const b=e.target.closest('[data-trip-date]');if(!b)return;day=b.dataset.tripDate;write('hk-trip-day-v1',day);renderDay();$('trip-date-'+day).focus({preventScroll:true});$('trip-date-'+day).scrollIntoView({block:'nearest',inline:'nearest'})});
+$('tripDates').addEventListener('keydown',e=>{const keys=['24','25','26','27','28','return'];const i=keys.indexOf(day);const n=e.key==='ArrowRight'?(i+1)%6:e.key==='ArrowLeft'?(i+5)%6:null;if(n!==null){e.preventDefault();$('trip-date-'+keys[n]).click()}});
+function renderPrep(){const done=PREP.flatMap(g=>g.items).filter(i=>checks[i[0]]).length,total=PREP.flatMap(g=>g.items).length;$('prepContent').innerHTML=`<p class="muted" id="prepCount">${done}/${total} 준비 완료</p><h2>택시카드</h2><div class="taxi-list"><button data-trip-taxi="hotel">숙소로</button><button data-trip-taxi="hkia">공항</button><button data-trip-taxi="disney">디즈니랜드</button><button data-trip-taxi="aos">침사추이 해변</button></div><details class="trip-card"><summary>모든 장소 카드</summary><div class="taxi-list">${Object.values(DAYS).flatMap(d=>d.stops).map(s=>`<button data-trip-taxi="${s[0]}">${esc(s[2])}</button>`).join('')}</div></details>`+PREP.map(g=>`<h2>${esc(g.grp)}</h2>`+g.items.map(([id,nm,when,what,steps,warn])=>`<article class="trip-card prep-item${checks[id]?' is-done':''}"><div class="prep-head"><button class="icon-button" data-trip-check="${id}" aria-pressed="${!!checks[id]}" aria-label="${esc(nm)} 준비 완료">${icon(paths.check)}</button><div><h3>${esc(nm)}</h3><span class="prep-when">${esc(when)}</span></div></div><p class="muted">${esc(what)}</p><details><summary>등록 방법</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>${warn?`<p class="muted">${esc(warn)}</p>`:''}</details></article>`).join('')).join('')+`<h2>못 쓰는 앱</h2><div class="trip-card">${NOPE.map(([n,v])=>`<div class="tip-row"><h3>${esc(n)}</h3><p>${esc(v)}</p></div>`).join('')}</div><h2>꿀팁</h2>`+TIPS.map(([g,rows])=>`<details class="trip-card"><summary>${esc(g)}</summary>${rows.map(([n,v])=>`<div class="tip-row"><h3>${esc(n)}</h3><p>${esc(v)}</p></div>`).join('')}</details>`).join('')+`<details class="trip-card"><summary>비상 연락</summary><p>경찰·구급·소방 999</p><div class="trip-links"><a href="https://www.google.com/maps/search/?api=1&query=Consulate+General+of+the+Republic+of+Korea+Hong+Kong" target="_blank" rel="noopener">주홍콩 총영사관</a></div></details>`;}
+function findStop(key){return key==='hotel'?hotelStop():dayStops.find(s=>s[0]===key)||disney().find(s=>s[0]===key)||Object.values(DAYS).flatMap(d=>d.stops).find(s=>s[0]===key)}
+function showTaxi(key){const s=findStop(key);if(!s)return;$('tripTaxiContent').innerHTML=`<p>師傅，唔該載我去：</p><div class="taxi-big">${esc(s[3]||s[4]||s[2])}</div><div class="taxi-address">${esc(s[5])}</div><div class="taxi-en">${esc(s[4])}<br>${esc(s[2])}</div>`;$('tripTaxi').showModal();$('tripTaxiClose').focus()}
+$('tripTaxiClose').onclick=()=>$('tripTaxi').close();$('tripTaxi').addEventListener('click',e=>{if(e.target===$('tripTaxi')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
+function tripClick(e){const b=e.target.closest('button');if(!b)return;const d=b.dataset;if(d.tripCheck){checks[d.tripCheck]=!checks[d.tripCheck];write('hk-check',checks);b.setAttribute('aria-pressed',!!checks[d.tripCheck]);b.closest('article').classList.toggle('is-done',!!checks[d.tripCheck]);if($('prepCount'))$('prepCount').textContent=PREP.flatMap(g=>g.items).filter(i=>checks[i[0]]).length+'/'+PREP.flatMap(g=>g.items).length+' 준비 완료'}if(d.tripFav){favs[d.tripFav]=!favs[d.tripFav];write('hk-fav',favs);b.setAttribute('aria-pressed',!!favs[d.tripFav])}if(d.tripNote){const el=$('trip-note-wrap-'+d.tripNote);el.hidden=!el.hidden;b.setAttribute('aria-expanded',!el.hidden);if(!el.hidden)el.querySelector('textarea').focus()}if(d.tripTaxi)showTaxi(d.tripTaxi);if(d.tripCheck||d.tripFav)refreshPins();if(d.tripPin){const s=findStop(d.tripPin);if(tripMap&&Number.isFinite(s?.[6])){tripMap.setView([s[6],s[7]],15,{animate:false});$('tripMap').scrollIntoView({block:'center',behavior:'instant'})}}}
+$('schedule').addEventListener('click',tripClick);$('prep').addEventListener('click',tripClick);
+$('schedule').addEventListener('input',e=>{const key=e.target.dataset.tripNoteInput;if(!key)return;notes[key]=e.target.value;const ok=write('hk-note',notes);e.target.nextElementSibling.textContent=ok?'저장됨':'이 브라우저에서 저장할 수 없어요'});
+window.addEventListener('hk-trip-change',()=>{scheduleDirty=true;if(active==='schedule')renderDay()});
+window.addEventListener('storage',e=>{if(e.key==='hk-trip-state-v1'){scheduleDirty=true;if(active==='schedule')renderDay()}});
+// Leave OAuth fragments intact for the original Supabase callback.
+const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(location.href);chooseTab(authReturn?'me':panel[initialHash]?initialHash:read('hk-app-tab-v1','quote'),!authReturn);if(!active)chooseTab('quote');
+})();
+
+</script>
 <script src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 // hatsalplay 공용 Supabase — 각자 내 정보(app='hk'), 파일은 docs/{uid}/hk/{slot}/ . RLS로 본인만.
@@ -403,7 +662,7 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
    up.append(inp);row.append(up);box.append(row);
   }
  }
- sb.auth.onAuthStateChange((e,s)=>{if((s?.user?.id||null)!==uid)show(s?.user||null);if(e==='SIGNED_IN'&&/access_token|code=/.test(location.href)){history.replaceState(null,'',location.pathname);setTimeout(()=>$('me').scrollIntoView(),300)}});
+ sb.auth.onAuthStateChange((e,s)=>{if((s?.user?.id||null)!==uid)show(s?.user||null);if(e==='SIGNED_IN'&&/access_token|code=/.test(location.href)){history.replaceState(null,'',location.pathname+'#me');dispatchEvent(new HashChangeEvent('hashchange'))}});
 })();
 </script>
 </body>
