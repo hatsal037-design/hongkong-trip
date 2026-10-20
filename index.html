@@ -96,6 +96,14 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visibl
 @media(prefers-reduced-motion:reduce){#appTabs::before{transition:none}}
 @media(prefers-reduced-transparency:reduce){#appTabs{background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
 @media(prefers-contrast:more){#appTabs{box-shadow:0 0 0 1px var(--label)}}
+#appTabs{grid-template-columns:repeat(5,minmax(0,1fr))}#appTabs::before{width:calc((100% - .6rem)/5)}
+#appTabs:has(button:nth-child(5)[aria-selected="true"])::before{transform:translateX(400%)}
+.talk-grp{margin-top:1.75rem}.talk-h{display:flex;align-items:baseline;gap:.5rem;margin:0 1rem .5rem}.talk-h h2{font-size:var(--title3,1.25rem);margin:0}.talk-h span{font-size:var(--foot);color:var(--sub)}
+.talk-list{margin:0 1rem;background:var(--card);border-radius:12px;overflow:hidden}
+.talk-row{display:grid;grid-template-columns:1fr auto;gap:.15rem .75rem;width:100%;text-align:left;border:0;background:linear-gradient(var(--line),var(--line)) 1rem 100%/calc(100% - 1rem) 1px no-repeat;padding:.7rem 1rem;min-height:44px;cursor:pointer}
+.talk-row:last-child{background:none}.talk-row:active{background-color:var(--seg)}
+.talk-ko{font-size:var(--subhead);color:var(--sub)}.talk-zh{grid-column:1/-1;font-size:1.2rem;font-weight:600;color:var(--ink);overflow-wrap:anywhere}.talk-say{grid-column:1/-1;font-size:var(--subhead);color:var(--blueText)}
+#talk .note{margin:1rem}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
@@ -401,6 +409,9 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
 <main id="prep" class="sheet app-panel trip-ui" role="tabpanel" aria-labelledby="tab-prep" hidden>
  <div class="eyebrow">출발 전</div><h1 tabindex="-1">준비</h1><div id="prepContent"></div>
 </main>
+<main id="talk" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-talk" hidden>
+ <div class="eyebrow">일정 순서대로 · 누르면 크게</div><h1 tabindex="-1">회화</h1><div id="talkContent"></div>
+</main>
 <main id="accountPanel" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-me" hidden>
  <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1> <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
   <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
@@ -576,12 +587,71 @@ const TIPS = [
 const $=id=>document.getElementById(id),read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}},write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon=(path)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${path}"/></svg>`;
-const paths={quote:'M5 3h14v18l-3-2-4 2-4-2-3 2V3ZM8 7h8M8 11h8M8 15h4',schedule:'M4 5h16v16H4zM8 3v4M16 3v4M4 10h16M8 14h2M14 14h2',prep:'M9 6h11M9 12h11M9 18h11M3 6l1 1 2-3M3 12l1 1 2-3M3 18l1 1 2-3',me:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2',check:'M5 12l4 4L19 6',star:'m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z'};
-const tabs=[['quote','견적·예약'],['schedule','일정'],['prep','준비'],['me','내 정보']],panel={quote:$('quote'),schedule:$('schedule'),prep:$('prep'),me:$('accountPanel')};
+const paths={quote:'M5 3h14v18l-3-2-4 2-4-2-3 2V3ZM8 7h8M8 11h8M8 15h4',schedule:'M4 5h16v16H4zM8 3v4M16 3v4M4 10h16M8 14h2M14 14h2',prep:'M9 6h11M9 12h11M9 18h11M3 6l1 1 2-3M3 12l1 1 2-3M3 18l1 1 2-3',talk:'M4 5h16v11H9l-5 4V5ZM8 9h8M8 12h5',me:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2',check:'M5 12l4 4L19 6',star:'m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9Z'};
+const tabs=[['quote','견적·예약'],['prep','준비'],['schedule','일정'],['talk','회화'],['me','내 정보']],panel={quote:$('quote'),schedule:$('schedule'),prep:$('prep'),talk:$('talk'),me:$('accountPanel')};
 let active=null,positions=read('hk-app-scroll-v1',{}),day=read('hk-trip-day-v1','24'),checks=read('hk-check',{}),favs=read('hk-fav',{}),notes=read('hk-note',{}),tripMap=null,mapLayer=null,dayStops=[],scheduleDirty=true;
 if(!['24','25','26','27','28','return'].includes(day))day='24';
 $('appTabs').innerHTML=tabs.map(([k,label])=>`<button type="button" id="tab-${k}" role="tab" aria-controls="${panel[k].id}" data-app-tab="${k}" aria-selected="false">${icon(paths[k])}<span>${label}</span></button>`).join('');
-function chooseTab(k,updateHash=true){if(!panel[k])return;if(active===k)return;if(active){positions[active]=window.scrollY;write('hk-app-scroll-v1',positions)}active=k;Object.entries(panel).forEach(([key,el])=>el&&(el.hidden=key!==k));document.body.dataset.appTab=k;(()=>{const bar=document.querySelector('body>.bar');if(bar)bar.hidden=k!=='quote'})();tabs.forEach(([key])=>{$('tab-'+key).setAttribute('aria-selected',String(key===k));$('tab-'+key).tabIndex=key===k?0:-1});if(k==='schedule'&&(scheduleDirty||!$('tripDay').innerHTML))renderDay();if(k==='prep'&&!$('prepContent').innerHTML)renderPrep();write('hk-app-tab-v1',k);if(updateHash&&!/access_token|error_description/.test(location.hash))history.replaceState(null,'','#'+k);requestAnimationFrame(()=>{window.scrollTo({top:positions[k]||0,behavior:'instant'});if(k==='schedule')tripMap?.invalidateSize();if(k==='quote'&&typeof map!=='undefined')map?.invalidateSize()})}
+function chooseTab(k,updateHash=true){if(!panel[k])return;if(active===k)return;if(active){positions[active]=window.scrollY;write('hk-app-scroll-v1',positions)}active=k;Object.entries(panel).forEach(([key,el])=>el&&(el.hidden=key!==k));document.body.dataset.appTab=k;(()=>{const bar=document.querySelector('body>.bar');if(bar)bar.hidden=k!=='quote'})();tabs.forEach(([key])=>{$('tab-'+key).setAttribute('aria-selected',String(key===k));$('tab-'+key).tabIndex=key===k?0:-1});if(k==='schedule'&&(scheduleDirty||!$('tripDay').innerHTML))renderDay();if(k==='prep'&&!$('prepContent').innerHTML)renderPrep();if(k==='talk'&&!$('talkContent').innerHTML)renderTalk();write('hk-app-tab-v1',k);if(updateHash&&!/access_token|error_description/.test(location.hash))history.replaceState(null,'','#'+k);requestAnimationFrame(()=>{window.scrollTo({top:positions[k]||0,behavior:'instant'});if(k==='schedule')tripMap?.invalidateSize();if(k==='quote'&&typeof map!=='undefined')map?.invalidateSize()})}
+
+/* 회화 — 일정 순서. [한국어, 보여줄 말(광둥어 한자 또는 영어), 한글 발음(근사), 영어] */
+const TALK=[
+ ['기본','언제나',[
+  ['고마워요 · 실례해요','唔該','음꺼이','Thank you / Excuse me'],
+  ['감사합니다 (선물·호의)','多謝','또제','Thank you very much'],
+  ['죄송해요','唔好意思','음호우이씨','Sorry'],
+  ['괜찮아요, 됐어요','唔使喇，唔該','음싸이라, 음꺼이','No thanks'],
+  ['광둥어 못해요','我唔識講廣東話','응오 음식 꽁 꿩똥와','I don’t speak Cantonese'],
+  ['영어 하세요?','你識唔識講英文呀？','네이 식음식 꽁 잉만 아','Do you speak English?']]],
+ ['공항 도착 · 입국','11/24',[
+  ['관광이에요, 4박이요','Sightseeing. Four nights.','','입국심사는 영어로'],
+  ['호텔은 ○○이에요','I’m staying at ○○ Hotel.','','']]],
+ ['MTR · 옥토퍼스','11/24~',[
+  ['옥토퍼스 충전하고 싶어요','我想增值八達通','응오 셩 짱찍 빳땃통','I’d like to top up my Octopus'],
+  ['○○역 어떻게 가요?','○○站點去呀？','○○짬 띰허이 아','How do I get to ○○ station?'],
+  ['몇 번 출구예요?','係邊個出口呀？','하이 삔꼬 촛하우 아','Which exit?']]],
+ ['택시','',[
+  ['여기로 가주세요 (주소 보여주며)','唔該載我去呢度','음꺼이 쪼이 응오 허이 니또우','Please take me here'],
+  ['여기서 내릴게요','喺呢度落車','하이 니또우 록체','I’ll get off here'],
+  ['카드 돼요?','可唔可以碌卡呀？','호음호이 록캇 아','Can I pay by card?'],
+  ['트렁크 열어주세요','唔該開尾箱','음꺼이 호이 메이썽','Please open the trunk']]],
+ ['호텔','11/24 · 귀국날',[
+  ['예약했어요, 이름은 ○○','I have a reservation under ○○.','',''],
+  ['짐 맡길 수 있어요?','Could we leave our luggage here?','',''],
+  ['일찍 체크인 돼요?','Is early check-in possible?','',''],
+  ['늦게 체크아웃 돼요?','Could we get a late checkout?','','']]],
+ ['디즈니','11/25',[
+  ['○○ 어디예요?','Where is ○○?','',''],
+  ['사진 좀 찍어주실래요?','Could you take a photo of us?','',''],
+  ['대기 몇 분이에요?','How long is the wait?','',''],
+  ['야간쇼 어디서 봐요?','Where’s the best spot for the night show?','','']]],
+ ['식당 · 차찬텡','매일',[
+  ['두 명이요','兩位','령와이','Two, please'],
+  ['메뉴 주세요','唔該俾個餐牌我','음꺼이 뻬이꼬 찬파이 응오','Menu, please'],
+  ['이거 주세요 (가리키며)','我要呢個','응오 이우 니꼬','I’ll have this'],
+  ['따뜻한 밀크티 / 아이스','熱奶茶 / 凍奶茶','잇나이차 / 똥나이차','Hot / iced milk tea'],
+  ['얼음 빼고 · 덜 달게','走冰 · 少甜','짜우빙 · 시우팀','No ice · less sweet'],
+  ['고수 빼주세요','唔要芫茜','음이우 윈싸이','No coriander'],
+  ['포장이요','拎走','렝짜우','Takeaway'],
+  ['계산할게요','唔該埋單','음꺼이 마이딴','The bill, please'],
+  ['화장실 어디예요?','廁所喺邊度呀？','치쏘 하이 삔또우 아','Where’s the toilet?']]],
+ ['쇼핑 · 결제','',[
+  ['얼마예요?','幾多錢呀？','께이또친 아','How much?'],
+  ['좀 깎아주세요 (시장)','可唔可以平啲呀？','호음호이 펭띠 아','Can you go lower?'],
+  ['카드 돼요?','可唔可以碌卡呀？','호음호이 록캇 아','Card OK?'],
+  ['그냥 볼게요','睇吓先，唔該','타이하 씬, 음꺼이','Just looking']]],
+ ['귀국','11/28 · 11/29',[
+  ['옥토퍼스 환불하고 싶어요','我想退八達通','응오 셩 토이 빳땃통','I’d like to refund my Octopus'],
+  ['홍콩익스프레스 체크인 어디예요?','Where is the HK Express check-in?','','T2 셀프 체크인']]],
+ ['급할 때','',[
+  ['도와주세요!','救命呀！','까우멩 아','Help!'],
+  ['몸이 안 좋아요','我唔舒服','응오 음쒸폭','I don’t feel well'],
+  ['병원 가야 해요','我要去醫院','응오 이우 허이 이윈','I need a hospital'],
+  ['지갑을 잃어버렸어요','我唔見咗銀包','응오 음낀쪼 응안빠우','I lost my wallet'],
+  ['긴급 전화 999','999','','Police · Fire · Ambulance']]]
+];
+function renderTalk(){$('talkContent').innerHTML=TALK.map(([g,when,rows],gi)=>`<section class="talk-grp"><div class="talk-h"><h2>${esc(g)}</h2>${when?`<span>${esc(when)}</span>`:''}</div><div class="talk-list">${rows.map((r,ri)=>`<button type="button" class="talk-row" data-t="${gi}-${ri}"><span class="talk-ko">${esc(r[0])}</span><span class="talk-zh">${esc(r[1])}</span>${r[2]?`<span class="talk-say">${esc(r[2])}</span>`:''}</button>`).join('')}</div></section>`).join('')+'<p class="note">한글 발음은 비슷하게 적은 것 — 안 통하면 눌러서 화면을 보여주세요.</p>'}
+$('talk').addEventListener('click',e=>{const b=e.target.closest('.talk-row');if(!b)return;const [gi,ri]=b.dataset.t.split('-');const r=TALK[gi][2][ri];$('tripTaxiContent').innerHTML=`<p>${esc(r[0])}</p><div class="taxi-big">${esc(r[1])}</div>${r[2]?`<div class="taxi-address">${esc(r[2])}</div>`:''}${r[3]?`<div class="taxi-en">${esc(r[3])}</div>`:''}`;$('tripTaxi').showModal();$('tripTaxiClose').focus()});
 $('appTabs').addEventListener('click',e=>{const b=e.target.closest('[data-app-tab]');if(b)chooseTab(b.dataset.appTab)});
 $('appTabs').addEventListener('keydown',e=>{const index=tabs.findIndex(([k])=>k===active);const next=e.key==='ArrowRight'?(index+1)%4:e.key==='ArrowLeft'?(index+3)%4:e.key==='Home'?0:e.key==='End'?3:null;if(next!==null){e.preventDefault();chooseTab(tabs[next][0]);$('tab-'+tabs[next][0]).focus()}});
 window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(panel[k])chooseTab(k,false)});
