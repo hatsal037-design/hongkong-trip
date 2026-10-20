@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>try{if(localStorage.getItem('hk-soft-theme-v1')==='on')document.documentElement.classList.add('soft-theme')}catch{}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;display=swap">
+
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>홍콩 여행</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -104,6 +107,31 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visibl
 .talk-row:last-child{background:none}.talk-row:active{background-color:var(--seg)}
 .talk-ko{font-size:var(--subhead);color:var(--sub)}.talk-zh{grid-column:1/-1;font-size:1.2rem;font-weight:600;color:var(--ink);overflow-wrap:anywhere}.talk-say{grid-column:1/-1;font-size:var(--subhead);color:var(--blueText)}
 #talk .note{margin:1rem}
+</style><style>
+/* Optional, device-local appearance. Original theme and application logic stay intact. */
+.appearance-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;background:var(--card);border-radius:14px;cursor:pointer}
+.appearance-copy{min-width:0;line-height:1.5}.appearance-copy span{display:block;font-size:var(--foot);color:var(--sub);margin-top:.2rem}
+#softThemeToggle{appearance:none;-webkit-appearance:none;position:relative;flex:0 0 51px;width:51px;height:44px;margin:0;border:0;border-radius:20px;background:transparent;cursor:pointer}
+#softThemeToggle::before{content:'';position:absolute;inset:6px 0;border-radius:20px;background:var(--sub)}
+#softThemeToggle::after{content:'';position:absolute;left:2px;top:8px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003}
+#softThemeToggle:checked::before{background:var(--blueText)}#softThemeToggle:checked::after{transform:translateX(19px)}
+.theme-save-note{font-size:var(--foot);line-height:1.5;color:var(--sub);margin:.5rem 1rem 0}
+.soft-doodle{display:none}
+html.soft-theme{--systemGroupedBackground:#fff8f1;--secondarySystemGroupedBackground:#fffefa;--label:#42343e;--secondaryLabel:#695661;--tertiaryLabel:#695661;--separator:#ddcbd2;--sub:#695661;--systemBlue:#89506c;--blueText:#78415d;--systemGreen:#3a7459;--greenText:#346748;--systemRed:#ad4251;--redText:#9d3444;--seg:#f2e3eb;--thumb:#fffefa;--glass:rgba(255,248,241,.97);--soft-pink:#fbe3ea;--soft-sky:#e7f2f8;--soft-yellow:#fff1c9;--soft-shadow:0 5px 16px rgba(115,69,88,.07);--lg-fill:rgba(255,248,245,.96);--lg-rim:rgba(255,255,255,.85);--lg-rim2:rgba(137,80,108,.14);--lg-lens:#f2dce6;--lg-shadow:0 7px 22px rgba(115,69,88,.14)}
+html.soft-theme .app-panel>h1{font-family:'Jua','Apple SD Gothic Neo',sans-serif;font-weight:400;letter-spacing:0;line-height:1.35;display:flex;align-items:center;gap:.65rem}
+html.soft-theme .soft-doodle{display:inline-block;width:3rem;height:2rem;flex:none;color:var(--blueText);pointer-events:none}
+html.soft-theme :is(.hero,.fw,.trip,.ainfo,.fwbag,#extras,.hgrid,.list,.atable,.me-group,.trip-card,.talk-list,.appearance-row){border-radius:20px;box-shadow:var(--soft-shadow)}
+html.soft-theme .hero{background:var(--soft-pink)}
+html.soft-theme .trip{background:var(--soft-sky)}
+html.soft-theme .fwbag{background:var(--soft-yellow)}
+html.soft-theme :is(.daytabs,.seg,#types,.date-chips button,.site,.sheet-select,.sheet-close,.map-link,.taxi-list button){border-radius:16px}
+html.soft-theme :is(.hero-total,.bar .tot){font-variant-numeric:tabular-nums}
+html.soft-theme .empty{background:var(--soft-yellow);border-radius:16px;line-height:1.6}
+html.soft-theme :is(dialog,#tripTaxi){border-radius:26px}
+html.soft-theme #tripTaxiClose{background:var(--blueText);color:var(--card)}
+html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415d!important}
+@media(prefers-color-scheme:dark){html.soft-theme{--systemGroupedBackground:#241f29;--secondarySystemGroupedBackground:#302a35;--label:#fff4eb;--secondaryLabel:#dac9d4;--tertiaryLabel:#dac9d4;--separator:#625363;--sub:#dac9d4;--systemBlue:#efb8d1;--blueText:#efb8d1;--systemGreen:#acd8ba;--greenText:#acd8ba;--systemRed:#ffb5bb;--redText:#ffb5bb;--seg:#493846;--thumb:#604859;--glass:rgba(48,42,53,.97);--soft-pink:#46303f;--soft-sky:#293d4a;--soft-yellow:#443c2c;--soft-shadow:0 5px 16px #0002;--lg-fill:rgba(48,42,53,.96);--lg-rim:rgba(255,235,245,.22);--lg-rim2:rgba(255,235,245,.1);--lg-lens:#604557;--lg-shadow:0 7px 22px #0005}html.soft-theme #softThemeToggle:checked::after{background:#302a35}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){html.soft-theme :is(#appTabs,.bar){background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
@@ -413,7 +441,11 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
  <div class="eyebrow">일정 순서대로 · 누르면 크게</div><h1 tabindex="-1">회화</h1><div id="talkContent"></div>
 </main>
 <main id="accountPanel" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-me" hidden>
- <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1> <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
+ <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1>
+ <section class="step" aria-labelledby="appearanceTitle"><div class="sh"><h2 id="appearanceTitle">보기 설정</h2></div>
+ <label class="appearance-row" for="softThemeToggle"><div class="appearance-copy">말랑 테마<span id="softThemeHelp">파스텔로, 조금 더 포근하게</span></div><input id="softThemeToggle" type="checkbox" role="switch" aria-label="말랑 테마" aria-describedby="softThemeHelp themeSaveNote"></label>
+ <p class="theme-save-note" id="themeSaveNote" role="status">이 브라우저에만 적용돼요.</p></section>
+ <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
   <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
   <div id="meIn" hidden>
    <div class="me-group">
@@ -749,6 +781,16 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
   }
  }
  sb.auth.onAuthStateChange((e,s)=>{if((s?.user?.id||null)!==uid)show(s?.user||null);if(e==='SIGNED_IN'&&/access_token|code=/.test(location.href)){history.replaceState(null,'',location.pathname+'#me');dispatchEvent(new HashChangeEvent('hashchange'))}});
+})();
+</script>
+
+<script>
+(()=>{
+ const root=document.documentElement,toggle=document.getElementById('softThemeToggle'),note=document.getElementById('themeSaveNote');
+ toggle.checked=root.classList.contains('soft-theme');
+ toggle.addEventListener('change',()=>{root.classList.toggle('soft-theme',toggle.checked);try{localStorage.setItem('hk-soft-theme-v1',toggle.checked?'on':'off');note.textContent='이 브라우저에만 적용돼요.'}catch{note.textContent='지금만 적용돼요. 설정을 저장할 수 없어요.'}});
+ window.addEventListener('storage',event=>{if(event.key==='hk-soft-theme-v1'||event.key===null){const on=event.key!==null&&event.newValue==='on';root.classList.toggle('soft-theme',on);toggle.checked=on}});
+ document.querySelectorAll('.app-panel>h1').forEach(heading=>heading.insertAdjacentHTML('beforeend','<svg class="soft-doodle" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path fill="var(--soft-sky)" d="M9 30c-9 0-9-13 0-14 1-12 18-14 22-3 11-4 18 12 7 17Z"/><path fill="var(--soft-yellow)" d="m46 4 2.5 6 6.5 1-5 4.5 1 6.5-5-3-6 3 1.5-6.5-4.5-4.5 6.5-1Z"/></svg>'));
 })();
 </script>
 </body>
