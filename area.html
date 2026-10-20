@@ -26,6 +26,18 @@
 .card ul.cols2 li{background:var(--card)}
 .card ul.cols2 li:before{display:none}
 .card ul.cols2 li.full{grid-column:1/-1}
+
+/* 하단 동네 탭바 — 떠 있는 캡슐(iOS 탭바) */
+.tabbar{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + .75rem);transform:translateX(-50%);z-index:1000;display:flex;gap:.125rem;padding:.25rem;border-radius:999px;background:var(--glass,rgba(249,249,249,.85));-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 .5rem 1.5rem rgba(0,0,0,.14),0 0 0 .5px var(--line);max-width:calc(100vw - 1.5rem)}
+.tabbar[hidden]{display:none}
+.tabbar button{border:0;-webkit-appearance:none;appearance:none;font-family:inherit;cursor:pointer;min-height:44px;padding:0 .75rem;border-radius:999px;background:none;color:var(--ink);font-size:var(--foot);font-weight:500;white-space:nowrap}
+.tabbar button[aria-selected=true]{background:var(--seg,rgba(118,118,128,.16));color:var(--systemBlue,#007aff);font-weight:600}
+@media(max-width:430px){.tabbar button{padding:0 .5rem;font-size:var(--caption1)}}
+body{padding-bottom:calc(6rem + env(safe-area-inset-bottom,0px))}
+section.area.enter{animation:areaIn .18s ease-out}
+@keyframes areaIn{from{opacity:.4}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){section.area.enter{animation:none}}
+@media(prefers-reduced-transparency:reduce){.tabbar{background:var(--card);-webkit-backdrop-filter:none;backdrop-filter:none}}
 </style></head><body><header class="nav-bar"><div class="nav-inner"><a href="./"><svg class="icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg>견적 앱</a><span class="nav-title">홍콩 동네 리포트</span><a href="#overview">동네 목록</a></div></header><main class="sheet">
 <p class="eyebrow">11/24(화)~28·29 · 숙소 동네 고르기</p>
 <h1 id="large-title">홍콩 동네 리포트</h1>
@@ -62,4 +74,29 @@ const short=li.map(x=>{if(x.querySelector('.tag'))return false;r.selectNodeConte
 let pairs=0;for(let i=0;i<li.length;){if(short[i]&&short[i+1]){pairs++;i+=2}else{li[i].classList.add('full');i++}}
 if(pairs)ul.classList.add('cols2');else li.forEach(x=>x.classList.remove('full'))});
 fit();addEventListener('resize',fit);document.addEventListener('toggle',fit,true)})();
+</script><nav class="tabbar" role="tablist" aria-label="동네"><button role="tab" data-a="tst">침사추이</button><button role="tab" data-a="mk">조던·몽콕</button><button role="tab" data-a="cen">센트럴</button><button role="tab" data-a="cwb">코즈웨이</button><button role="tab" data-a="np">노스포인트</button></nav><script>
+/* 동네를 하나씩 보여주고, 하단 탭·좌우로 넘길 때 보던 항목(같은 순서의 블록)을 같은 화면 높이에 맞춘다 */
+(()=>{const ORDER=['tst','mk','cen','cwb','np'];const secs=Object.fromEntries(ORDER.map(a=>[a,document.getElementById(a)]));
+const bar=document.querySelector('.tabbar'),btns=[...bar.children],stay=document.getElementById('stay-panel'),nav=document.querySelector('.nav-bar');
+let cur=ORDER[0];
+const topLine=()=>(nav?nav.getBoundingClientRect().bottom:0)+8;
+function anchor(sec){const t=topLine();const kids=[...sec.children];for(let i=0;i<kids.length;i++){const b=kids[i].getBoundingClientRect();if(b.height&&b.bottom>t){if(b.top>t&&i===0)return null;return {i,f:Math.max(0,(t-b.top)/b.height)}}}return null}
+function show(a,{keep=true,toTop=false}={}){if(!secs[a])return;const old=secs[cur];const an=keep&&old&&!old.hidden?anchor(old):null;
+ ORDER.forEach(k=>secs[k].hidden=k!==a);btns.forEach(b=>b.setAttribute('aria-selected',b.dataset.a===a));const prev=cur;cur=a;
+ dispatchEvent(new Event('resize'));
+ if(prev!==a){secs[a].classList.remove('enter');void secs[a].offsetWidth;secs[a].classList.add('enter')}
+ if(toTop){secs[a].scrollIntoView({block:'start'});return}
+ if(an){const k=secs[a].children[an.i];if(k){const b=k.getBoundingClientRect();scrollBy(0,b.top+an.f*b.height-topLine())}}}
+btns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.a)));
+bar.addEventListener('keydown',e=>{const i=ORDER.indexOf(cur);if(e.key==='ArrowRight'&&i<4){show(ORDER[i+1]);btns[i+1].focus()}if(e.key==='ArrowLeft'&&i>0){show(ORDER[i-1]);btns[i-1].focus()}});
+/* 좌우로 쓸어 넘기기 — 지도·사진 위에서는 무시 */
+let sx=0,sy=0,ok=false;stay.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;ok=!e.target.closest('.map,.gal,.tw,.tabbar')&&!!e.target.closest('section.area')},{passive:true});
+stay.addEventListener('touchend',e=>{if(!ok)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>2*Math.abs(dy)){const i=ORDER.indexOf(cur)+(dx<0?1:-1);if(i>=0&&i<5)show(ORDER[i])}},{passive:true});
+/* 한눈에 목록·주소 해시로 들어오면 그 동네를 열고 맨 위로 */
+function fromHash(){const id=location.hash.slice(1);if(secs[id])requestAnimationFrame(()=>show(id,{keep:false,toTop:true}))}
+addEventListener('hashchange',fromHash);
+/* 디즈니 탭에선 하단바 숨김 */
+const syncBar=()=>{bar.hidden=stay.hidden};new MutationObserver(syncBar).observe(stay,{attributes:true,attributeFilter:['hidden']});
+show(secs[location.hash.slice(1)]?location.hash.slice(1):cur,{keep:false});syncBar();fromHash();
+})();
 </script></body></html>
