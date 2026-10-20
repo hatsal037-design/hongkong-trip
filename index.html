@@ -463,7 +463,7 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
 <main id="accountPanel" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-me" hidden>
  <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1>
  <section class="step" aria-labelledby="appearanceTitle"><div class="sh"><h2 id="appearanceTitle">보기 설정</h2></div>
- <label class="appearance-row" for="softThemeToggle"><div class="appearance-copy">말랑 테마<span id="softThemeHelp">파스텔로, 조금 더 포근하게</span></div><input id="softThemeToggle" type="checkbox" role="switch" aria-label="말랑 테마" aria-describedby="softThemeHelp themeSaveNote"></label>
+ <label class="appearance-row" for="softThemeToggle"><div class="appearance-copy">먼작귀 테마<span id="softThemeHelp">파스텔로, 조금 더 포근하게</span></div><input id="softThemeToggle" type="checkbox" role="switch" aria-label="먼작귀 테마" aria-describedby="softThemeHelp themeSaveNote"></label>
  <p class="theme-save-note" id="themeSaveNote" role="status">이 브라우저에만 적용돼요.</p></section>
  <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
   <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
@@ -743,7 +743,7 @@ const TALK=[
   ['긴급 전화 999','999','','Police · Fire · Ambulance']]]
 ];
 
-/* 치이카와 그림 — 로그인 + 말랑 테마일 때만. 파일은 공개 저장소에 없다(Supabase 비공개 보관함, 서명 URL). */
+/* 치이카와 그림 — 로그인 + 먼작귀 테마일 때만. 파일은 공개 저장소에 없다(Supabase 비공개 보관함, 서명 URL). */
 window.applyArt=function(){document.querySelectorAll('.ck-art').forEach(e=>e.remove());const u=window.ckArt,on=document.documentElement.classList.contains('soft-theme');document.documentElement.classList.toggle('ck-on',!!(u&&on));if(!u||!on)return;
  const put=(sel,f,cls,where='beforeend')=>{const el=document.querySelector(sel);if(el&&u[f])el.insertAdjacentHTML(where,`<img class="ck-art ${cls}" src="${u[f]}" alt="" aria-hidden="true">`)};
  put('#quote>h1','face_chiikawa.png','ck-title');put('#prep>h1','img_pre.png','ck-title ck-wide');put('#schedule h1','bg_top_manbou_01.png','ck-title');put('#talk>h1','face_usagi.png','ck-title');put('#accountPanel>h1','face_hachiware.png','ck-title');
