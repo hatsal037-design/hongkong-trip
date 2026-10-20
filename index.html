@@ -144,6 +144,14 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
 .talk-play svg{width:1.1rem;height:1.1rem;fill:currentColor}
 .talk-play.on{background:var(--systemBlue);color:#fff}
 .talk-play:disabled{opacity:.3}
+.talk-tools{display:flex;justify-content:flex-end;margin:-.25rem 0 .25rem}
+.papago-btn{display:inline-flex;align-items:center;min-height:44px;padding:.5rem 1rem;border-radius:999px;background:#00c73c;color:#fff;font-weight:600;font-size:.9rem;text-decoration:none}
+#tripTaxi .papago-btn{margin:1rem auto 0;display:flex;width:fit-content}
+.ck-on .soft-doodle{display:none}
+.ck-title{height:2.6rem;width:auto;vertical-align:-.35rem;margin-left:.4rem}.ck-wide{height:2.2rem}
+.talk-h{position:relative}.ck-grp{height:2.4rem;width:auto;margin-left:auto;align-self:flex-end}
+.ck-peek{display:block;width:min(70%,20rem);margin:2rem auto 0;opacity:.95}
+.ck-hide{display:none}.ck-credit{margin:1rem;font-size:.7rem;color:var(--sub);text-align:center}
 </style></head>
 <body>
 <header class="nav-bar" aria-hidden="true"><div class="nav-inner">홍콩 여행</div></header>
@@ -646,29 +654,46 @@ const TALK=[
   ['죄송해요','唔好意思','음호우이씨','Sorry'],
   ['괜찮아요, 됐어요','唔使喇，唔該','음싸이라, 음꺼이','No thanks'],
   ['광둥어 못해요','我唔識講廣東話','응오 음식 꽁 꿩똥와','I don’t speak Cantonese'],
-  ['영어 하세요?','你識唔識講英文呀？','네이 식음식 꽁 잉만 아','Do you speak English?']]],
+  ['영어 하세요?','你識唔識講英文呀？','네이 식음식 꽁 잉만 아','Do you speak English?'],
+  ['네 / 아니요','係 / 唔係','하이 / 음하이','Yes / No'],
+  ['좋아요','好呀','호우 아','Sure'],
+  ['잠깐만요','等陣','당짠','Just a moment'],
+  ['다시 한번 말해 주세요','唔該講多次','음꺼이 꽁또치','Once more, please'],
+  ['천천히 말해 주세요','唔該講慢啲','음꺼이 꽁 만띠','More slowly, please'],
+  ['사진 찍어도 돼요?','可唔可以影相呀？','호음호이 영썽 아','Can I take photos?']]],
  ['공항 도착 · 입국','11/24',[
   ['관광이에요, 4박이요','Sightseeing. Four nights.','','입국심사는 영어로'],
   ['호텔은 ○○이에요','I’m staying at ○○ Hotel.','','']]],
  ['MTR · 옥토퍼스','11/24~',[
   ['옥토퍼스 충전하고 싶어요','我想增值八達通','응오 셩 짱찍 빳땃통','I’d like to top up my Octopus'],
   ['○○역 어떻게 가요?','○○站點去呀？','○○짬 띰허이 아','How do I get to ○○ station?'],
-  ['몇 번 출구예요?','係邊個出口呀？','하이 삔꼬 촛하우 아','Which exit?']]],
+  ['몇 번 출구예요?','係邊個出口呀？','하이 삔꼬 촛하우 아','Which exit?'],
+  ['이 열차 ○○ 가요?','呢架車去唔去○○呀？','니까체 허이음허이 ○○ 아','Does this train go to ○○?'],
+  ['공항철도 어디서 타요?','機場快綫喺邊度搭呀？','께이쳥 파이씬 하이 삔또우 땁 아','Where is the Airport Express?']]],
  ['택시','',[
   ['여기로 가주세요 (주소 보여주며)','唔該載我去呢度','음꺼이 쪼이 응오 허이 니또우','Please take me here'],
   ['여기서 내릴게요','喺呢度落車','하이 니또우 록체','I’ll get off here'],
   ['카드 돼요?','可唔可以碌卡呀？','호음호이 록캇 아','Can I pay by card?'],
-  ['트렁크 열어주세요','唔該開尾箱','음꺼이 호이 메이썽','Please open the trunk']]],
+  ['트렁크 열어주세요','唔該開尾箱','음꺼이 호이 메이썽','Please open the trunk'],
+  ['공항으로 가주세요','唔該去機場','음꺼이 허이 께이쳥','To the airport, please'],
+  ['영수증 주세요','唔該俾張收據我','음꺼이 뻬이 쩡 싸우꼬이 응오','Receipt, please']]],
  ['호텔','11/24 · 귀국날',[
   ['예약했어요, 이름은 ○○','I have a reservation under ○○.','',''],
   ['짐 맡길 수 있어요?','Could we leave our luggage here?','',''],
   ['일찍 체크인 돼요?','Is early check-in possible?','',''],
-  ['늦게 체크아웃 돼요?','Could we get a late checkout?','','']]],
+  ['늦게 체크아웃 돼요?','Could we get a late checkout?','',''],
+  ['수건 더 주실 수 있어요?','Could we have extra towels?','',''],
+  ['에어컨이 안 돼요','The air conditioning isn’t working.','',''],
+  ['와이파이 비밀번호가 뭐예요?','What’s the Wi-Fi password?','',''],
+  ['택시 불러주실 수 있어요?','Could you call a taxi for us?','','']]],
  ['디즈니','11/25',[
   ['○○ 어디예요?','Where is ○○?','',''],
   ['사진 좀 찍어주실래요?','Could you take a photo of us?','',''],
   ['대기 몇 분이에요?','How long is the wait?','',''],
-  ['야간쇼 어디서 봐요?','Where’s the best spot for the night show?','','']]],
+  ['야간쇼 어디서 봐요?','Where’s the best spot for the night show?','',''],
+  ['싱글 라이더 줄 있어요?','Is there a single rider line?','',''],
+  ['프리미어 액세스 어디서 사요?','Where can we buy Premier Access?','',''],
+  ['가까운 화장실 어디예요?','Where’s the nearest restroom?','','']]],
  ['식당 · 차찬텡','매일',[
   ['두 명이요','兩位','령와이','Two, please'],
   ['메뉴 주세요','唔該俾個餐牌我','음꺼이 뻬이꼬 찬파이 응오','Menu, please'],
@@ -678,26 +703,59 @@ const TALK=[
   ['고수 빼주세요','唔要芫茜','음이우 윈싸이','No coriander'],
   ['포장이요','拎走','렝짜우','Takeaway'],
   ['계산할게요','唔該埋單','음꺼이 마이딴','The bill, please'],
-  ['화장실 어디예요?','廁所喺邊度呀？','치쏘 하이 삔또우 아','Where’s the toilet?']]],
+  ['화장실 어디예요?','廁所喺邊度呀？','치쏘 하이 삔또우 아','Where’s the toilet?'],
+  ['몇 분 기다려요?','要等幾耐呀？','이우 당 께이노이 아','How long is the wait?'],
+  ['합석 괜찮아요','搭枱都得','땁토이 또우 딱','We can share a table'],
+  ['추천 메뉴 뭐예요?','有乜嘢推介呀？','야우 맛예 토이까이 아','What do you recommend?'],
+  ['안 맵게 해주세요','唔要辣','음이우 랏','Not spicy'],
+  ['물 주세요','唔該俾杯水我','음꺼이 뻬이 뿌이 쏘이 응오','Water, please'],
+  ['보이차 주세요 (딤섬)','普洱','포우레이','Pu-erh tea'],
+  ['찻물 더 주세요 (뚜껑 열어두기)','唔該加水','음꺼이 까쏘이','More hot water, please'],
+  ['맛있어요','好好食','호우호우섹','Delicious'],
+  ['영수증 주세요','唔該俾張單我','음꺼이 뻬이 쩡 딴 응오','Receipt, please']]],
+ ['길 묻기','',[
+  ['여기 어떻게 가요? (지도 보여주며)','呢度點去呀？','니또우 띰허이 아','How do I get here?'],
+  ['걸어서 갈 수 있어요?','行路去得唔得呀？','항로우 허이 딱음딱 아','Can I walk there?'],
+  ['멀어요?','遠唔遠呀？','윈음윈 아','Is it far?'],
+  ['가까운 MTR역 어디예요?','最近嘅地鐵站喺邊度呀？','쪼이칸 꺼 떼이팃짬 하이 삔또우 아','Where’s the nearest MTR station?'],
+  ['스타페리 어디서 타요?','天星小輪喺邊度搭呀？','틴셍 시우론 하이 삔또우 땁 아','Where do I take the Star Ferry?']]],
  ['쇼핑 · 결제','',[
   ['얼마예요?','幾多錢呀？','께이또친 아','How much?'],
   ['좀 깎아주세요 (시장)','可唔可以平啲呀？','호음호이 펭띠 아','Can you go lower?'],
   ['카드 돼요?','可唔可以碌卡呀？','호음호이 록캇 아','Card OK?'],
-  ['그냥 볼게요','睇吓先，唔該','타이하 씬, 음꺼이','Just looking']]],
+  ['그냥 볼게요','睇吓先，唔該','타이하 씬, 음꺼이','Just looking'],
+  ['다른 색 있어요?','有冇其他顏色呀？','야우모우 케이타 응안섹 아','Other colours?'],
+  ['입어봐도 돼요?','可唔可以試吓呀？','호음호이 씨하 아','Can I try it on?'],
+  ['봉투 필요 없어요','唔使膠袋','음싸이 까우또이','No bag, thanks']]],
  ['귀국','11/28 · 11/29',[
   ['옥토퍼스 환불하고 싶어요','我想退八達通','응오 셩 토이 빳땃통','I’d like to refund my Octopus'],
-  ['홍콩익스프레스 체크인 어디예요?','Where is the HK Express check-in?','','T2 셀프 체크인']]],
+  ['홍콩익스프레스 체크인 어디예요?','Where is the HK Express check-in?','','T2 셀프 체크인'],
+  ['짐 여기서 부쳐요?','Can we drop our bags here?','','']]],
  ['급할 때','',[
   ['도와주세요!','救命呀！','까우멩 아','Help!'],
   ['몸이 안 좋아요','我唔舒服','응오 음쒸폭','I don’t feel well'],
   ['병원 가야 해요','我要去醫院','응오 이우 허이 이윈','I need a hospital'],
   ['지갑을 잃어버렸어요','我唔見咗銀包','응오 음낀쪼 응안빠우','I lost my wallet'],
+  ['여권을 잃어버렸어요','我唔見咗護照','응오 음낀쪼 우찌우','I lost my passport'],
+  ['약국 어디예요?','藥房喺邊度呀？','옉퐁 하이 삔또우 아','Where’s a pharmacy?'],
+  ['두통약 있어요?','有冇頭痛藥呀？','야우모우 타우통옉 아','Headache medicine?'],
+  ['경찰 불러주세요','唔該幫我報警','음꺼이 뽕 응오 뽀우껭','Please call the police'],
   ['긴급 전화 999','999','','Police · Fire · Ambulance']]]
 ];
-function renderTalk(){const play=icon('M8 5v14l11-7Z');$('talkContent').innerHTML=`<nav class="talk-jump" aria-label="상황">${TALK.map(([g],gi)=>`<button type="button" data-jump="${gi}">${esc(g)}</button>`).join('')}</nav>`+TALK.map(([g,when,rows],gi)=>`<section class="talk-grp" id="talk-g${gi}"><div class="talk-h"><h2>${esc(g)}</h2>${when?`<span>${esc(when)}</span>`:''}</div><div class="talk-list">${rows.map((r,ri)=>`<div class="talk-row"><button type="button" class="talk-main" data-t="${gi}-${ri}"><span class="talk-ko">${esc(r[0])}</span><span class="talk-zh">${esc(r[1])}</span>${r[2]?`<span class="talk-say">${esc(r[2])}</span>`:''}</button><button type="button" class="talk-play" data-p="${gi}-${ri}" aria-label="${esc(r[0])} 듣기">${play}</button></div>`).join('')}</div></section>`).join('')+'<p class="note">한글 발음은 비슷하게 적은 것 — 재생 버튼으로 들어 보거나, 눌러서 화면을 보여주세요.</p>';talkSpy()}
+
+/* 치이카와 그림 — 로그인 + 말랑 테마일 때만. 파일은 공개 저장소에 없다(Supabase 비공개 보관함, 서명 URL). */
+window.applyArt=function(){document.querySelectorAll('.ck-art').forEach(e=>e.remove());const u=window.ckArt,on=document.documentElement.classList.contains('soft-theme');document.documentElement.classList.toggle('ck-on',!!(u&&on));if(!u||!on)return;
+ const put=(sel,f,cls,where='beforeend')=>{const el=document.querySelector(sel);if(el&&u[f])el.insertAdjacentHTML(where,`<img class="ck-art ${cls}" src="${u[f]}" alt="" aria-hidden="true">`)};
+ put('#quote>h1','face_chiikawa.png','ck-title');put('#prep>h1','img_pre.png','ck-title ck-wide');put('#schedule h1','bg_top_manbou_01.png','ck-title');put('#talk>h1','face_usagi.png','ck-title');put('#accountPanel>h1','face_hachiware.png','ck-title');
+ [['기본','bg_top_racco_01.png'],['디즈니','bg_top_usagi_01.png'],['식당 · 차찬텡','bg_top_kuri_01.png'],['급할 때','bg_top_momonga_01.png'],['쇼핑 · 결제','bg_top_hachiware_01.png'],['길 묻기','bg_top_chiikawa_01.png']].forEach(([g,f])=>{const h=[...document.querySelectorAll('.talk-h h2')].find(x=>x.textContent===g);if(h&&u[f])h.parentNode.insertAdjacentHTML('beforeend',`<img class="ck-art ck-grp" src="${u[f]}" alt="" aria-hidden="true">`)});
+ document.querySelectorAll('.app-panel').forEach(p=>{if(u['bg_hum_01.png'])p.insertAdjacentHTML('beforeend',`<img class="ck-art ck-peek" src="${u['bg_hum_01.png']}" alt="" aria-hidden="true">`)});
+ put('#accountPanel','face_chiikawa.png','ck-hide');const c=document.querySelector('#accountPanel');if(c)c.insertAdjacentHTML('beforeend','<p class="ck-art ck-credit">©ナガノ/ちいかわ製作委員会 · 개인 감상용</p>')};
+new MutationObserver(()=>{const want=!!(window.ckArt&&document.documentElement.classList.contains('soft-theme'));if(want!==document.documentElement.classList.contains('ck-on')||(want&&!document.querySelector('.ck-title')))applyArt()}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+
+function renderTalk(){const play=icon('M8 5v14l11-7Z');$('talkContent').innerHTML=`<div class="talk-tools"><a class="papago-btn" href="papago://" data-papago>파파고 앱 열기</a></div><nav class="talk-jump" aria-label="상황">${TALK.map(([g],gi)=>`<button type="button" data-jump="${gi}">${esc(g)}</button>`).join('')}</nav>`+TALK.map(([g,when,rows],gi)=>`<section class="talk-grp" id="talk-g${gi}"><div class="talk-h"><h2>${esc(g)}</h2>${when?`<span>${esc(when)}</span>`:''}</div><div class="talk-list">${rows.map((r,ri)=>`<div class="talk-row"><button type="button" class="talk-main" data-t="${gi}-${ri}"><span class="talk-ko">${esc(r[0])}</span><span class="talk-zh">${esc(r[1])}</span>${r[2]?`<span class="talk-say">${esc(r[2])}</span>`:''}</button><button type="button" class="talk-play" data-p="${gi}-${ri}" aria-label="${esc(r[0])} 듣기">${play}</button></div>`).join('')}</div></section>`).join('')+'<p class="note">한글 발음은 비슷하게 적은 것 — 재생 버튼으로 들어 보거나, 눌러서 화면을 보여주세요.</p>';talkSpy();window.ckArt&&applyArt()}
 function talkSpy(){const btns=[...document.querySelectorAll('.talk-jump button')];if(!('IntersectionObserver' in window))return;const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const gi=e.target.id.slice(6);btns.forEach(b=>b.setAttribute('aria-current',String(b.dataset.jump===gi)));const b=btns[gi];b&&b.parentNode.scrollTo({left:b.offsetLeft-16,behavior:'smooth'})}})},{rootMargin:'-30% 0px -60% 0px'});document.querySelectorAll('.talk-grp').forEach(g=>io.observe(g))}
 function speakTalk(r,btn){if(!('speechSynthesis' in window)){btn.disabled=true;return}speechSynthesis.cancel();const text=r[1].replace(/○○/g,'').replace(/\s*\/\s*/g,'，');const yue=/[㐀-鿿]/.test(text);const u=new SpeechSynthesisUtterance(text);u.lang=yue?'zh-HK':'en-US';const v=speechSynthesis.getVoices().find(v=>yue?/zh[-_]HK|yue/i.test(v.lang):/^en[-_](US|GB)/i.test(v.lang));if(v)u.voice=v;u.rate=yue?.85:.95;document.querySelectorAll('.talk-play.on').forEach(b=>b.classList.remove('on'));btn.classList.add('on');u.onend=u.onerror=()=>btn.classList.remove('on');speechSynthesis.speak(u)}
-$('talk').addEventListener('click',e=>{const j=e.target.closest('[data-jump]');if(j){document.getElementById('talk-g'+j.dataset.jump).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return}const p=e.target.closest('.talk-play');if(p){const [gi,ri]=p.dataset.p.split('-');speakTalk(TALK[gi][2][ri],p);return}const b=e.target.closest('.talk-main');if(!b)return;const [gi,ri]=b.dataset.t.split('-');const r=TALK[gi][2][ri];$('tripTaxiContent').innerHTML=`<p>${esc(r[0])}</p><div class="taxi-big">${esc(r[1])}</div>${r[2]?`<div class="taxi-address">${esc(r[2])}</div>`:''}${r[3]?`<div class="taxi-en">${esc(r[3])}</div>`:''}`;$('tripTaxi').showModal();$('tripTaxiClose').focus()});
+$('talk').addEventListener('click',e=>{const pg=e.target.closest('[data-papago]');if(pg){const t=setTimeout(()=>{if(document.visibilityState==='visible')location.href='https://papago.naver.com/'},1500);addEventListener('pagehide',()=>clearTimeout(t),{once:true});return}const j=e.target.closest('[data-jump]');if(j){document.getElementById('talk-g'+j.dataset.jump).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return}const p=e.target.closest('.talk-play');if(p){const [gi,ri]=p.dataset.p.split('-');speakTalk(TALK[gi][2][ri],p);return}const b=e.target.closest('.talk-main');if(!b)return;const [gi,ri]=b.dataset.t.split('-');const r=TALK[gi][2][ri];$('tripTaxiContent').innerHTML=`<p>${esc(r[0])}</p><div class="taxi-big">${esc(r[1])}</div>${r[2]?`<div class="taxi-address">${esc(r[2])}</div>`:''}${r[3]?`<div class="taxi-en">${esc(r[3])}</div>`:''}<a class="papago-btn" target="_blank" rel="noopener" href="https://papago.naver.com/?sk=ko&tk=zh-TW&st=${encodeURIComponent(r[0])}">파파고에서 이어서 번역</a>`;$('tripTaxi').showModal();$('tripTaxiClose').focus()});
 $('appTabs').addEventListener('click',e=>{const b=e.target.closest('[data-app-tab]');if(b)chooseTab(b.dataset.appTab)});
 $('appTabs').addEventListener('keydown',e=>{const index=tabs.findIndex(([k])=>k===active);const next=e.key==='ArrowRight'?(index+1)%tabs.length:e.key==='ArrowLeft'?(index+tabs.length-1)%tabs.length:e.key==='Home'?0:e.key==='End'?3:null;if(next!==null){e.preventDefault();chooseTab(tabs[next][0]);$('tab-'+tabs[next][0]).focus()}});
 window.addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(panel[k])chooseTab(k,false)});
@@ -751,7 +809,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
  const APP='hk',F=['name','flight','hotel','ins','esim','memo'],SLOTS=[['passport','여권'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
  const $=id=>document.getElementById(id);let uid=null,timer=null;
  $('meLogin').onclick=()=>sb.auth.signInWithOAuth({provider:'kakao',options:{redirectTo:location.origin+location.pathname}});
- $('meLogout').onclick=async()=>{await sb.auth.signOut();show(null)};
+ $('meLogout').onclick=async()=>{await sb.auth.signOut();window.ckArt=null;window.applyArt&&applyArt();show(null)};
  async function show(user){
   uid=user?.id||null;$('meOut').hidden=!!uid;$('meIn').hidden=!uid;
   $('meHint').textContent=uid?'나만 보여요':'카카오로 로그인하면 본인만 보여요';
@@ -761,8 +819,9 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
   const {data}=await sb.from('my_info').select('data').eq('app',APP).maybeSingle();
   const d=data?.data||{};F.forEach(k=>$('me_'+k).value=d[k]||'');
   if(!d.name&&nick)$('me_name').value=nick;
-  files();
+  files();themeArt();
  }
+ async function themeArt(){const names=['face_chiikawa.png','face_hachiware.png','face_usagi.png','bg_top_chiikawa_01.png','bg_top_hachiware_01.png','bg_top_usagi_01.png','bg_top_manbou_01.png','bg_top_kuri_01.png','bg_top_momonga_01.png','bg_top_racco_01.png','bg_hum_01.png','img_pre.png'];const {data}=await sb.storage.from('theme').createSignedUrls(names,86400);const u={};(data||[]).forEach(d=>{if(d.signedUrl)u[d.path]=d.signedUrl});window.ckArt=u;window.applyArt&&applyArt()}
  async function save(){
   const d={};F.forEach(k=>d[k]=$('me_'+k).value.trim());
   const {error}=await sb.from('my_info').upsert({user_id:uid,app:APP,data:d,updated_at:new Date().toISOString()});
