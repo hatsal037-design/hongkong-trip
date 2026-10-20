@@ -116,7 +116,7 @@ h1{font-size:26px;letter-spacing:-.02em;margin:10px 0 4px}
    <tr><td>Essential</td><td>소지품만</td><td>20kg 1개</td></tr><tr><td>Max</td><td>7kg</td><td>32kg 1개</td></tr></table>
    <p class="note">위탁 20kg 따로 추가: 예약할 때 HK$310/구간(약 5.7만원) · 예약 관리 HK$380 · 온라인 체크인 HK$460 · 공항 HK$600. 왕복이면 예약 때 2구간 약 11.5만원. 운임별 실제 원화 차액은 <a href="https://mybooking.hkexpress.com/ko/flight-booking/select?SearchType=roundTrip&amp;Adults=1&amp;currency=KRW&amp;OriginStation=ICN&amp;DestinationStation=HKG&amp;DepartureDate=2026-11-24&amp;ReturnDate=2026-11-28" target="_blank" rel="noopener">홍콩익스프레스 예약 화면</a>에서.</p></details>
  </section>
-<section class="step"><div class="sh"><span class="n">1</span><h2>가는 날 · 가는 비행기</h2></div>
+<section class="step"><div class="sh"><span class="n">1</span><h2>가는 날 · 가는 비행기</h2><span class="hint">홍콩익스프레스만</span></div>
   <div class="daytabs" id="deps"></div>
   <div class="list" id="outs" style="margin-top:12px"></div><button class="more" id="outMore"></button></section>
 
@@ -175,10 +175,10 @@ const EXTRAS=[
  ['ins','여행자보험','1인 약 1.5만원',15000,'trip',0],
  ['fine','미쉐린 한 끼','틴룽힌 런치 세트 HK$668 + 10%',Math.round(668*1.1*HKD),'trip',0]];
 
-const S={dep:24,o:null,day:28,r:null,pax:2,type:'all',area:'all',stay:null,ex:{},outAll:false};
-try{Object.assign(S,JSON.parse(localStorage.getItem('hk-quote-web')||'{}'))}catch(e){}
+const S={dep:24,o:'UO12:25',day:28,r:null,pax:2,type:'all',area:'all',stay:null,ex:{},outAll:false};
+try{Object.assign(S,JSON.parse(localStorage.getItem('hk-quote-web2')||'{}'))}catch(e){}
 EXTRAS.forEach(e=>{if(!(e[0] in S.ex))S.ex[e[0]]=!!e[5]});
-const save=()=>{try{localStorage.setItem('hk-quote-web',JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem('hk-quote-web2',JSON.stringify(S))}catch(e){}};
 const won=v=>v==null?'—':'₩'+Math.round(v).toLocaleString('ko-KR');
 const man=v=>(Math.round(v/1000)/10).toLocaleString('ko-KR')+'만';
 const H=t=>+t.slice(0,2);
@@ -191,7 +191,7 @@ function rets(ok,day,dep=S.dep){const D=F[dep+'-'+day];const oi=D.O.findIndex(o=
  D.P.forEach(p=>{if(p[0]!==oi||p[1]!==o[0])return;const x={d:p[2],a:p[3],p:p[4]};if(!m[x.d]||m[x.d].p>x.p)m[x.d]=x});
  return Object.values(m).sort((a,b)=>a.p-b.p)}
 const OUTSBY={};[23,24].forEach(dep=>{const m={};[28,29].forEach(d=>F[dep+'-'+d].O.forEach(o=>{const k=okey(o);if(!m[k])m[k]={k,al:o[0],d:o[1],a:o[2]}}));
- OUTSBY[dep]=Object.values(m).map(x=>({...x,min:Math.min(...[28,29].flatMap(d=>rets(x.k,d,dep).map(r=>r.p)),Infinity)})).filter(x=>x.min<Infinity).sort((a,b)=>a.d.localeCompare(b.d))});
+ OUTSBY[dep]=Object.values(m).filter(x=>x.al==='UO').map(x=>({...x,min:Math.min(...[28,29].flatMap(d=>rets(x.k,d,dep).map(r=>r.p)),Infinity)})).filter(x=>x.min<Infinity).sort((a,b)=>a.d.localeCompare(b.d))});
 function nightsOf(day,r){return (H(r.d)<6?day-1:day)-S.dep}
 function outWarn(o){if(H(o.d)<5)return `새벽 2시대 출발 — ${DEPS.find(x=>x.d===S.dep).prev} 밤에 인천공항 가야 함`;if(H(o.a)<H(o.d))return '홍콩 자정 넘어 도착';if(H(o.a)>=21)return '밤늦게 도착 — 첫날은 체크인만';return ''}
 function retWarn(r,day){const dd=DAYS.find(x=>x.d===day);if(H(r.d)<6)return `${dd.prev} 밤에 공항으로 — 마지막 밤 숙소 필요 없음`;if(H(r.d)<9)return '아침 일찍 출발';if(H(r.a)<H(r.d))return '인천 자정 넘어 도착 — 공항철도 끊김';return ''}
