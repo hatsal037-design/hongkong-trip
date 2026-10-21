@@ -173,7 +173,7 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
 <section class="hero" aria-label="여행 예상 비용"><div class="hero-label">1인 예상 비용</div><div class="hero-total" id="heroTotal"></div><div class="hero-person" id="heroPerson"></div><div class="hero-detail" id="heroDetail"></div><nav class="hero-nav" aria-label="견적 바로가기"><a href="#flightSection">항공편</a><a href="#staySection">숙소</a><a href="#disney">디즈니</a><a href="#extraSection">기타비용</a></nav></section>
 
  
- <section class="step" id="fareWatch"><div class="sh"><h2>항공권 오늘 시세</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
+ <section class="step" id="fareWatch"><div class="sh"><h2>항공권 시세 기록</h2><span class="hint">홍콩익스프레스 · 11/24(화) 12:25 → 토·일 16:40 · 1인 왕복</span></div>
   <div class="fw" id="fwBody"><p class="note">매일 아침 한 번 조회한 기록이 여기 쌓여요. 불러오는 중…</p></div>
   <details class="fwbag"><summary>수하물 옵션 (홍콩익스프레스)</summary>
    <table class="fwt"><tr><th>운임</th><th>기내</th><th>위탁</th></tr>
@@ -181,9 +181,9 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
    <tr><td>Essential</td><td>소지품만</td><td>20kg 1개</td></tr><tr><td>Max</td><td>7kg</td><td>32kg 1개</td></tr></table>
    <p class="note">위탁 20kg 따로 추가(공식, 구간당): 예약할 때 59,000원 · 예약 관리 72,000원 · 온라인 체크인 87,000원 · 고객센터 93,000원 · 공항 113,000원. 판매처의 «20kg 포함 운임»으로 사면 왕복 약 5.3만 원만 더해져 더 쌈. 운임별 실제 원화 차액은 <a href="https://mybooking.hkexpress.com/ko/flight-booking/select?SearchType=roundTrip&amp;Adults=1&amp;currency=KRW&amp;OriginStation=ICN&amp;DestinationStation=HKG&amp;DepartureDate=2026-11-24&amp;ReturnDate=2026-11-28" target="_blank" rel="noopener">홍콩익스프레스 예약 화면</a>에서.</p></details>
  </section>
-<section class="step" id="flightSection"><div class="sh"><span class="n">1</span><h2>가는 비행기 · 11/24 (화)</h2><span class="hint">홍콩익스프레스 12:25 고정</span></div>
+<section class="step" id="flightSection"><div class="sh"><span class="n">1</span><h2>가는 비행기 · 11/24 (화)</h2><span class="hint">예약 완료 · UO619 12:25</span></div>
   <div class="daytabs" id="deps" hidden></div>
-  <div class="list" id="outs" style="margin-top:12px"></div><button class="more" id="outMore" hidden></button><p class="note">11월 24일 12:25 출발편으로 고정한 견적이에요.</p></section>
+  <div class="list" id="outs" style="margin-top:12px"></div><button class="more" id="outMore" hidden></button><p class="note">예약 완료(10/21 발권) — 11/24 UO619 12:25 인천 T1 → 15:30 홍콩 T1 · 11/28 UO626 16:40 홍콩 T2 → 21:05 인천 T1 · 에센셜(위탁 20kg) · 2명 660,718원</p></section>
 
  <section class="step"><div class="sh"><span class="n">2</span><h2>오는 날 · 토요일 또는 일요일</h2><span class="hint" id="rhint"></span></div>
   <div class="daytabs" id="days"></div>
@@ -532,7 +532,8 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
 window.TripState=(()=>{
  const key='hk-trip-state-v1';let memory=null;
  const read=()=>{try{return JSON.parse(localStorage.getItem(key))||memory}catch{return memory}};
- return {get:()=>read()||{returnDay:28,hotel:null},set(value){memory=value;try{localStorage.setItem(key,JSON.stringify(value))}catch{}window.dispatchEvent(new Event('hk-trip-change'))}};
+ return {get:()=>({...(read()||{hotel:null}),returnDay:28}), // 11/28(토) 귀국 확정 (2026-10-21 발권)
+ set(value){memory=value;try{localStorage.setItem(key,JSON.stringify(value))}catch{}window.dispatchEvent(new Event('hk-trip-change'))}};
 })();
 /* Removable quote adapter. */
 window.publishTripFromQuote=()=>{const h=stayById(S.stay);const next={returnDay:S.day===29?29:28,hotel:h?{ko:h[0],en:h[12]||h[0],zh:'',addrZh:'',addrEn:'',lat:h[8],lng:h[9],area:h[1]}:null};if(JSON.stringify(next)!==JSON.stringify(TripState.get()))TripState.set(next)};
@@ -632,15 +633,21 @@ const NOPE = [
 
 /* ───── 출국·도착 / 귀국 ───── */
 const DEPART = [
-  { t:'인천 출국', steps:['출발 2시간 30분 전 도착 — 터미널은 항공사 따라 다름(대한항공 T2, 나머지는 예약 확인)','체크인·수하물 (모바일 체크인 했으면 셀프 백드랍)','보안검색 → 자동출입국 심사','면세 인도장(인터넷 면세 샀으면) → 탑승구'] },
-  { t:'홍콩 도착 (T1)', steps:['입국심사 — 여권만. 입국카드 없음(2024-10 폐지), 무비자 90일','수하물 찾기','세관 — 신고할 것 없으면 녹색 통로','도착홀에서 eSIM 켜기·데이터 로밍 ON'] },
+  { t:'예약 확정 — 홍콩익스프레스 왕복 2명', steps:['가는 편 UO619 · 11/24(화) 12:25 인천 T1 → 15:30 홍콩 T1','오는 편 UO626 · 11/28(토) 16:40 홍콩 T2 → 21:05 인천 T1','운임 에센셜 — 1인 위탁 20kg 1개 + 좌석 밑 가방 1개(40×25×20cm). 기내 캐리어는 안 됨','온라인 체크인: 가는 편 11/23(월) 12:25부터 · 오는 편 11/27(금) 16:40부터 (홍콩익스프레스 앱)','예약번호·PNR은 «내 정보»에 — 이 페이지는 공개라 안 적음','홍콩은 한국보다 1시간 느림 — 앱 시간은 모두 현지 시각'] },
+  { t:'집 → 인천공항 T1', steps:['08:10쯤 상봉 출발 — 경의중앙선 → 공덕(또는 홍대입구)에서 공항철도 → 인천공항1터미널역, 약 1시간 40분','09:55까지 T1 도착 (출발 2시간 30분 전)'] },
+  { t:'인천 출국 (T1) · 12:25', steps:['홍콩익스프레스 카운터에서 수하물 부치기 — 구역은 전광판 확인','카운터 마감 출발 50~60분 전 — 늦어도 11:25','보안검색 → 자동출입국 심사','면세 인도장(인터넷 면세 샀으면) → 탑승구'] },
+  { t:'홍콩 도착 (T1) · 15:30', steps:['입국심사 — 여권만. 입국카드 없음(2024-10 폐지), 무비자 90일','수하물 찾기','세관 — 신고할 것 없으면 녹색 통로','도착홀에서 eSIM 켜기·데이터 로밍 ON'] },
   { t:'공항 → 시내', steps:['공항철도(AEL): 도착홀 바로 앞. 구룡역 약 22분·HK$115, 홍콩역 약 HK$130 (요금 재확인)','둘이면 2인 그룹권이 쌈(최대 42%, 같이 통과)','구룡·홍콩역에서 무료 셔틀버스(K번·H번)로 호텔','택시: 도착홀 «To City» 표지 → T1·T2 사이 택시 승강장. 빨강=시내(구룡·홍콩섬), 초록=신계, 파랑=란타우'] },
 ];
 const RETURN = [
   '체크아웃 전 옥토퍼스 잔액 환불(앱에서)',
-  '공항철도 타기 — 홍콩역 «인타운 체크인»은 캐세이퍼시픽 등 일부 항공사만(대한항공·홍콩익스프레스 미확인)',
-  '공항 출발 2시간 30분 전',
+  '공항철도로 공항역 — 홍콩역 «인타운 체크인»은 홍콩익스프레스 미확인',
+  '14:10 홍콩공항 도착 (출발 2시간 30분 전)',
+  '체크인·수하물은 T2 U 구역 — 도착했던 T1 아님 (2026-06-10부터 홍콩익스프레스 T2)',
+  '카운터 마감 출발 60분 전 — 늦어도 15:40',
+  'T2 출국심사 → APM(셔틀열차)으로 탑승구 · UO626 16:40',
   '남은 홍콩달러는 공항에서 쓰기 — 동전은 환전 안 됨',
+  '21:05 인천 T1 도착 → 짐 → 공항철도 → 공덕·홍대입구 경의중앙선 → 상봉 23시쯤',
 ];
 
 /* ───── 꿀팁 — (추정)은 확인 못 한 것 ───── */
@@ -824,7 +831,7 @@ window.addEventListener('pagehide',()=>{positions[active]=window.scrollY;write('
 const directions=s=>'https://www.google.com/maps/dir/?api=1&travelmode=transit&destination='+encodeURIComponent([s[3]||s[4],s[5]||'',s[4]].join(' '));
 const search=s=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((s[3]||'')+' '+s[4]);
 const hotelStop=(time='숙소')=>{const h=TripState.get().hotel;return ['hotel',time,h?.ko||'숙소 미정',h?.zh||'',h?.en||'',h?.addrZh||h?.addrEn||'',h?.lat,h?.lng,'','']};
-const airport=(time='14:10')=>{const s=[...DAYS.d1.stops[0]];s[1]=time;s[8]='체크인·수하물 → 보안검색 → 탑승구 · 16:40 출발';return s};
+const airport=(time='14:10')=>['hkia-t2',time,'홍콩국제공항 T2 (체크인)','香港國際機場 二號客運大樓','HKIA Terminal 2','大嶼山赤鱲角',22.3168,113.9363,'홍콩익스프레스 U 구역 체크인·수하물 → T2 출국심사 → APM으로 탑승구 · UO626 16:40 출발',''];
 const routes={tst:'침사추이 → 라이킹 → 써니베이 · 약 40분',mk:'조던·야우마테이 → 라이킹 → 써니베이 · 약 36~38분',cen:'홍콩역 퉁청선 → 써니베이 · 약 38~41분',cwb:'센트럴 → 홍콩역 퉁청선 → 써니베이 · 약 45분',np:'센트럴 → 홍콩역 퉁청선 → 써니베이 · 약 51분'};
 function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().hotel?.area]||'가까운 MTR → 퉁청선 → 써니베이';return [home,
  ['sunny','09:10쯤','써니베이역 환승','欣澳站','Sunny Bay Station','',22.3317,114.0290,'퉁청선 → 디즈니랜드 리조트선',''],
@@ -833,11 +840,11 @@ function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().h
  ['disney-show','저녁','모멘터스 야간쇼','迪士尼星夢光影之旅','Momentous, Hong Kong Disneyland','香港迪士尼樂園',22.3130,114.0413,'운영 10:00~20:30 · 야간쇼 시각은 당일 확인. 자리는 미리 잡기.','night'],
  ['disney-last','쇼 이후','디즈니랜드역 → 숙소','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'써니베이에서 시내 방향 환승. 기존 자료 막차 00:19~00:40 · 당일 역에서 확인.','']];}
 function buildDay(){const sunday=TripState.get().returnDay===29;let stops,title,summary,legacy,steps='';
- if(day==='24'){legacy='d1';title='11/24(화) · 도착';summary='12:25 인천 → 15:30 홍콩 → 숙소 → 침사추이';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';rail[8]='숙소 위치에 맞춰 공항철도·버스·택시 선택';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===0?['09:55 인천공항 도착 · 터미널은 예약 확인',...d.steps.slice(1)]:i===2?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)).join('');}
+ if(day==='24'){legacy='d1';title='11/24(화) · 도착';summary='08:10 상봉 → 12:25 인천 T1 (UO619) → 15:30 홍콩 T1 → 숙소 → 침사추이';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';rail[8]='숙소 위치에 맞춰 공항철도·버스·택시 선택';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===4?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)).join('');}
  if(day==='25'){legacy='disney';title='11/25(수) · 디즈니';summary='08:30 숙소 → 써니베이 → 파크 → 야간쇼';stops=disney();steps=proc('챙길 것',['날짜 지정 티켓·파크 예약·QR 저장','외부 음식 반입 가능 · 작은 우산·겉옷','바퀴 달린 캐리어는 숙소에 맡기기']);}
  if(day==='26'||day==='27'){legacy=day==='26'?'d2':'d3';title=day==='26'?'11/26(목) · 센트럴':'11/27(금) · 구룡';summary=DAYS[legacy].sub;stops=DAYS[legacy].stops;steps=`<p class="muted">${esc(DAYS[legacy].desc)}</p>`;}
- if(day==='28'){legacy='d4';title=sunday?'11/28(토) · 홍콩섬':'11/28(토) · 오전 산책';summary=sunday?'익청빌딩 → 만불사 → 해저터널 → 북각 → 코즈웨이베이':'익청빌딩 → 숙소·짐 찾기 → 14:10 공항';if(sunday){stops=DAYS.d4.stops;steps=`<p class="muted">${esc(DAYS.d4.desc)}</p>`}else{const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(코즈웨이베이)에서 MTR 10분';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];}}
- if(day==='return'){legacy='return';title=`11/${sunday?'29(일)':'28(토)'} · 귀국`;summary='14:10 공항 → 16:40 홍콩 → 21:05 인천';stops=[hotelStop(sunday?'오전 자유 · 체크아웃':'체크아웃·짐 찾기'),airport()];steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s));if(sunday)steps='<p class="muted">오전 자유</p>'+steps;}
+ if(day==='28'){legacy='d4';title=sunday?'11/28(토) · 홍콩섬':'11/28(토) · 오전 산책';summary=sunday?'익청빌딩 → 만불사 → 해저터널 → 북각 → 코즈웨이베이':'익청빌딩 → 숙소·짐 찾기 → 14:10 공항 T2';if(sunday){stops=DAYS.d4.stops;steps=`<p class="muted">${esc(DAYS.d4.desc)}</p>`}else{const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(코즈웨이베이)에서 MTR 10분';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];}}
+ if(day==='return'){legacy='return';title=`11/${sunday?'29(일)':'28(토)'} · 귀국`;summary='14:10 홍콩 T2 → 16:40 UO626 → 21:05 인천 T1 → 상봉 23시쯤';stops=[hotelStop(sunday?'오전 자유 · 체크아웃':'체크아웃·짐 찾기'),airport()];steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s));if(sunday)steps='<p class="muted">오전 자유</p>'+steps;}
  return {stops,title,summary,legacy,steps};}
 function proc(title,steps){return `<details class="trip-card"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
 function renderDates(){const ret=TripState.get().returnDay===29?'11/29(일)':'11/28(토)';const dates=[['24','11/24(화)','도착'],['25','11/25(수)','디즈니'],['26','11/26(목)','센트럴'],['27','11/27(금)','구룡'],['28','11/28(토)',ret==='11/29(일)'?'홍콩섬':'오전 산책'],['return','귀국',ret]];$('tripDates').innerHTML=dates.map(([key,label,sub])=>`<button id="trip-date-${key}" role="tab" aria-selected="${day===key}" aria-controls="tripDay" tabindex="${day===key?0:-1}" data-trip-date="${key}">${label}<span>${sub}</span></button>`).join('');$('tripDay').setAttribute('aria-labelledby','trip-date-'+day)}
