@@ -200,6 +200,29 @@ details .taxi-list{background:transparent;border-radius:0;margin:0 -1rem}
 #prepContent .prep-item details summary{min-height:36px}
 body>.bar{transition:opacity .2s,transform .2s}body>.bar.hero-on{opacity:0;transform:translateY(.5rem);pointer-events:none}
 @media(prefers-reduced-motion:reduce){body>.bar{transition:none}}
+
+/* 카드 규칙 v2 — 장소 카드·준비 항목 한 문법: 작은 머리글(시간·시점) → 제목 → 본문 → 아이콘 칸 줄. 위 규칙들을 여기서 덮는다 */
+.trip-stop,#prepContent .prep-item{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:.5rem;align-items:start;margin:.625rem 0;padding:.875rem 1rem .25rem;border-radius:14px;box-shadow:none}
+html.soft-theme :is(.trip-stop,#prepContent .prep-item){border-radius:20px}
+.trip-stop>*,#prepContent .prep-item>*{grid-column:1/-1;margin:0}
+.trip-stop p,#prepContent .prep-item p{margin:0}
+.trip-stop .stop-top,#prepContent .prep-head{display:contents}
+.trip-stop .stop-top time{grid-column:1;grid-row:1;font-size:.8125rem;line-height:1.35;color:var(--blueText)}
+.trip-stop .stop-actions{grid-column:2;grid-row:1/3;align-self:center;margin:-.5rem -.5rem 0 0;gap:0}
+.trip-stop .stop-name{grid-column:1;grid-row:2;min-height:0;padding:0}
+.trip-stop .stop-name h3,#prepContent .prep-head h3{font-size:1.0625rem;font-weight:600;line-height:1.35;margin:0}
+.trip-ui .trip-stop .stop-zh{margin-top:.5rem;font-size:.9375rem;line-height:1.4}
+.trip-ui .trip-stop :is(.stop-en,.stop-address){font-size:.8125rem;line-height:1.4;color:var(--sub)}
+.trip-ui .trip-stop .muted,#prepContent .prep-item>p.muted{margin-top:.5rem;font-size:.875rem;line-height:1.45;color:var(--sub)}
+#prepContent .prep-head>div{grid-column:1;grid-row:1;display:flex;flex-direction:column}
+#prepContent .prep-head .prep-when{order:-1;font-size:.8125rem;line-height:1.35}
+#prepContent .prep-head .icon-button{grid-column:2;grid-row:1;align-self:center;margin:-.5rem -.5rem 0 0}
+#prepContent .prep-item>p.muted,#prepContent .prep-item>details{margin-left:0}
+#prepContent .prep-item>details[open]{margin-top:.25rem}
+.acts{grid-template-columns:repeat(5,minmax(0,1fr));margin:.75rem -.5rem 0;padding:.125rem 0}
+.trip-stop>.acts,#prepContent .prep-item>.acts{margin:.75rem -.5rem 0}
+.act,.ig-open.act{min-height:48px;font-size:.6875rem;gap:3px}
+.trip-note{margin-top:.25rem}
 </style>
 </head>
 <body>
