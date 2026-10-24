@@ -328,6 +328,12 @@ small{font-size:max(.75rem,11px)}
 .taxi-list .kico{width:28px;height:28px}
 .taxi-list button{justify-content:flex-start!important;text-align:left}.taxi-list button::after{margin-left:auto}
 #talk .talk-tools .papago-btn{padding:0 .9rem!important;min-height:34px;border-radius:17px;background:rgba(255,255,255,.22)!important;color:#fff!important;font-size:.8125rem;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.45);backdrop-filter:blur(16px) saturate(170%);-webkit-backdrop-filter:blur(16px) saturate(170%);text-shadow:0 1px 4px rgba(0,0,0,.3)}
+
+/* 내 정보 묶음 (2026-10-24) */
+.me-h{display:flex;align-items:center;gap:10px;font-size:1.0625rem;font-weight:700;margin:1.25rem 4px .5rem}
+.me-h .kico{width:26px;height:26px}
+.me-info{padding-block:.6rem}.me-info b{font-weight:500;font-size:.9375rem;line-height:1.4;color:var(--label,var(--ink));text-align:left}
+.me-row input[type=date]{min-height:44px;background:none;border:0;font:inherit;color:inherit;text-align:right}
 </style>
 </head>
 <body>
@@ -662,16 +668,9 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
  <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
   <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
   <div id="meIn" hidden>
-   <div class="me-group">
-    <label class="me-row"><span>이름</span><input id="me_name" autocomplete="off"></label>
-    <label class="me-row"><span>항공 예약번호</span><input id="me_flight" autocomplete="off"></label>
-    <label class="me-row"><span>숙소 예약번호</span><input id="me_hotel" autocomplete="off"></label>
-    <label class="me-row"><span>여행자보험</span><input id="me_ins" placeholder="보험사 · 증권번호" autocomplete="off"></label>
-    <label class="me-row"><span>eSIM</span><input id="me_esim" autocomplete="off"></label>
-    <label class="me-row me-memo"><span>메모</span><textarea id="me_memo" rows="3"></textarea></label>
-   </div>
+   <h3 class="me-h"><span class="kico" style="background:#0a84ff"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="#fff" stroke="none" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span>항공권</h3><div class="me-group"><div class="me-row me-info"><span>가는 편</span><b>UO619 · 11/24(화)<br>12:25 인천 T1 → 15:30 홍콩 T1</b></div><div class="me-row me-info"><span>오는 편</span><b>UO626 · 11/28(토)<br>16:40 홍콩 T2 → 21:05 인천 T1</b></div><label class="me-row"><span>예약번호</span><input id="me_flight" type="text" autocomplete="off"></label><label class="me-row"><span>가는 편 좌석</span><input id="me_seat_out" type="text" placeholder="예: 12A" autocomplete="off"></label><label class="me-row"><span>오는 편 좌석</span><input id="me_seat_ret" type="text" placeholder="예: 12B" autocomplete="off"></label><label class="me-row"><span>수하물</span><input id="me_bag" type="text" placeholder="예: 위탁 20kg · 기내 7kg" autocomplete="off"></label></div><h3 class="me-h"><span class="kico" style="background:#30d158"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h3"/></svg></span>여권·신분</h3><div class="me-group"><label class="me-row"><span>이름</span><input id="me_name" type="text" autocomplete="off"></label><label class="me-row"><span>영문 이름</span><input id="me_name_en" type="text" placeholder="여권과 똑같이" autocomplete="off"></label><label class="me-row"><span>여권번호</span><input id="me_passport_no" type="text" autocomplete="off"></label><label class="me-row"><span>여권 만료일</span><input id="me_passport_exp" type="date" autocomplete="off"></label></div><h3 class="me-h"><span class="kico" style="background:#bf5af2"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V8M3 14h18v4M21 18v-4a3 3 0 0 0-3-3h-7v3"/></svg></span>숙소</h3><div class="me-group"><label class="me-row"><span>예약번호</span><input id="me_hotel" type="text" autocomplete="off"></label><label class="me-row"><span>주소·전화</span><input id="me_hotel_info" type="text" placeholder="체크인 15:00 등" autocomplete="off"></label></div><h3 class="me-h"><span class="kico" style="background:#ff9f0a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span>돈·통신</h3><div class="me-group"><label class="me-row"><span>eSIM</span><input id="me_esim" type="text" autocomplete="off"></label><label class="me-row"><span>옥토퍼스</span><input id="me_octopus" type="text" placeholder="예: 애플페이 등록" autocomplete="off"></label><label class="me-row"><span>결제 카드</span><input id="me_card" type="text" placeholder="끝 4자리만" autocomplete="off"></label><label class="me-row"><span>여행자보험</span><input id="me_ins" type="text" placeholder="보험사 · 증권번호" autocomplete="off"></label></div><h3 class="me-h"><span class="kico" style="background:#ff3b30"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>비상</h3><div class="me-group"><label class="me-row"><span>비상 연락처</span><input id="me_emer" type="text" placeholder="이름 · 번호" autocomplete="off"></label></div><h3 class="me-h"><span class="kico" style="background:#8e8e93"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></svg></span>메모</h3><div class="me-group"><label class="me-row me-memo"><span>메모</span><textarea id="me_memo" rows="3"></textarea></label></div>
    <p class="me-status" id="meSaved" aria-live="polite"></p>
-   <div class="me-group" id="meFiles"></div>
+   <h3 class="me-h"><span class="kico" style="background:#5e5ce6"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span>서류 사진·PDF</h3><div class="me-group" id="meFiles"></div>
    <div class="me-foot"><span id="meWho"></span><button type="button" id="meLogout">로그아웃</button></div>
   </div>
  </section></main>
@@ -1145,7 +1144,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
 (()=>{
  if(!window.supabase)return;
  const sb=supabase.createClient('https://lamjaczwhytcecbjjqlp.supabase.co','sb_publishable__IfpRW3ny89IHeIsgxIH7A_JYOwDJ4Q');
- const APP='hk',F=['name','flight','hotel','ins','esim','memo'],SLOTS=[['passport','여권'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
+ const APP='hk',F=['name','name_en','passport_no','passport_exp','flight','seat_out','seat_ret','bag','hotel','hotel_info','esim','octopus','card','ins','emer','memo'],SLOTS=[['eticket','항공권 e티켓'],['boarding','탑승권'],['passport','여권'],['hotelv','숙소 바우처'],['insdoc','보험증서'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
  const $=id=>document.getElementById(id);let uid=null,timer=null;
  $('meLogin').onclick=()=>sb.auth.signInWithOAuth({provider:'kakao',options:{redirectTo:location.origin+location.pathname}});
  $('meLogout').onclick=async()=>{member=false;if(chan){sb.removeChannel(chan);chan=null}await sb.auth.signOut();show(null)};
