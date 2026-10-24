@@ -295,6 +295,21 @@ small{font-size:max(.75rem,11px)}
 .kakao-btn{border-radius:14px!important;min-height:50px;font-weight:700}
 .papago-btn{font-weight:600}
 @media(prefers-color-scheme:light){:root{--blueText:var(--systemBlue)}}/* 파랑 하나로 (Tripsy 결) */
+
+/* 사진이 아래로 번지는 배경 + 유리 버튼 (Tripsy 결, 2026-10-24) */
+#schedule{position:relative;isolation:isolate}
+.trip-bg{position:absolute;z-index:-1;top:0;left:0;right:0;height:min(1100px,150vh);overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
+.trip-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:blur(44px) saturate(1.5);transform:scale(1.25);opacity:.85}
+@media(min-width:700px){.trip-bg{left:0;right:0;border-radius:22px}}
+.trip-hero{background:transparent;-webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
+.trip-hero .t{bottom:34px}
+.trip-hero::after{background:linear-gradient(180deg,rgba(0,0,0,.05) 40%,rgba(0,0,0,.35))}
+.hero-circles{margin-top:-1.5rem;position:relative}
+.hero-circles button{color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35);font-weight:600}
+.hero-circles i{background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.45),0 6px 18px rgba(0,0,0,.12);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%)}
+.date-chips button:not([aria-selected="true"]){background:rgba(255,255,255,.72)!important;backdrop-filter:blur(16px) saturate(170%);-webkit-backdrop-filter:blur(16px) saturate(170%);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.5)!important}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .date-chips button:not([aria-selected="true"]){background:rgba(40,40,42,.6)!important;color:#fff!important}}
+@media(prefers-reduced-transparency:reduce){.hero-circles i{background:var(--card);color:var(--label,var(--ink));backdrop-filter:none}.hero-circles button{color:var(--sub);text-shadow:none}.trip-bg{display:none}}
 </style>
 </head>
 <body>
@@ -611,6 +626,7 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
 </script>
 
 <main id="schedule" class="sheet app-panel trip-ui" role="tabpanel" aria-labelledby="tab-schedule" hidden>
+ <div class="trip-bg" aria-hidden="true"><img src="img/area/tst_aos_0.jpg" alt=""></div>
  <div class="trip-hero"><img src="img/area/tst_aos_0.jpg" alt=""><div class="t"><h1 tabindex="-1">홍콩</h1><p id="tripHeroDates">11월 24일 – 28일 · 4박</p></div></div>
  <div class="hero-circles"><button type="button" data-go="guide"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12h16M13 5l7 7-7 7"/></svg></i>다음 갈 곳</button><button type="button" data-go="flight"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i>항공</button><button type="button" data-go="stay"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18V8M3 14h18v4M21 18v-4a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="11" r="1.6"/></svg></i>숙소</button><button type="button" data-go="taxi"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5zM9 8h6M9 12h6M9 16h3"/></svg></i>택시카드</button></div>
  <div class="date-chips" id="tripDates" role="tablist" aria-label="여행 날짜"></div>
