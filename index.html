@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<script>try{if(localStorage.getItem('hk-soft-theme-v1')==='on')document.documentElement.classList.add('soft-theme')}catch{}</script>
+<script>try{localStorage.removeItem('hk-soft-theme-v1')}catch{}</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&amp;display=swap">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -108,30 +108,6 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,summary:focus-visibl
 .talk-ko{font-size:var(--subhead);color:var(--sub)}.talk-zh{grid-column:1/-1;font-size:1.2rem;font-weight:600;color:var(--ink);overflow-wrap:anywhere}.talk-say{grid-column:1/-1;font-size:var(--subhead);color:var(--blueText)}
 #talk .note{margin:1rem}
 </style><style>
-/* Optional, device-local appearance. Original theme and application logic stay intact. */
-.appearance-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;background:var(--card);border-radius:14px;cursor:pointer}
-.appearance-copy{min-width:0;line-height:1.5}.appearance-copy span{display:block;font-size:var(--foot);color:var(--sub);margin-top:.2rem}
-#softThemeToggle{appearance:none;-webkit-appearance:none;position:relative;flex:0 0 51px;width:51px;height:44px;margin:0;border:0;border-radius:20px;background:transparent;cursor:pointer}
-#softThemeToggle::before{content:'';position:absolute;inset:6px 0;border-radius:20px;background:var(--sub)}
-#softThemeToggle::after{content:'';position:absolute;left:2px;top:8px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003}
-#softThemeToggle:checked::before{background:var(--blueText)}#softThemeToggle:checked::after{transform:translateX(19px)}
-.theme-save-note{font-size:var(--foot);line-height:1.5;color:var(--sub);margin:.5rem 1rem 0}
-.soft-doodle{display:none}
-html.soft-theme{--systemGroupedBackground:#fff8f1;--secondarySystemGroupedBackground:#fffefa;--label:#42343e;--secondaryLabel:#695661;--tertiaryLabel:#695661;--separator:#ddcbd2;--sub:#695661;--systemBlue:#89506c;--blueText:#78415d;--systemGreen:#3a7459;--greenText:#346748;--systemRed:#ad4251;--redText:#9d3444;--seg:#f2e3eb;--thumb:#fffefa;--glass:rgba(255,248,241,.97);--soft-pink:#fbe3ea;--soft-sky:#e7f2f8;--soft-yellow:#fff1c9;--soft-shadow:0 5px 16px rgba(115,69,88,.07);--lg-fill:rgba(255,248,245,.96);--lg-rim:rgba(255,255,255,.85);--lg-rim2:rgba(137,80,108,.14);--lg-lens:#f2dce6;--lg-shadow:0 7px 22px rgba(115,69,88,.14)}
-html.soft-theme .app-panel>h1{font-family:'Jua','Apple SD Gothic Neo',sans-serif;font-weight:400;letter-spacing:0;line-height:1.35;display:flex;align-items:center;gap:.65rem}
-html.soft-theme .soft-doodle{display:inline-block;width:3rem;height:2rem;flex:none;color:var(--blueText);pointer-events:none}
-html.soft-theme :is(.hero,.fw,.trip,.ainfo,.fwbag,#extras,.hgrid,.list,.atable,.me-group,.trip-card,.talk-list,.appearance-row){border-radius:20px;box-shadow:var(--soft-shadow)}
-html.soft-theme .hero{background:var(--soft-pink)}
-html.soft-theme .trip{background:var(--soft-sky)}
-html.soft-theme .fwbag{background:var(--soft-yellow)}
-html.soft-theme :is(.daytabs,.seg,#types,.date-chips button,.site,.sheet-select,.sheet-close,.map-link,.taxi-list button){border-radius:16px}
-html.soft-theme :is(.hero-total,.bar .tot){font-variant-numeric:tabular-nums}
-html.soft-theme .empty{background:var(--soft-yellow);border-radius:16px;line-height:1.6}
-html.soft-theme :is(dialog,#tripTaxi){border-radius:26px}
-html.soft-theme #tripTaxiClose{background:var(--blueText);color:var(--card)}
-html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415d!important}
-@media(prefers-color-scheme:dark){html.soft-theme{--systemGroupedBackground:#241f29;--secondarySystemGroupedBackground:#302a35;--label:#fff4eb;--secondaryLabel:#dac9d4;--tertiaryLabel:#dac9d4;--separator:#625363;--sub:#dac9d4;--systemBlue:#efb8d1;--blueText:#efb8d1;--systemGreen:#acd8ba;--greenText:#acd8ba;--systemRed:#ffb5bb;--redText:#ffb5bb;--seg:#493846;--thumb:#604859;--glass:rgba(48,42,53,.97);--soft-pink:#46303f;--soft-sky:#293d4a;--soft-yellow:#443c2c;--soft-shadow:0 5px 16px #0002;--lg-fill:rgba(48,42,53,.96);--lg-rim:rgba(255,235,245,.22);--lg-rim2:rgba(255,235,245,.1);--lg-lens:#604557;--lg-shadow:0 7px 22px #0005}html.soft-theme #softThemeToggle:checked::after{background:#302a35}}
-@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){html.soft-theme :is(#appTabs,.bar){background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none}}
 .talk-jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 calc(-1*max(1rem,env(safe-area-inset-left)));padding:.6rem max(1rem,env(safe-area-inset-left));background:var(--lg-fill);backdrop-filter:blur(14px) saturate(190%);-webkit-backdrop-filter:blur(14px) saturate(190%)}
 .talk-jump::-webkit-scrollbar{display:none}
 .talk-jump button{flex:none;min-height:36px;padding:.4rem .85rem;border:0;border-radius:999px;background:var(--seg);color:var(--ink);font-size:.875rem;cursor:pointer}
@@ -147,11 +123,6 @@ html.soft-theme .leaflet-marker-icon>div[style*="color:white"]{background:#78415
 .talk-tools{display:flex;justify-content:flex-end;margin:-.25rem 0 .25rem}
 .papago-btn{display:inline-flex;align-items:center;min-height:44px;padding:.5rem 1rem;border-radius:999px;background:#00c73c;color:#fff;font-weight:600;font-size:.9rem;text-decoration:none}
 #tripTaxi .papago-btn{margin:1rem auto 0;display:flex;width:fit-content}
-.ck-on .soft-doodle{display:none!important}
-.ck-title{height:2.6rem;width:auto;vertical-align:-.35rem;margin-left:.4rem}.ck-wide{height:2.2rem}
-.talk-h{position:relative}.ck-grp{height:2.4rem;width:auto;margin-left:auto;align-self:flex-end}
-.ck-peek{display:block;width:min(70%,20rem);margin:2rem auto 0;opacity:.95}
-.ck-peek{max-height:11rem;width:auto;max-width:70%}.ck-on .hero{position:relative}.ck-corner{position:absolute;right:.6rem;bottom:.6rem;height:3.4rem;width:auto;pointer-events:none}html.ck-on.ck-empty-ok .empty{background-image:var(--ck-empty);background-repeat:no-repeat;background-size:auto 2.8rem;background-position:.8rem center;padding-left:4.2rem;min-height:3.6rem}.ck-hide{display:none}.ck-credit{margin:1rem;font-size:.7rem;color:var(--sub);text-align:center}
 #areaBar{position:fixed;z-index:1090;left:max(1rem,env(safe-area-inset-left));right:max(1rem,env(safe-area-inset-right));max-width:28rem;margin:0 auto;bottom:calc(var(--app-tab-height) + 4.6rem);display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none;padding:.3rem;border-radius:999px;background:var(--lg-fill);backdrop-filter:blur(14px) saturate(190%);-webkit-backdrop-filter:blur(14px) saturate(190%);box-shadow:inset 0 1px 0 var(--lg-rim),inset 0 0 0 .5px var(--lg-rim2),var(--lg-shadow)}
 #areaBar::-webkit-scrollbar{display:none}
 #areaBar button{flex:1 0 auto;min-height:40px;padding:.35rem .8rem;border:0;border-radius:999px;background:none;color:var(--label);font-size:.85rem;white-space:nowrap;cursor:pointer}
@@ -203,7 +174,6 @@ body>.bar{transition:opacity .2s,transform .2s}body>.bar.hero-on{opacity:0;trans
 
 /* 카드 규칙 v2 — 장소 카드·준비 항목 한 문법: 작은 머리글(시간·시점) → 제목 → 본문 → 아이콘 칸 줄. 위 규칙들을 여기서 덮는다 */
 .trip-stop,#prepContent .prep-item{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:.5rem;align-items:start;margin:.625rem 0;padding:.875rem 1rem .25rem;border-radius:14px;box-shadow:none}
-html.soft-theme :is(.trip-stop,#prepContent .prep-item){border-radius:20px}
 .trip-stop>*,#prepContent .prep-item>*{grid-column:1/-1;margin:0}
 .trip-stop p,#prepContent .prep-item p{margin:0}
 .trip-stop .stop-top,#prepContent .prep-head{display:contents}
@@ -232,7 +202,7 @@ html.soft-theme :is(.trip-stop,#prepContent .prep-item){border-radius:20px}
 .ig-slide figcaption{display:flex;flex-direction:column;gap:2px;padding:.5rem .125rem 0}.ig-slide figcaption b{font-size:.9375rem;font-weight:600;line-height:1.35}.ig-slide figcaption small{font-size:.8125rem;color:var(--sub)}.ig-slide figcaption a{font-size:.8125rem;margin-top:.25rem}
 .ig-count{font-size:.875rem;font-weight:400;color:var(--sub)}
 button.ig-row{width:100%;background:none;border:0;border-bottom:1px solid var(--line);font:inherit;color:inherit;text-align:left;cursor:pointer}button.ig-row:last-child{border:0}.ig-go{flex:none;color:var(--blueText);font-size:.875rem}
-.guide{background:var(--card);border-radius:14px;padding:.875rem 1rem .25rem;margin:.5rem 0 .75rem;box-shadow:inset 0 0 0 1.5px var(--blueText)}html.soft-theme .guide{border-radius:20px}
+.guide{background:var(--card);border-radius:14px;padding:.875rem 1rem .25rem;margin:.5rem 0 .75rem;box-shadow:inset 0 0 0 1.5px var(--blueText)}
 .guide-head{display:flex;justify-content:space-between;align-items:baseline;font-size:.8125rem;color:var(--blueText);font-weight:600}.guide-head time{font-variant-numeric:tabular-nums}
 .guide h3{font-size:1.25rem;font-weight:700;line-height:1.3;margin:.125rem 0 0}
 .guide-zh{margin:.5rem 0 0;font-size:1.125rem;line-height:1.35}.guide-zh small{display:block;font-size:.875rem;color:var(--sub)}
@@ -251,7 +221,6 @@ button.ig-row{width:100%;background:none;border:0;border-bottom:1px solid var(--
 @media(min-width:700px){.trip-hero{margin:1rem 0 0;border-radius:22px}}
 .trip-hero img{width:100%;height:100%;object-fit:cover;display:block}.trip-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 35%,rgba(0,0,0,.58))}
 .trip-hero .t{position:absolute;left:0;right:0;bottom:20px;text-align:center;color:#fff;z-index:1}.trip-hero h1{margin:0!important;font-size:2rem!important;font-weight:800;letter-spacing:-.02em;color:#fff!important;display:block!important;font-family:inherit!important}.trip-hero p{margin:.25rem 0 0;font-size:.875rem;opacity:.92}
-.trip-hero .ck-title{display:none}
 .hero-circles{display:flex;justify-content:space-around;padding:1.1rem 0 .4rem}
 .hero-circles button,.gcb{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;font:inherit;font-size:.6875rem;color:var(--sub);text-decoration:none;min-width:60px}
 .hero-circles i,.gcb i{width:54px;height:54px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.07);color:var(--label,var(--ink))}.hero-circles svg{width:24px;height:24px}
@@ -264,12 +233,12 @@ button.ig-row{width:100%;background:none;border:0;border-bottom:1px solid var(--
 .tch+.day-row,.tcard>.day-row:first-child{border-top:0}
 .day-row .nm{flex:1;min-width:0}.day-row .nm b{display:block;font-weight:600;font-size:.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.day-row .nm small{display:block;color:var(--sub);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .day-row time{font-size:.8125rem;color:var(--sub);font-variant-numeric:tabular-nums;white-space:nowrap}
-.day-row.done .nm b{color:var(--sub);text-decoration:line-through}.day-row.now{background:rgba(10,132,255,.08)}
+.day-row.done .nm b{color:var(--sub);text-decoration:line-through}.day-row.now{background:color-mix(in srgb,var(--systemBlue) 9%,transparent)}
 .tmore{display:block;width:100%;text-align:left;padding:12px 16px;border:0;border-top:.5px solid var(--separator,var(--line));background:none;font:inherit;color:#ff9f0a;font-size:.875rem;font-weight:600}
 #tripMap{border-radius:22px;margin:.75rem 0}
 .flight-card{padding:16px 20px 18px}.flight-card .ft,.flight-card .fb{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--sub)}.flight-card .fb b{color:var(--label,var(--ink));font-size:.9375rem}
 .flight-card .fm{display:flex;align-items:center;gap:10px;margin:2px 0}.flight-card .fm>b{font-size:2.125rem;font-weight:800;letter-spacing:-.02em}
-.flight-card .fl{flex:1;height:4px;border-radius:2px;background:linear-gradient(90deg,#40c8e0,#0a84ff);position:relative}.flight-card .fl svg{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);color:#0a84ff;background:var(--card);border-radius:50%;padding:2px}
+.flight-card .fl{flex:1;height:4px;border-radius:2px;background:linear-gradient(90deg,#40c8e0,var(--systemBlue));position:relative}.flight-card .fl svg{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);color:var(--systemBlue);background:var(--card);border-radius:50%;padding:2px}
 .tsec{font-size:1.25rem;font-weight:800;margin:1.25rem 4px .25rem;letter-spacing:-.01em}
 .gx .gph{height:140px;background:#123 center/cover;position:relative}.gx .gph span,.gbadge{display:inline-block;background:rgba(255,255,255,.92);color:#1c1c1e;font-size:.75rem;font-weight:700;border-radius:20px;padding:4px 10px}.gx .gph span{position:absolute;left:14px;top:12px}
 .gbadge{background:var(--seg);color:var(--blueText);margin-bottom:6px}
@@ -278,7 +247,7 @@ button.ig-row{width:100%;background:none;border:0;border-bottom:1px solid var(--
 .ggo{display:flex;gap:10px;align-items:flex-start;margin:12px 0 0;padding:10px 12px;border-radius:14px;background:var(--systemGroupedBackground,var(--bg));font-size:.875rem;line-height:1.45}.ggo .kico{border-radius:7px}
 .gchk{margin:10px 0 0;padding:0;list-style:none}.gchk li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:.875rem;line-height:1.4;border-top:.5px solid var(--separator,var(--line))}.gchk li:first-child{border-top:0}
 .gchk li::before{content:"";flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;border:1.5px solid #c7c7cc}
-.gbtns{display:flex;justify-content:space-around;padding:10px 4px 14px}.gcb i{width:46px;height:46px;background:var(--systemGroupedBackground,var(--bg));box-shadow:none;color:#0a84ff}.gcb i svg{width:22px;height:22px}.gcb.main i{background:#0a84ff;color:#fff}
+.gbtns{display:flex;justify-content:space-around;padding:10px 4px 14px}.gcb i{width:46px;height:46px;background:var(--systemGroupedBackground,var(--bg));box-shadow:none;color:var(--systemBlue)}.gcb i svg{width:22px;height:22px}.gcb.main i{background:var(--systemBlue);color:#fff}
 .trip-stop{scroll-margin-top:1rem}
 
 /* ===== Tripsy 결 전체 + 글자 다듬기 (2026-10-24) =====
@@ -325,6 +294,7 @@ small{font-size:max(.75rem,11px)}
 /* 버튼 */
 .kakao-btn{border-radius:14px!important;min-height:50px;font-weight:700}
 .papago-btn{font-weight:600}
+@media(prefers-color-scheme:light){:root{--blueText:var(--systemBlue)}}/* 파랑 하나로 (Tripsy 결) */
 </style>
 </head>
 <body>
@@ -654,9 +624,7 @@ new MutationObserver(syncRoute).observe(document.getElementById('hotels'),{child
 </main>
 <main id="accountPanel" class="sheet app-panel" role="tabpanel" aria-labelledby="tab-me" hidden>
  <div class="eyebrow">HONG KONG</div><h1 tabindex="-1">내 정보</h1>
- <section class="step" aria-labelledby="appearanceTitle"><div class="sh"><h2 id="appearanceTitle">보기 설정</h2></div>
- <label class="appearance-row" for="softThemeToggle"><div class="appearance-copy">먼작귀 테마<span id="softThemeHelp">파스텔로, 조금 더 포근하게</span></div><input id="softThemeToggle" type="checkbox" role="switch" aria-label="먼작귀 테마" aria-describedby="softThemeHelp themeSaveNote"></label>
- <p class="theme-save-note" id="themeSaveNote" role="status">이 브라우저에만 적용돼요.</p></section>
+
  <section class="step" id="me"><div class="sh"><h2>내 정보</h2><span class="hint" id="meHint">카카오로 로그인하면 본인만 보여요</span></div>
   <div id="meOut"><button class="kakao-btn" id="meLogin" type="button">카카오로 로그인</button></div>
   <div id="meIn" hidden>
@@ -972,15 +940,8 @@ const TALK=[
 ];
 
 /* 치이카와 그림 — 로그인 + 먼작귀 테마일 때만. 파일은 공개 저장소에 없다(Supabase 비공개 보관함, 서명 URL). */
-window.applyArt=function(){document.querySelectorAll('.ck-art').forEach(e=>e.remove());const u=window.ckArt,on=document.documentElement.classList.contains('soft-theme');document.documentElement.classList.toggle('ck-on',!!(u&&on));if(!u||!on)return;
- const put=(sel,f,cls,where='beforeend')=>{const el=document.querySelector(sel);if(el&&u[f])el.insertAdjacentHTML(where,`<img class="ck-art ${cls}" src="${u[f]}" alt="" aria-hidden="true" onerror="this.remove()">`)};
- put('#quote>h1','face_chiikawa.png','ck-title');put('#prep>h1','img_pre.png','ck-title ck-wide');put('#schedule h1','bg_top_manbou_01.png','ck-title');put('#talk>h1','face_usagi.png','ck-title');put('#accountPanel>h1','face_hachiware.png','ck-title');
- [['기본','bg_top_racco_01.png'],['디즈니','bg_top_usagi_01.png'],['식당 · 차찬텡','bg_top_kuri_01.png'],['급할 때','bg_top_momonga_01.png'],['쇼핑 · 결제','bg_top_hachiware_01.png'],['길 묻기','bg_top_chiikawa_01.png'],['공항 도착 · 입국','sweetbabyhachiware2.webp'],['MTR · 옥토퍼스','momonga.webp'],['택시','ramenpleaseshisa.webp'],['호텔','littlepatootieusagi.webp'],['귀국','adorablecutiechiikawa.webp']].forEach(([g,f])=>{const h=[...document.querySelectorAll('.talk-h h2')].find(x=>x.textContent===g);if(h&&u[f])h.parentNode.insertAdjacentHTML('beforeend',`<img class="ck-art ck-grp" src="${u[f]}" alt="" aria-hidden="true" onerror="this.remove()">`)});
- const pk={quote:'adorablecutiechiikawa.webp',prep:'sweetiemomonga.webp',schedule:'cutiehachiware.webp',talk:'yahausagi.webp',accountPanel:'fightonrakko.webp'};document.querySelectorAll('.app-panel').forEach(p=>{const f=u[pk[p.id]]?pk[p.id]:'bg_hum_01.png';if(u[f])p.insertAdjacentHTML('beforeend',`<img class="ck-art ck-peek" src="${u[f]}" alt="" aria-hidden="true" onerror="this.remove()">`)});put('.hero','tastykurimanju.webp','ck-corner');if(u['sweetbabyhachiware2.webp']){const im=new Image();im.onload=()=>{document.documentElement.style.setProperty('--ck-empty',`url("${im.src}")`);document.documentElement.classList.add('ck-empty-ok')};im.src=u['sweetbabyhachiware2.webp']}
- put('#accountPanel','face_chiikawa.png','ck-hide');const c=document.querySelector('#accountPanel');if(c)c.insertAdjacentHTML('beforeend','<p class="ck-art ck-credit">©ナガノ/ちいかわ製作委員会 · 개인 감상용</p>')};
-new MutationObserver(()=>{const want=!!(window.ckArt&&document.documentElement.classList.contains('soft-theme'));if(want!==document.documentElement.classList.contains('ck-on')||(want&&!document.querySelector('.ck-title')))applyArt()}).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
 
-function renderTalk(){const play=icon('M8 5v14l11-7Z');$('talkContent').innerHTML=`<div class="talk-tools"><a class="papago-btn" href="papago://" data-papago>파파고 앱 열기</a></div><nav class="talk-jump" aria-label="상황">${TALK.map(([g],gi)=>`<button type="button" data-jump="${gi}">${esc(g)}</button>`).join('')}</nav>`+TALK.map(([g,when,rows],gi)=>`<section class="talk-grp" id="talk-g${gi}"><div class="talk-h"><h2>${esc(g)}</h2>${when?`<span>${esc(when)}</span>`:''}</div><div class="talk-list">${rows.map((r,ri)=>`<div class="talk-row"><button type="button" class="talk-main" data-t="${gi}-${ri}"><span class="talk-ko">${esc(r[0])}</span><span class="talk-zh">${esc(r[1])}</span>${r[2]?`<span class="talk-say">${esc(r[2])}</span>`:''}</button><button type="button" class="talk-play" data-p="${gi}-${ri}" aria-label="${esc(r[0])} 듣기">${play}</button></div>`).join('')}</div></section>`).join('')+'<p class="note">한글 발음은 비슷하게 적은 것 — 재생 버튼으로 들어 보거나, 눌러서 화면을 보여주세요.</p>';talkSpy();window.ckArt&&applyArt()}
+function renderTalk(){const play=icon('M8 5v14l11-7Z');$('talkContent').innerHTML=`<div class="talk-tools"><a class="papago-btn" href="papago://" data-papago>파파고 앱 열기</a></div><nav class="talk-jump" aria-label="상황">${TALK.map(([g],gi)=>`<button type="button" data-jump="${gi}">${esc(g)}</button>`).join('')}</nav>`+TALK.map(([g,when,rows],gi)=>`<section class="talk-grp" id="talk-g${gi}"><div class="talk-h"><h2>${esc(g)}</h2>${when?`<span>${esc(when)}</span>`:''}</div><div class="talk-list">${rows.map((r,ri)=>`<div class="talk-row"><button type="button" class="talk-main" data-t="${gi}-${ri}"><span class="talk-ko">${esc(r[0])}</span><span class="talk-zh">${esc(r[1])}</span>${r[2]?`<span class="talk-say">${esc(r[2])}</span>`:''}</button><button type="button" class="talk-play" data-p="${gi}-${ri}" aria-label="${esc(r[0])} 듣기">${play}</button></div>`).join('')}</div></section>`).join('')+'<p class="note">한글 발음은 비슷하게 적은 것 — 재생 버튼으로 들어 보거나, 눌러서 화면을 보여주세요.</p>';talkSpy()}
 function talkSpy(){const btns=[...document.querySelectorAll('.talk-jump button')];if(!('IntersectionObserver' in window))return;const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const gi=e.target.id.slice(6);btns.forEach(b=>b.setAttribute('aria-current',String(b.dataset.jump===gi)));const b=btns[gi];b&&b.parentNode.scrollTo({left:b.offsetLeft-16,behavior:'smooth'})}})},{rootMargin:'-30% 0px -60% 0px'});document.querySelectorAll('.talk-grp').forEach(g=>io.observe(g))}
 function speakTalk(r,btn){if(!('speechSynthesis' in window)){btn.disabled=true;return}speechSynthesis.cancel();const text=r[1].replace(/○○/g,'').replace(/\s*\/\s*/g,'，');const yue=/[㐀-鿿]/.test(text);const u=new SpeechSynthesisUtterance(text);u.lang=yue?'zh-HK':'en-US';const v=speechSynthesis.getVoices().find(v=>yue?/zh[-_]HK|yue/i.test(v.lang):/^en[-_](US|GB)/i.test(v.lang));if(v)u.voice=v;u.rate=yue?.85:.95;document.querySelectorAll('.talk-play.on').forEach(b=>b.classList.remove('on'));btn.classList.add('on');u.onend=u.onerror=()=>btn.classList.remove('on');speechSynthesis.speak(u)}
 $('talk').addEventListener('click',e=>{const pg=e.target.closest('[data-papago]');if(pg){const t=setTimeout(()=>{if(document.visibilityState==='visible')location.href='https://papago.naver.com/'},1500);addEventListener('pagehide',()=>clearTimeout(t),{once:true});return}const j=e.target.closest('[data-jump]');if(j){document.getElementById('talk-g'+j.dataset.jump).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return}const p=e.target.closest('.talk-play');if(p){const [gi,ri]=p.dataset.p.split('-');speakTalk(TALK[gi][2][ri],p);return}const b=e.target.closest('.talk-main');if(!b)return;const [gi,ri]=b.dataset.t.split('-');const r=TALK[gi][2][ri];$('tripTaxi').classList.remove('ig-pop','sheet-menu');$('tripTaxiContent').innerHTML=`<p>${esc(r[0])}</p><div class="taxi-big">${esc(r[1])}</div>${r[2]?`<div class="taxi-address">${esc(r[2])}</div>`:''}${r[3]?`<div class="taxi-en">${esc(r[3])}</div>`:''}<a class="papago-btn" target="_blank" rel="noopener" href="https://papago.naver.com/?sk=ko&tk=zh-TW&st=${encodeURIComponent(r[0])}">파파고에서 이어서 번역</a>`;$('tripTaxi').showModal();$('tripTaxiClose').focus()});
@@ -1153,7 +1114,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
  const APP='hk',F=['name','flight','hotel','ins','esim','memo'],SLOTS=[['passport','여권'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
  const $=id=>document.getElementById(id);let uid=null,timer=null;
  $('meLogin').onclick=()=>sb.auth.signInWithOAuth({provider:'kakao',options:{redirectTo:location.origin+location.pathname}});
- $('meLogout').onclick=async()=>{member=false;if(chan){sb.removeChannel(chan);chan=null}await sb.auth.signOut();window.ckArt=null;window.applyArt&&applyArt();show(null)};
+ $('meLogout').onclick=async()=>{member=false;if(chan){sb.removeChannel(chan);chan=null}await sb.auth.signOut();show(null)};
  async function show(user){
   uid=user?.id||null;$('meOut').hidden=!!uid;$('meIn').hidden=!uid;
   $('meHint').textContent=uid?'나만 보여요':'카카오로 로그인하면 본인만 보여요';
@@ -1163,7 +1124,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
   const {data}=await sb.from('my_info').select('data').eq('app',APP).maybeSingle();
   const d=data?.data||{};F.forEach(k=>$('me_'+k).value=d[k]||'');
   if(!d.name&&nick)$('me_name').value=nick;
-  files();themeArt();pullMarks(true);
+  files();pullMarks(true);
  }
  // 둘이 공유: 체크·별·메모 (trip_marks, 멤버만). 처음 한 번은 이 폰에만 있던 것도 올린다.
  const KINDS=['hk-check','hk-fav','hk-note'],ok=v=>v!==false&&v!==''&&v!=null,readLS=k=>{try{return JSON.parse(localStorage.getItem(k))||{}}catch{return {}}};
@@ -1177,8 +1138,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
   if(first&&!chan)chan=sb.channel('marks').on('postgres_changes',{event:'*',schema:'public',table:'trip_marks'},p=>{const r=p.eventType==='DELETE'?p.old:p.new;if(!r||!KINDS.includes(r.kind)||(r.app&&r.app!==APP))return;const cur={...(sent[r.kind]||{})};if(p.eventType==='DELETE')delete cur[r.key];else cur[r.key]=r.value;sent[r.kind]=cur;const mine=readLS(r.kind);if(JSON.stringify(cur)!==JSON.stringify(Object.fromEntries(Object.entries(mine).filter(([,v])=>ok(v)))))window.applyMarks?.(r.kind,{...cur})}).subscribe()}
  window.markSync=(k,obj)=>{if(!member)return;clearTimeout(timers[k]);timers[k]=setTimeout(async()=>{const prev=sent[k]||{},up=[],del=[];for(const [key,v] of Object.entries(obj))if(ok(v)&&JSON.stringify(prev[key])!==JSON.stringify(v))up.push({app:APP,kind:k,key,value:v});for(const key of Object.keys(prev))if(!ok(obj[key]))del.push(key);sent[k]=Object.fromEntries(Object.entries(obj).filter(([,v])=>ok(v)));if(up.length)await sb.from('trip_marks').upsert(up);if(del.length)await sb.from('trip_marks').delete().eq('app',APP).eq('kind',k).in('key',del)},k==='hk-note'?700:0)};
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')pullMarks(false)});
-  async function themeArt(){const names=['face_chiikawa.png','face_hachiware.png','face_usagi.png','bg_top_chiikawa_01.png','bg_top_hachiware_01.png','bg_top_usagi_01.png','bg_top_manbou_01.png','bg_top_kuri_01.png','bg_top_momonga_01.png','bg_top_racco_01.png','bg_hum_01.png','img_pre.png','adorablecutiechiikawa.webp','sweetiemomonga.webp','cutiehachiware.webp','yahausagi.webp','fightonrakko.webp','tastykurimanju.webp','sweetbabyhachiware2.webp','momonga.webp','ramenpleaseshisa.webp','littlepatootieusagi.webp'];const {data}=await sb.storage.from('theme').createSignedUrls(names,86400);const u={};(data||[]).forEach(d=>{if(d.signedUrl)u[d.path]=d.signedUrl});window.ckArt=u;window.applyArt&&applyArt()}
- async function save(){
+  async function save(){
   const d={};F.forEach(k=>d[k]=$('me_'+k).value.trim());
   const {error}=await sb.from('my_info').upsert({user_id:uid,app:APP,data:d,updated_at:new Date().toISOString()});
   $('meSaved').textContent=error?'저장 실패 — '+error.message:'저장됨';
@@ -1213,15 +1173,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
 })();
 </script>
 
-<script>
-(()=>{
- const root=document.documentElement,toggle=document.getElementById('softThemeToggle'),note=document.getElementById('themeSaveNote');
- toggle.checked=root.classList.contains('soft-theme');
- toggle.addEventListener('change',()=>{root.classList.toggle('soft-theme',toggle.checked);try{localStorage.setItem('hk-soft-theme-v1',toggle.checked?'on':'off');note.textContent='이 브라우저에만 적용돼요.'}catch{note.textContent='지금만 적용돼요. 설정을 저장할 수 없어요.'}});
- window.addEventListener('storage',event=>{if(event.key==='hk-soft-theme-v1'||event.key===null){const on=event.key!==null&&event.newValue==='on';root.classList.toggle('soft-theme',on);toggle.checked=on}});
- document.querySelectorAll('.app-panel>h1').forEach(heading=>heading.insertAdjacentHTML('beforeend','<svg class="soft-doodle" viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path fill="var(--soft-sky)" d="M9 30c-9 0-9-13 0-14 1-12 18-14 22-3 11-4 18 12 7 17Z"/><path fill="var(--soft-yellow)" d="m46 4 2.5 6 6.5 1-5 4.5 1 6.5-5-3-6 3 1.5-6.5-4.5-4.5 6.5-1Z"/></svg>'));
-})();
-</script>
+
 <script>
 /* 숙소 구역에 들어오면 동네 바를 띄운다 — 드롭다운 대신 한 번에 누르기 */
 (()=>{const cur=()=>document.getElementById('areaSelect'),sel0=cur(),sec=document.getElementById('staySection');if(!sel0||!sec)return;
