@@ -1144,7 +1144,7 @@ const initialHash=location.hash.slice(1),authReturn=/access_token|code=/.test(lo
 (()=>{
  if(!window.supabase)return;
  const sb=supabase.createClient('https://lamjaczwhytcecbjjqlp.supabase.co','sb_publishable__IfpRW3ny89IHeIsgxIH7A_JYOwDJ4Q');
- const APP='hk',F=['name','name_en','passport_no','passport_exp','flight','seat_out','seat_ret','bag','hotel','hotel_info','esim','octopus','card','ins','emer','memo'],SLOTS=[['eticket','항공권 e티켓'],['boarding','탑승권'],['passport','여권'],['hotelv','숙소 바우처'],['insdoc','보험증서'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
+ const APP='hk',F=['name','name_en','passport_no','passport_exp','flight','seat_out','seat_ret','bag','hotel','hotel_info','esim','octopus','card','ins','emer','memo'],SLOTS=[['eticket','항공권 e티켓'],['boarding','탑승권'],['passport','여권'],['passport_yj','연주 여권'],['hotelv','숙소 바우처'],['insdoc','보험증서'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
  const $=id=>document.getElementById(id);let uid=null,timer=null;
  $('meLogin').onclick=()=>sb.auth.signInWithOAuth({provider:'kakao',options:{redirectTo:location.origin+location.pathname}});
  $('meLogout').onclick=async()=>{member=false;if(chan){sb.removeChannel(chan);chan=null}await sb.auth.signOut();show(null)};
