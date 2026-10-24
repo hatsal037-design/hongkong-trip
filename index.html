@@ -310,6 +310,12 @@ small{font-size:max(.75rem,11px)}
 .date-chips button:not([aria-selected="true"]){background:rgba(255,255,255,.72)!important;backdrop-filter:blur(16px) saturate(170%);-webkit-backdrop-filter:blur(16px) saturate(170%);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.5)!important}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .date-chips button:not([aria-selected="true"]){background:rgba(40,40,42,.6)!important;color:#fff!important}}
 @media(prefers-reduced-transparency:reduce){.hero-circles i{background:var(--card);color:var(--label,var(--ink));backdrop-filter:none}.hero-circles button{color:var(--sub);text-shadow:none}.trip-bg{display:none}}
+
+/* 날짜 6칸 균등 (2026-10-24) */
+#tripDates{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px!important;overflow:visible;padding:.5rem 0 .25rem}
+#tripDates button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;min-height:52px;padding:.4rem .2rem!important;border-radius:16px!important;line-height:1.2}
+#tripDates button b{font-size:.875rem;font-weight:700;white-space:nowrap}
+#tripDates button span{display:block;max-width:100%;font-size:.6875rem;font-weight:500;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit!important}
 </style>
 </head>
 <body>
@@ -985,7 +991,7 @@ function buildDay(){const sunday=TripState.get().returnDay===29;let stops,title,
  if(day==='return'){legacy='return';title=`11/${sunday?'29(일)':'28(토)'} · 귀국`;summary='14:10 홍콩 T2 → 16:40 UO626 → 21:05 인천 T1 → 6100 22:05 → 망우';stops=[hotelStop(sunday?'오전 자유 · 체크아웃':'체크아웃·짐 찾기'),airport()];steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s))+proc('6100 공항버스 · 22:05 ~ 23:20(막차)',BUS_RET,true);if(sunday)steps='<p class="muted">오전 자유</p>'+steps;}
  return {stops,title,summary,legacy,steps};}
 function proc(title,steps,open){return `<details class="trip-card"${open?' open':''}><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
-function renderDates(){const ret=TripState.get().returnDay===29?'11/29(일)':'11/28(토)';const dates=[['24','24 화','도착'],['25','25 수','디즈니'],['26','26 목','센트럴'],['27','27 금','구룡'],['28','28 토',ret==='11/29(일)'?'홍콩섬':'오전 산책'],['return','귀국',ret==='11/29(일)'?'29 일':'28 토']];const hd=$('tripHeroDates');if(hd)hd.textContent=ret==='11/29(일)'?'11월 24일 – 29일 · 5박':'11월 24일 – 28일 · 4박';$('tripDates').innerHTML=dates.map(([key,label,sub])=>`<button id="trip-date-${key}" role="tab" aria-selected="${day===key}" aria-controls="tripDay" tabindex="${day===key?0:-1}" data-trip-date="${key}">${label} · ${sub}</button>`).join('');$('tripDay').setAttribute('aria-labelledby','trip-date-'+day)}
+function renderDates(){const ret=TripState.get().returnDay===29?'11/29(일)':'11/28(토)';const dates=[['24','24 화','도착'],['25','25 수','디즈니'],['26','26 목','센트럴'],['27','27 금','구룡'],['28','28 토',ret==='11/29(일)'?'홍콩섬':'오전 산책'],['return','귀국',ret==='11/29(일)'?'29 일':'28 토']];const hd=$('tripHeroDates');if(hd)hd.textContent=ret==='11/29(일)'?'11월 24일 – 29일 · 5박':'11월 24일 – 28일 · 4박';$('tripDates').innerHTML=dates.map(([key,label,sub])=>`<button id="trip-date-${key}" role="tab" aria-selected="${day===key}" aria-controls="tripDay" tabindex="${day===key?0:-1}" data-trip-date="${key}"><b>${label}</b><span>${sub}</span></button>`).join('');$('tripDay').setAttribute('aria-labelledby','trip-date-'+day)}
 // 야경 보는 곳 — 가기 전에 기상청 실시간 카메라로 안개 확인 (인스타 34, 2026-10-22)
 const VIEW={peak:'피크',lugard:'피크',bubba:'피크',aos:'침사추이',ferry:'침사추이·센트럴'};
 const HKO_CAM='https://www.hko.gov.hk/en/wxinfo/ts/index_webcam.htm';
