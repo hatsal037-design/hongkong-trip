@@ -140,10 +140,16 @@ function fitHalf(){const c=$('nextCard'),f=c?.querySelector('.gfold');if(c){c.cl
  if(sheet.style.getPropertyValue('--half')===T+'px')return false;
  sheet.style.setProperty('--half',T+'px');if(sheet.dataset.detent==='half')sheet.scrollTo({top:sp1.offsetHeight,behavior:'instant'});return true}
 /* 반·접힘에선 목록을 손으로 못 내리므로, 선택이 없으면 맨 위(다음 갈 곳)로 되돌린다 */
-function updatePad(n){const low=n!=='full'&&n!=='wide';slist.style.paddingBottom=low?slist.clientHeight+'px':'';if(low&&!selKey&&slist.scrollTop)slist.scrollTo({top:0,behavior:BEH()})}
+function updatePad(n){if(n==='wide'){slist.style.paddingBottom='';return}const hidden=Math.max(0,bodyTopFor(n)+sbody.offsetHeight-innerHeight);slist.style.paddingBottom=(hidden+dockH()+16)+'px'}
 function setDetent(n,instant){if(wide())return;updatePad(n);sheet.dataset.detent=n;sheet.scrollTo({top:detTop()[n],behavior:instant?'instant':BEH()});$('grabber').setAttribute('aria-label',n==='full'?'목록 작게 보기':'목록 크게 보기')}
 {let tm=null;sheet.addEventListener('scroll',()=>{clearTimeout(tm);tm=setTimeout(()=>{const n=curDetent();if(sheet.dataset.detent!==n){sheet.dataset.detent=n;updatePad(n);$('grabber').setAttribute('aria-label',n==='full'?'목록 작게 보기':'목록 크게 보기')}},140)},{passive:true})}
-$('grabber').addEventListener('click',()=>{const n=curDetent();setDetent(n==='peek'?'half':n==='half'?'full':'half')});
+{const g=sbody.querySelector('.grab');let y0=0,t0=0,top0=0,drag=false,moved=false,last=[];
+ g.addEventListener('pointerdown',e=>{if(wide())return;drag=true;moved=false;y0=e.clientY;top0=sheet.scrollTop;last=[[e.clientY,e.timeStamp]];g.setPointerCapture(e.pointerId)});
+ g.addEventListener('pointermove',e=>{if(!drag)return;const dy=y0-e.clientY;if(Math.abs(dy)>6)moved=true;if(!moved)return;const D=detTop();sheet.scrollTop=Math.max(D.peek,Math.min(D.full,top0+dy));last.push([e.clientY,e.timeStamp]);if(last.length>5)last.shift()});
+ const end=e=>{if(!drag)return;drag=false;if(!moved)return;const [a,b]=[last[0],last[last.length-1]],v=b&&a&&b[1]>a[1]?(a[0]-b[0])/(b[1]-a[1]):0,D=detTop(),t=sheet.scrollTop+v*180;
+  const n=Object.entries({peek:D.peek,half:D.half,full:D.full}).sort((x,y)=>Math.abs(x[1]-t)-Math.abs(y[1]-t))[0][0];setDetent(n)};
+ g.addEventListener('pointerup',end);g.addEventListener('pointercancel',end);
+ $('grabber').addEventListener('click',e=>{if(moved){moved=false;return}const n=curDetent();setDetent(n==='peek'?'half':n==='half'?'full':'half')})}
 
 /* 지도 */
 let tmap=null,pinLayer=null,optLayer=null,markers={},tileErr=0,meMarker=null,lastPts=[];
@@ -564,9 +570,9 @@ document.addEventListener('keydown',e=>{if(e.target.matches?.('.atable tr[data-a
 document.addEventListener('toggle',e=>{if(e.target.id==='fwDetails'&&e.target.open)loadFares()},true);
 
 /* ══ 탭 ═══════════════════════════════════════════════ */
-const TABS=[['trip','여행',paths.schedule],['prep','준비·예약',paths.prep],['me','나',paths.me]];
+const TABS=[['prep','준비·예약',paths.prep],['trip','여행',paths.schedule],['me','나',paths.me]];
 const TITLE={prep:'준비·예약',me:'나'};
-$('tabs').innerHTML=TABS.map(([k,l,p])=>`<button type="button" role="tab" id="tab-${k}" data-tab="${k}" aria-controls="${k}" aria-selected="false" tabindex="-1">${svg(p,1.7)}<span>${l}</span></button>`).join('');
+$('tabs').innerHTML='';$('tabs').innerHTML=TABS.map(([k,l,p])=>`<button type="button" role="tab" id="tab-${k}" data-tab="${k}" aria-controls="${k}" aria-selected="false" tabindex="-1">${svg(p,1.7)}<span>${l}</span></button>`).join('');$('tabs').append($('toolsBtn'));
 let active=null;
 const sv0=read('hk-a-tab-v1',null),sameDay=sv0&&typeof sv0==='object'&&sv0.hkDate===hkDate();
 let positions=(mode()!=='trip'||sameDay)?read('hk-a-scroll-v1',{}):{};
