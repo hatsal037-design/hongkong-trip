@@ -699,4 +699,6 @@ save();renderTrip();render();renderPrep();setSeg(toolSeg,false);
  chooseTab(first||'trip',{hash:!authReturn});
  requestAnimationFrame(()=>{setDetent('half',true);if(initTripMap()){tmap.invalidateSize();drawPins(true)}});
  if(h0==='talk')openTools('talk')}
+/* 네온은 스크롤의 1/4만 따라감 */
+slist.addEventListener('scroll',()=>{const n=sbody.querySelector('.wneon');if(n)n.style.transform=`translateY(${-slist.scrollTop*.25}px)`},{passive:true});
 })();
