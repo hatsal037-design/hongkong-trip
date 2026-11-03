@@ -255,7 +255,7 @@ const EXP={'지금':'오늘','출발 1주 전':'11·17','날짜 확정 후':'11�
 /* 일정 끝난 날 — 숙소로 바로 */
 const homeActs=()=>{const h=hotelStop(),u=uberUrl(h);return `<div class="acts"><button type="button" class="act" data-trip-taxi="hotel">${ACT_TAXI}<span>숙소 택시카드</span></button>${u?`<a class="act" href="${u}" target="_blank" rel="noopener">${ACT_TAXI}<span>우버</span></a>`:''}<a class="act" href="${directions(h)}" target="_blank" rel="noopener">${ACT_GO}<span>대중교통</span></a></div>`};
 function nextCard(d,nx){
- if(!nx)return `<section class="card next end" id="nextCard" aria-label="다음 갈 곳"><div class="in"><h3>오늘 일정 끝 · 수고했어요</h3><p class="muted" style="font-size:.875rem;margin-top:4px">숙소로 돌아가는 길 · 내일 일정은 위 날짜에서</p></div>${homeActs()}</section>`;
+ if(!nx)return `<section class="card next end" id="nextCard" aria-label="다음 갈 곳"><div class="in"><h3>${pb('end',{end:'f_2046'})}오늘 일정 끝 · 수고했어요</h3><p class="muted" style="font-size:.875rem;margin-top:4px">숙소로 돌아가는 길 · 내일 일정은 위 날짜에서</p></div>${homeActs()}</section>`;
  const s=nx,L=d.legacy,inList=d.stops.includes(s),i=d.stops.indexOf(s),g=GUIDE[s[0]]||{};
  let prev=null;if(inList)prev=i>0?d.stops[i-1]:null;else{const done=d.stops.filter(x=>checks[L+'-'+x[0]]);prev=done[done.length-1]||d.stops.find(x=>x[0]==='hotel')||null}
  const km=prev&&kmBetween(prev,s);
