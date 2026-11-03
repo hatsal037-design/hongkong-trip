@@ -64,7 +64,9 @@ function quoteTotals(){
 window.TripState=(()=>{
  const key='hk-trip-state-v1';let memory=null;
  const rd=()=>{try{return JSON.parse(localStorage.getItem(key))||memory}catch{return memory}};
- return {get:()=>({...(rd()||{hotel:null}),returnDay:28}),
+ // 숙소 확정(2026-11-02 아고다) — 견적 탭 선택과 상관없이 일정은 이 숙소로.
+ const BOOKED={ko:'비브비브 호텔',en:'Vve Vve Hotel',zh:'優遊居',addrZh:'九龍尖沙咀彌敦道99-101號海防大廈4樓406-7室',addrEn:'Rm 406-7, 4/F, HaiPhong Mansion, 99-101 Nathan Rd, Tsim Sha Tsui',lat:22.2977,lng:114.1721,area:'tst'};
+ return {get:()=>({...(rd()||{}),hotel:BOOKED,returnDay:28}),
  set(value){memory=value;try{localStorage.setItem(key,JSON.stringify(value))}catch{}window.dispatchEvent(new Event('hk-trip-change'))}};
 })();
 window.publishTripFromQuote=()=>{const h=stayById(S.stay);const next={returnDay:28,hotel:h?{ko:h[0],en:h[12]||h[0],zh:'',addrZh:'',addrEn:'',lat:h[8],lng:h[9],area:h[1]}:null};if(JSON.stringify(next)!==JSON.stringify(TripState.get()))TripState.set(next)};
@@ -101,10 +103,10 @@ function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().h
 function proc(title,steps,open){return `<details class="dcard"${open?' open':''}><summary><span>${esc(title)}</span>${CHEV}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
 /* 원본 buildDay — 28일은 토요일 귀국 고정 분기 + «시간 되면» 5곳(opt) */
 function buildDay(k=day){let stops,title,legacy=LEGACY[k],steps='',opt=null;
- if(k==='24'){title='11/24(화) · 도착';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';rail[8]='숙소 위치에 맞춰 공항철도·버스·택시 선택';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===4?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)+(i===1?proc('6100 공항버스 · 07:17 ~ 08:32 차',BUS_OUT,true):'')).join('')}
+ if(k==='24'){title='11/24(화) · 도착';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===4?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)+(i===1?proc('6100 공항버스 · 07:17 ~ 08:32 차',BUS_OUT,true):'')).join('')}
  if(k==='25'){title='11/25(수) · 디즈니';stops=disney();steps=proc('챙길 것',['날짜 지정 티켓·파크 예약·QR 저장','외부 음식 반입 가능 · 작은 우산·겉옷','바퀴 달린 캐리어는 숙소에 맡기기'])+`<div class="card flush"><button type="button" class="lrow ico" data-open="disneySheet" aria-haspopup="dialog">${kicoBox('#ff9f0a',KSVG.star)}<span class="t"><b>디즈니 안내</b><small>티켓·가는 길·하루 예시·챙길 것</small></span>${CHEV}</button></div>`}
  if(k==='26'||k==='27'){title=k==='26'?'11/26(목) · 센트럴':'11/27(금) · 구룡';stops=DAYS[legacy].stops;steps=`<div class="card"><p style="font-size:.9375rem;line-height:1.55">${esc(DAYS[legacy].desc)}</p></div>`}
- if(k==='28'){title='11/28(토) · 귀국';const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(코즈웨이베이)에서 MTR 10분';stops=[short,hotelStop('11:00 · 짐 찾기'),airport()];opt=DAYS.d4.stops.filter(x=>x[0]!=='yick');steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s),true)+proc('6100 공항버스 · 22:05 ~ 23:20(막차)',BUS_RET,true)}
+ if(k==='28'){title='11/28(토) · 귀국';const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(침사추이)에서 MTR 애드미럴티 환승 약 25분';stops=[short,hotelStop('11:30 · 체크아웃'),airport()];opt=DAYS.d4.stops.filter(x=>x[0]!=='yick');steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s),true)+proc('6100 공항버스 · 22:05 ~ 23:20(막차)',BUS_RET,true)}
  return {k,stops,title,legacy,steps,opt}}
 let curD=buildDay();
 function findStop(key){return key==='hotel'?hotelStop():curD.stops.find(s=>s[0]===key)||curD.opt?.find(s=>s[0]===key)||disney().find(s=>s[0]===key)||(key==='hkia-t2'?airport():null)||Object.values(DAYS).flatMap(d=>d.stops).find(s=>s[0]===key)}
@@ -115,7 +117,7 @@ function nextOf(d){const L=d.legacy,sk=(read('hk-skip',{})[L])||[],left=d.stops.
 const kindOf=s=>{const k=s[0],n=s[2]||'';if(/^hkia/.test(k))return['plane','#0a84ff'];if(k==='hotel')return['bed','#bf5af2'];if(/ferry|페리/.test(k+n))return['boat','#30d158'];if(k==='kowloon'||/공항철도|역$|트램|MTR/.test(n))return['train','#40c8e0'];if(s[9]==='night')return['moon','#5e5ce6'];if(/disney/.test(k))return['star','#ff9f0a'];return['pin','#ff375f']};
 const kIco=s=>{const [k,c]=kindOf(s);return kicoBox(c,KSVG[k])};
 const legText=(a,b)=>{const km=a&&kmBetween(a,b);return km==null?'':km<1.3?`걸어서 ${Math.max(2,Math.round(km*17))}분`:km<15?'MTR·택시':`약 ${Math.round(km)}km`};
-let hotelBooked=false;
+let hotelBooked=true;
 const hotelBadge=()=>hotelBooked?'예약 완료':'후보 · 예약 전';
 const AREA_EN={tst:'Tsim Sha Tsui, Kowloon',cen:'Central / Sheung Wan, Hong Kong Island',cwb:'Causeway Bay / Wan Chai, Hong Kong Island',np:'North Point, Hong Kong Island',mk:'Mong Kok / Yau Ma Tei, Kowloon'};
 const TALK_CTX={hkia:'공항 도착 · 입국',kowloon:'MTR · 옥토퍼스',sunny:'MTR · 옥토퍼스','disney-station':'MTR · 옥토퍼스','disney-last':'MTR · 옥토퍼스',hotel:'호텔',disney:'디즈니','disney-show':'디즈니',lfy:'식당 · 차찬텡',adc:'식당 · 차찬텡',bakehouse:'식당 · 차찬텡',bubba:'식당 · 차찬텡',duck:'식당 · 차찬텡',lkf:'식당 · 차찬텡',sim:'쇼핑 · 결제',apliu:'쇼핑 · 결제',mk:'쇼핑 · 결제','hkia-t2':'귀국'};
@@ -608,13 +610,13 @@ addEventListener('storage',e=>{if(e.key==='hk-trip-state-v1'){renderTrip({fit:tr
  async function show(user){
   uid=user?.id||null;$('meOut').hidden=!!uid;$('meIn').hidden=!uid;$('docsOut').hidden=!!uid;$('meFiles').hidden=!uid;
   $('meHint').textContent=uid?'나만 보여요':'항공·여권·숙소·서류';
-  if(!uid){hotelBooked=false;$('syncState').textContent='체크·별·메모 — 이 기기에만 저장 · 로그인하면 연주님과 공유';return}
+  if(!uid){$('syncState').textContent='체크·별·메모 — 이 기기에만 저장 · 로그인하면 연주님과 공유';return}
   const nick=user.user_metadata?.name||user.user_metadata?.full_name||user.user_metadata?.preferred_username||'';
   $('meWho').textContent=nick?`카카오 · ${nick}`:'카카오 로그인됨';
   const {data}=await sb.from('my_info').select('data').eq('app',APP).maybeSingle();
   const d=data?.data||{};F.forEach(k=>$('me_'+k).value=d[k]||'');
   if(!d.name&&nick)$('me_name').value=nick;
-  if(hotelBooked!==!!(d.hotel||'').trim()){hotelBooked=!!(d.hotel||'').trim();renderTrip();render();renderPrep()}
+  
   files();pullMarks(true);
  }
  const ok=v=>v!==false&&v!==''&&v!=null,readLS=k=>{try{return JSON.parse(localStorage.getItem(k))||{}}catch{return {}}};
@@ -632,7 +634,7 @@ addEventListener('storage',e=>{if(e.key==='hk-trip-state-v1'){renderTrip({fit:tr
   const d={};F.forEach(k=>d[k]=$('me_'+k).value.trim());
   const {error}=await sb.from('my_info').upsert({user_id:uid,app:APP,data:d,updated_at:new Date().toISOString()});
   $('meSaved').textContent=error?'저장 실패 — '+error.message:'저장됨';
-  if(!error&&hotelBooked!==!!d.hotel){hotelBooked=!!d.hotel;renderTrip();render();renderPrep()}
+  
  }
  F.forEach(k=>$('me_'+k).addEventListener('input',()=>{$('meSaved').textContent='저장 중…';clearTimeout(timer);timer=setTimeout(saveMe,800)}));
  async function files(){
