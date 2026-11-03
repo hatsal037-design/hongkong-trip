@@ -105,11 +105,11 @@ function proc(title,steps,open){return `<details class="dcard"${open?' open':''}
 function buildDay(k=day){let stops,title,legacy=LEGACY[k],steps='',opt=null;
  if(k==='24'){title='11/24(화) · 도착';const arrival=[...DAYS.d1.stops[0]];arrival[1]='15:30';const rail=[...DAYS.d1.stops[1]];rail[1]='입국 후';if(['cen','cwb','np'].includes(TripState.get().hotel?.area)){rail[2]='공항철도 홍콩역';rail[3]='機場快綫 香港站';rail[4]='Airport Express Hong Kong Station';rail[5]='中環港景街1號';rail[6]=22.2849;rail[7]=114.1584}stops=[arrival,rail,hotelStop('체크인'),...DAYS.d1.stops.slice(2)];steps=DEPART.map((d,i)=>proc(d.t,i===4?d.steps.filter(s=>!s.includes('무료 셔틀')):d.steps)+(i===1?proc('6100 공항버스 · 07:17 ~ 08:32 차',BUS_OUT,true):'')).join('')}
  if(k==='25'){title='11/25(수) · 디즈니';stops=disney();steps=proc('챙길 것',['날짜 지정 티켓·파크 예약·QR 저장','외부 음식 반입 가능 · 작은 우산·겉옷','바퀴 달린 캐리어는 숙소에 맡기기'])+`<div class="card flush"><button type="button" class="lrow ico" data-open="disneySheet" aria-haspopup="dialog">${kicoBox('#ff9f0a',KSVG.star)}<span class="t"><b>디즈니 안내</b><small>티켓·가는 길·하루 예시·챙길 것</small></span>${CHEV}</button></div>`}
- if(k==='26'||k==='27'){title=k==='26'?'11/26(목) · 센트럴':'11/27(금) · 구룡';stops=DAYS[legacy].stops;steps=`<div class="card"><p style="font-size:.9375rem;line-height:1.55">${esc(DAYS[legacy].desc)}</p></div>`}
+ if(k==='26'||k==='27'){title=k==='26'?'11/26(목) · 센트럴':'11/27(금) · 만불사·구룡';stops=DAYS[legacy].stops;opt=DAYS[legacy].opt||null;steps=`<div class="card"><p style="font-size:.9375rem;line-height:1.55">${esc(DAYS[legacy].desc)}</p></div>`}
  if(k==='28'){title='11/28(토) · 귀국';const short=[...DAYS.d4.stops.find(x=>x[0]==='yick')];short[1]='09:00';short[8]+=' · 숙소(침사추이)에서 MTR 애드미럴티 환승 약 25분';stops=[short,hotelStop('11:30 · 체크아웃'),airport()];opt=DAYS.d4.stops.filter(x=>x[0]!=='yick');steps=proc('귀국 준비',RETURN.map(s=>s==='공항 출발 2시간 30분 전'?'14:10 홍콩공항 도착':s),true)+proc('6100 공항버스 · 22:05 ~ 23:20(막차)',BUS_RET,true)}
  return {k,stops,title,legacy,steps,opt}}
 let curD=buildDay();
-function findStop(key){return key==='hotel'?hotelStop():curD.stops.find(s=>s[0]===key)||curD.opt?.find(s=>s[0]===key)||disney().find(s=>s[0]===key)||(key==='hkia-t2'?airport():null)||Object.values(DAYS).flatMap(d=>d.stops).find(s=>s[0]===key)}
+function findStop(key){return key==='hotel'?hotelStop():curD.stops.find(s=>s[0]===key)||curD.opt?.find(s=>s[0]===key)||disney().find(s=>s[0]===key)||(key==='hkia-t2'?airport():null)||Object.values(DAYS).flatMap(d=>[...d.stops,...(d.opt||[])]).find(s=>s[0]===key)}
 const kmBetween=(a,b)=>{if(![a[6],a[7],b[6],b[7]].every(Number.isFinite))return null;const R=6371,r=x=>x*Math.PI/180,dl=r(b[6]-a[6]),dn=r(b[7]-a[7]);return 2*R*Math.asin(Math.sqrt(Math.sin(dl/2)**2+Math.cos(r(a[6]))*Math.cos(r(b[6]))*Math.sin(dn/2)**2))};
 /* 원본 nextOf + «시간 되면» 지정 폴백 */
 function nextOf(d){const L=d.legacy,sk=(read('hk-skip',{})[L])||[],left=d.stops.filter(x=>!checks[L+'-'+x[0]]),p=nextPin[L];
@@ -477,7 +477,7 @@ $('toolsBtn').onclick=()=>openTools();
 $('toolSeg').addEventListener('keydown',e=>{const i=SEGS.indexOf(toolSeg);const n=e.key==='ArrowRight'?(i+1)%4:e.key==='ArrowLeft'?(i+3)%4:null;if(n==null)return;e.preventDefault();setSeg(SEGS[n]);$('toolSeg').querySelector(`[data-seg=${SEGS[n]}]`).focus()});
 
 const taxiRow=(s,label)=>{const k=s[0],h=k==='hotel'?TripState.get().hotel:null;const sub=k==='hotel'?(h?(h.en||h.ko):'숙소 미정 · 고르기'):(s[3]||s[4]);return `<button type="button" class="lrow ico" data-trip-taxi="${k}">${kIco(s)}<span class="t"><b>${esc(label||s[2])}</b><small>${esc(sub)}</small></span>${CHEV}</button>`};
-function allStops(){const seen=new Set(),out=[];[...Object.values(DAYS).flatMap(d=>d.stops),...disney(),airport()].forEach(s=>{if(!seen.has(s[0])){seen.add(s[0]);out.push(s)}});return out}
+function allStops(){const seen=new Set(),out=[];[...Object.values(DAYS).flatMap(d=>[...d.stops,...(d.opt||[])]),...disney(),airport()].forEach(s=>{if(!seen.has(s[0])){seen.add(s[0]);out.push(s)}});return out}
 function renderTaxi(){const t=todayChip(),k=t||'24',d=buildDay(k),mm=+k;
  $('tp-taxi').innerHTML=`<div class="card flush taxi">${taxiRow(hotelStop(),'숙소로')}${taxiRow(DAYS.d1.stops[0],'공항')}${taxiRow(disney().find(s=>s[0]==='disney'),'디즈니랜드')}${taxiRow(DAYS.d1.stops.find(s=>s[0]==='aos'),'침사추이 해변')}</div><p class="tcap">${t?`오늘 (11/${mm})`:'첫날 (11/24)'} · ${d.stops.length}곳</p><div class="card flush taxi">${d.stops.map(s=>taxiRow(s)).join('')}</div><details class="dcard taxi" id="taxiAll"><summary><span>모든 장소 · ${allStops().length}곳</span>${CHEV}</summary>${allStops().map(s=>taxiRow(s)).join('')}</details>`}
 
