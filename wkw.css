@@ -147,3 +147,8 @@ html[data-skin=wkw] .prow .lrow .r{gap:2px}
 html[data-skin=wkw] .stn-or{display:inline;font-size:.75rem;color:var(--sub);margin:0 2px}
 html[data-skin=wkw] .slist{position:relative;z-index:1}
 html[data-skin=wkw] .wneon{bottom:0;height:auto;overflow:hidden}
+/* 나·도구에도 네온 하나씩 */
+html[data-skin=wkw] #me>h1,html[data-skin=wkw] #tools .sh-top{position:relative}
+html[data-skin=wkw] #me>h1::after{content:"花樣年華";position:absolute;right:0;top:0;font:300 34px/1 'Noto Serif TC',serif;color:#fff3e2;text-shadow:0 0 2px #fff,0 0 8px #ffb347,0 0 20px #ffb347,0 0 40px #ffb347;pointer-events:none}
+html[data-skin=wkw] #tools .sh-top::after{content:"春光乍洩";position:absolute;left:18px;top:4px;letter-spacing:.15em;font:300 17px/1 'Noto Serif TC',serif;color:#fff0fa;text-shadow:0 0 2px #fff,0 0 6px #ff7ad9,0 0 14px #ff7ad9,0 0 26px #ff7ad9;pointer-events:none}
+html[data-skin=wkw][data-tod=day] #me>h1::after,html[data-skin=wkw][data-tod=day] #tools .sh-top::after{color:transparent;-webkit-text-stroke:1px #b08a5a;text-shadow:none;opacity:.7}

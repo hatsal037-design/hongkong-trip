@@ -249,7 +249,7 @@ const wneonHtml=(d,nx)=>{const f=nx?WKW.film[d.k]:WKW.film.end;if(!f)return '';c
  return `<div class="wneon ${v==='B'?'b':'a'}" style="--n:${c}" aria-hidden="true"><span class="z">${z}</span><small>${e}</small></div>`};
 const setTod=()=>{const m=hkMin();document.documentElement.dataset.tod=m>=18*60||m<6*60?'night':'day'};
 setTod();setInterval(setTod,60000);
-{const b=$('skinBtn'),on=document.documentElement.dataset.skin==='wkw';if(b){b.textContent=on?'왕가위 결 끄기':'왕가위 결로 보기';b.addEventListener('click',()=>{try{localStorage.setItem('hk-skin',on?'':'wkw')}catch{}location.replace(location.pathname)})}}
+{const b=$('skinBtn'),on=document.documentElement.dataset.skin==='wkw';if(b){b.textContent=on?'기본 화면으로':'청킹맨션 테마로';b.addEventListener('click',()=>{try{localStorage.setItem('hk-skin',on?'off':'wkw')}catch{}location.replace(location.pathname)})}}
 const flipHtml=tm=>/^\d{1,2}:\d{2}$/.test(tm||'')?`<span class="flipT" aria-hidden="true">${tm.padStart(5,'0').split('').map(c=>c===':'?'<em>:</em>':`<b>${c}</b>`).join('')}</span>`:'';
 const EXP={'지금':'오늘','출발 1주 전':'11·17','날짜 확정 후':'11·17','출발 2~3일 전':'11·21','출발 2~3일 전 설치':'11·21','출발 전':'11·23','출발 전 확인':'11·23','체크인 때':'11·24','표 사기 전':'오늘'};
 /* 일정 끝난 날 — 숙소로 바로 */
