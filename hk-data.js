@@ -216,6 +216,16 @@ const DROP = {
   'n-wk':['22.29972','114.15773','뮤지엄 드라이브(博物館道) 아트파크 입구 — M+ 미술관 옆'],
 };
 
+// 왕가위 결(skin=wkw)에서만 보이는 것 — 장소 배지·내릴 역·날짜별 영화 네온. 역 색은 중문 위키 港鐵車站顏色 기준 근삿값(2026-11-03 조사)
+const WKW = {
+  prop:{hkia:'cap','hkia-t2':'cap',kowloon:'ticket',hotel:'key',ckm:'film',aos:'camera',ferry:'lifebuoy',h1881:'camera',lfy:'milktea',esc:'escalator',potti:'film',lkf:'polaroid',soho:'map',bakehouse:'eggtart',wall:'film',gdi:'film',peak:'peaktram',lugard:'camera',bubba:'shrimp',choi:'laundry',adc:'toast',tbm:'buddha',sim:'camera',mk:'film',apliu:'cassette',temple:'thermos',yick:'aircon',cht:'bus',npgo:'film',gold:'polaroid',lym:'film','n-wk':'camera','n-otd':'camera','n-clock':'alarm','n-tste':'camera',disney:'ticket','disney-show':'stamp'},
+  // [역 한자, 영문, 벽 색, 글자색, 출구]
+  stn:{hkia:['機場','Airport','#808080','#111',''],kowloon:['九龍','Kowloon','#ACA28A','#111',''],hotel:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','A1'],ckm:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],aos:['尖東','East TST','#FFFF00','#111','J'],ferry:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],h1881:['尖東','East TST','#FFFF00','#111','L6'],lfy:['中環','Central','#AA0000','#fff','D2'],esc:['中環','Central','#AA0000','#fff','D2'],potti:['中環','Central','#AA0000','#fff','D2'],soho:['中環','Central','#AA0000','#fff','D2'],bakehouse:['中環','Central','#AA0000','#fff','D2'],gdi:['上環','Sheung Wan','#FFD280','#6B4513','C'],peak:['中環','Central','#AA0000','#fff','J2'],adc:['佐敦','Jordan','#307D6B','#fff','C2'],tbm:['沙田','Sha Tin','#BB7796','#fff','B'],sim:['旺角','Mong Kok','#BE2700','#fff','D3'],mk:['旺角','Mong Kok','#BE2700','#fff','E2'],apliu:['深水埗','Sham Shui Po','#016258','#fff','A2'],temple:['油麻地','Yau Ma Tei','#CCCCCC','#111','C'],yick:['太古','Tai Koo','#8a8a8a','#fff','B'],npgo:['北角','North Point','#E86220','#111',''],gold:['銅鑼灣','Causeway Bay','#C8A2C8','#111','F1'],choi:['彩虹','Choi Hung','rainbow','#fff','C4']},
+  // 날짜별 영화 네온 [한자, 영문, 색, 배치 A=카드 뒤 가로 · B=작은 세로 간판]
+  film:{'24':['重慶森林','CHUNGKING EXPRESS','#3dff8a','A'],'25':['春光乍洩','HAPPY TOGETHER','#ff7ad9','A'],'26':['阿飛正傳','DAYS OF BEING WILD','#3dff8a','B'],'27':['墮落天使','FALLEN ANGELS','#ff3b5c','B'],'28':['無間道','INFERNAL AFFAIRS','#4fc3ff','A'],end:['花樣年華','IN THE MOOD FOR LOVE','#ffb347','C']},
+  prep:{'p-disney25':'ticket','p-deposit':'key','p-latein':'key','p-octo':'octopus','p-klook':'envelope','p-esim':'phone','p-esim2':'phone','p-esim-ipad':'phone','p-home':'passport','p-trans':'jukebox','p-applepay':'octopus','p-kakao':'octopus','p-uber':'taxi','p-gmap':'map','p-city':'tram','p-mtr':'ticket','p-hktaxi':'taxi','p-openrice':'milktea'},
+};
+
 // ── 준비 — 등록·안 되는 것·출국·버스·귀국·꿀팁 (base.html 737~866행)
 /* ───── 준비: 미리 등록 / 가서 쓸 것 / 안 되는 것 ───── */
 const PREP = [

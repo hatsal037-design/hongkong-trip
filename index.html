@@ -10,6 +10,7 @@
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="a.css">
+<script>/* 왕가위 결: ?skin=wkw|off 또는 «나» 탭 버튼 — 이 기기에만 저장 */try{var q=new URLSearchParams(location.search).get("skin");if(q!==null)localStorage.setItem("hk-skin",q==="wkw"?"wkw":"");if(localStorage.getItem("hk-skin")==="wkw"){document.documentElement.setAttribute("data-skin","wkw");document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;900&family=Josefin+Sans:wght@300&display=swap"><link rel="stylesheet" href="wkw.css">')}}catch(e){}</script>
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script defer src="hk-data.js"></script>
 <script defer src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -62,7 +63,7 @@
 <!-- 나 -->
 <main id="me" class="tab-panel page" role="tabpanel" aria-labelledby="tab-me" hidden>
  <h1 tabindex="-1">나</h1>
- <p class="dek" id="meHint">항공·여권·숙소·서류</p>
+ <p class="dek" id="meHint" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>항공·여권·숙소·서류</span><button type="button" id="skinBtn" class="skin-btn">왕가위 결로 보기</button></p>
  <div class="sec"><h2>항공</h2></div>
  <div class="card flush">
   <div class="info"><span class="k">가는 편</span><b>UO619 · 11/24(화) <span class="nw">12:25 인천 T1 → 15:30 홍콩 T1</span></b></div>
