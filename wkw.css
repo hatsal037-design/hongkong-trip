@@ -172,3 +172,5 @@ html[data-skin=wkw] .mgrp::before{content:"";position:absolute;top:3px;left:50%;
 /* 날짜칩도 황동판 (도장 취소) */
 html[data-skin=wkw] .exp,html[data-skin=wkw] .can,html[data-skin=wkw] .can.red,html[data-skin=wkw] .can.soon,html[data-skin=wkw][data-tod=night] .exp,html[data-skin=wkw][data-tod=night] .can{transform:none;opacity:1;color:#3a2810;background:linear-gradient(160deg,#e6c873,#b8903e 50%,#8a6a2a);box-shadow:inset 0 0 0 1px rgba(255,230,160,.5),0 1px 2px rgba(0,0,0,.4);text-shadow:0 1px 0 rgba(255,240,200,.5);letter-spacing:.03em}
 html[data-skin=wkw] .can.red,html[data-skin=wkw] .can.soon{color:#7a1a14}
+/* 위 날짜 줄은 다시 영화표 */
+html[data-skin=wkw] .daycap button[aria-selected=true]{background:linear-gradient(#a3262a 0 50%,#8e1f23 50%);color:#f3e6c8;text-shadow:none;box-shadow:0 2px 5px rgba(0,0,0,.4);-webkit-mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
