@@ -392,7 +392,7 @@ const TALK=[
   ['사진 찍어도 돼요?','可唔可以影相呀？','호음호이 영썽 아','Can I take photos?']]],
  ['공항 도착 · 입국','11/24',[
   ['관광이에요, 4박이요','Sightseeing. Four nights.','','입국심사는 영어로'],
-  ['호텔은 ○○이에요','I’m staying at ○○ Hotel.','','']]],
+  ['호텔은 비브비브(優遊居)예요','I’m staying at Vve Vve Hotel.','','']]],
  ['MTR · 옥토퍼스','11/24~',[
   ['옥토퍼스 충전하고 싶어요','我想增值八達通','응오 셩 짱찍 빳땃통','I’d like to top up my Octopus'],
   ['○○역 어떻게 가요?','○○站點去呀？','○○짬 띰허이 아','How do I get to ○○ station?'],
@@ -407,7 +407,8 @@ const TALK=[
   ['공항으로 가주세요','唔該去機場','음꺼이 허이 께이쳥','To the airport, please'],
   ['영수증 주세요','唔該俾張收據我','음꺼이 뻬이 쩡 싸우꼬이 응오','Receipt, please']]],
  ['호텔','11/24 · 귀국날',[
-  ['예약했어요, 이름은 ○○','I have a reservation under ○○.','',''],
+  ['예약했어요, 이름은 임햇살','I have a reservation under LIM HAETSAL.','',''],
+  ['예약했어요, 이름은 채연주','I have a reservation under CHAE YEONJU.','',''],
   ['짐 맡길 수 있어요?','Could we leave our luggage here?','',''],
   ['일찍 체크인 돼요?','Is early check-in possible?','',''],
   ['늦게 체크아웃 돼요?','Could we get a late checkout?','',''],
