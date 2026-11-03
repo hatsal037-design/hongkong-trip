@@ -518,7 +518,9 @@ function talkTo(name){if(!name){const k=lastArrive&&Date.now()-lastArrive.t<18e5
  const gi=TALK.findIndex(t=>t[0]===name);const sec=gi>-1&&$('tg-'+gi);
  $('tp-talk').style.setProperty('--chips-h',$('talkChips').offsetHeight+'px');
  requestAnimationFrame(()=>{if(sec)sec.querySelector('h3').scrollIntoView({block:'start',behavior:'instant'});else $('tp-talk').scrollTop=0})}
-function speakTalk(r,btn){if(!('speechSynthesis' in window)){btn.disabled=true;return}speechSynthesis.cancel();const text=r[1].replace(/○○/g,'').replace(/\s*\/\s*/g,'，');const yue=/[㐀-鿿]/.test(text);const u=new SpeechSynthesisUtterance(text);u.lang=yue?'zh-HK':'en-US';const v=speechSynthesis.getVoices().find(v=>yue?/zh[-_]HK|yue/i.test(v.lang):/^en[-_](US|GB)/i.test(v.lang));if(v)u.voice=v;u.rate=yue?.85:.95;document.querySelectorAll('.talk-play.on').forEach(b=>b.classList.remove('on'));btn.classList.add('on');u.onend=u.onerror=()=>btn.classList.remove('on');speechSynthesis.speak(u)}
+let talkAud=null;function speakTalk(r,btn){const text=r[1].replace(/○○/g,'').replace(/\s*\/\s*/g,'，');const f=typeof TALK_AUDIO!=='undefined'&&TALK_AUDIO[text];
+ if(f){talkAud?.pause();document.querySelectorAll('.talk-play.on').forEach(b=>b.classList.remove('on'));talkAud=new Audio('audio/talk/'+f+'.mp3');btn.classList.add('on');talkAud.onended=talkAud.onerror=()=>btn.classList.remove('on');talkAud.play().catch(()=>btn.classList.remove('on'));return}
+ if(!('speechSynthesis' in window)){btn.disabled=true;return}speechSynthesis.cancel();const yue=/[㐀-鿿]/.test(text);const u=new SpeechSynthesisUtterance(text);u.lang=yue?'zh-HK':'en-US';const v=speechSynthesis.getVoices().find(v=>yue?/zh[-_]HK|yue/i.test(v.lang):/^en[-_](US|GB)/i.test(v.lang));if(v)u.voice=v;u.rate=yue?.85:.95;document.querySelectorAll('.talk-play.on').forEach(b=>b.classList.remove('on'));btn.classList.add('on');u.onend=u.onerror=()=>btn.classList.remove('on');speechSynthesis.speak(u)}
 
 /* 자료 — 비상 연락 · 못 쓰는 앱 · 꿀팁 8묶음 · 인스타 모음 */
 let igCat='전체',igArea='전체';
