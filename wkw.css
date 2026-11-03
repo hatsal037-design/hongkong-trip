@@ -152,3 +152,7 @@ html[data-skin=wkw] #me>h1,html[data-skin=wkw] #tools .sh-top{position:relative}
 html[data-skin=wkw] #me>h1::after{content:"花樣年華";position:absolute;right:0;top:0;font:300 34px/1 'Noto Serif TC',serif;color:#fff3e2;text-shadow:0 0 2px #fff,0 0 8px #ffb347,0 0 20px #ffb347,0 0 40px #ffb347;pointer-events:none}
 html[data-skin=wkw] #tools .sh-top::after{content:"春光乍洩";position:absolute;left:18px;top:4px;letter-spacing:.15em;font:300 17px/1 'Noto Serif TC',serif;color:#fff0fa;text-shadow:0 0 2px #fff,0 0 6px #ff7ad9,0 0 14px #ff7ad9,0 0 26px #ff7ad9;pointer-events:none}
 html[data-skin=wkw][data-tod=day] #me>h1::after,html[data-skin=wkw][data-tod=day] #tools .sh-top::after{color:transparent;-webkit-text-stroke:1px #b08a5a;text-shadow:none;opacity:.7}
+/* 네온 높이 나누기 — 준비는 목록 뒤 중간쯤, 나는 오른쪽 세로로 아래쪽 */
+html[data-skin=wkw] #prep>h1::after{top:190px;right:-4px;font-size:60px;z-index:0;opacity:.85}
+html[data-skin=wkw] #me>h1::after{top:92px;right:4px;font-size:28px;letter-spacing:.08em}
+html[data-skin=wkw] #prep>h1,html[data-skin=wkw] #me>h1{z-index:0}
