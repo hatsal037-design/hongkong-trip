@@ -146,4 +146,4 @@ html[data-skin=wkw] .prow .lrow .t b{white-space:normal;overflow:hidden;display:
 html[data-skin=wkw] .prow .lrow .r{gap:2px}
 html[data-skin=wkw] .stn-or{display:inline;font-size:.75rem;color:var(--sub);margin:0 2px}
 html[data-skin=wkw] .slist{position:relative;z-index:1}
-html[data-skin=wkw] .sbody{overflow:hidden}
+html[data-skin=wkw] .wneon{bottom:0;height:auto;overflow:hidden}
