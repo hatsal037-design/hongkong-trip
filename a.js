@@ -712,4 +712,5 @@ slist.addEventListener('scroll',()=>{const n=sbody.querySelector('.wneon');if(!n
  addEventListener('touchend',()=>{if(y0===null)return;y0=null;
   if(d>=64){ind.classList.add('spin');ind.style.transition='transform .35s cubic-bezier(.2,1.4,.4,1)';ind.style.transform='translate(-50%,64px)';setTimeout(()=>location.reload(),450)}
   else{ind.style.transition='transform .3s ease,opacity .3s';ind.style.transform='';ind.style.opacity=0;setTimeout(()=>ind.style.cssText='',320)}d=0},{passive:true})}
+$('reloadBtn')?.addEventListener('click',()=>{$('reloadBtn').classList.add('spin');location.reload()});
 })();

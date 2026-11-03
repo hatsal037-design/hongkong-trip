@@ -566,3 +566,5 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .ptr.spin i{animation:ptrs .7s linear infinite}
 @keyframes ptrs{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.ptr.spin i{animation:ptrb 1s ease-in-out infinite}@keyframes ptrb{50%{opacity:.3}}}
+.reloadctl{position:absolute;right:0;top:-84px;pointer-events:auto}
+#reloadBtn.spin svg{animation:ptrs .7s linear infinite}

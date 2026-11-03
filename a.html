@@ -9,12 +9,12 @@
 <title>홍콩 여행</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="a.css?v=11032135">
-<script>/* 청킹맨션 테마(기본값): ?skin=wkw|off 또는 «나» 탭 버튼 — 이 기기에만 저장 */try{var q=new URLSearchParams(location.search).get("skin");if(q!==null)localStorage.setItem("hk-skin",q==="wkw"?"wkw":"off");var v=localStorage.getItem("hk-skin");if(v===null||v==="wkw"){document.documentElement.setAttribute("data-skin","wkw");document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;900&family=Josefin+Sans:wght@300&display=swap"><link rel="stylesheet" href="wkw.css?v=11032135">')}}catch(e){}</script>
+<link rel="stylesheet" href="a.css?v=11032143">
+<script>/* 청킹맨션 테마(기본값): ?skin=wkw|off 또는 «나» 탭 버튼 — 이 기기에만 저장 */try{var q=new URLSearchParams(location.search).get("skin");if(q!==null)localStorage.setItem("hk-skin",q==="wkw"?"wkw":"off");var v=localStorage.getItem("hk-skin");if(v===null||v==="wkw"){document.documentElement.setAttribute("data-skin","wkw");document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;900&family=Josefin+Sans:wght@300&display=swap"><link rel="stylesheet" href="wkw.css?v=11032143">')}}catch(e){}</script>
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script defer src="hk-data.js?v=11032135"></script>
+<script defer src="hk-data.js?v=11032143"></script>
 <script defer src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script defer src="a.js?v=11032135"></script>
+<script defer src="a.js?v=11032143"></script>
 </head>
 <body data-app-tab="trip">
 
@@ -30,6 +30,7 @@
     <div class="mapctl glass"><button type="button" id="fitBtn" aria-label="전체 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>
     <div class="daycap glass" id="dates" role="tablist" aria-label="여행 날짜"></div>
     <div class="mapctl glass"><button type="button" id="locBtn" aria-label="내 위치"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></button></div>
+    <div class="mapctl glass reloadctl"><button type="button" id="reloadBtn" aria-label="새로고침"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg></button></div>
    </div>
    <div class="grab"><button type="button" id="grabber" aria-label="목록 크게 보기"></button></div>
    <div class="slist" id="tripDay" role="tabpanel" aria-label="선택한 날 일정"></div>
