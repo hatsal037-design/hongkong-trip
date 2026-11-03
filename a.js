@@ -175,7 +175,7 @@ function pinIcon(s,i,isOpt,nx){const id=curD.legacy+'-'+s[0];const cls=[isOpt?'o
  return L.divIcon({className:'',iconSize:[28,28],iconAnchor:[14,14],html:pinHtml(cls,isOpt?'+':i+1)})}
 function drawPins(fit){if(!tmap)return;pinLayer.clearLayers();optLayer.clearLayers();markers={};const d=curD,nx=nextOf(d),pts=[];let prev=null;
  d.stops.forEach((s,i)=>{if(!Number.isFinite(s[6])||!Number.isFinite(s[7]))return;const ll=[s[6],s[7]];pts.push(ll);
-  if(prev){const km=kmBetween(prev,s);L.polyline([[prev[6],prev[7]],ll],{color:getComputedStyle(document.documentElement).getPropertyValue('--blue').trim()||'#007aff',weight:km<1.3?2.5:2.5,opacity:.9,dashArray:km<1.3?null:'6 8',interactive:false}).addTo(pinLayer)}prev=s;
+  if(prev){const km=kmBetween(prev,s);L.polyline([[prev[6],prev[7]],ll],{color:(getComputedStyle(document.documentElement).getPropertyValue('--route').trim()||getComputedStyle(document.documentElement).getPropertyValue('--blue').trim()||'#007aff'),weight:km<1.3?2.5:2.5,opacity:.9,dashArray:km<1.3?null:'6 8',interactive:false}).addTo(pinLayer)}prev=s;
   addMarker(s,i,false,nx,pinLayer)});
  (d.opt||[]).forEach(s=>{if(Number.isFinite(s[6]))addMarker(s,0,true,nx,optLayer)});
  if($('optFold')?.open)optLayer.addTo(tmap);

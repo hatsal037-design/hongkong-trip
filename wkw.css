@@ -156,3 +156,16 @@ html[data-skin=wkw][data-tod=day] #me>h1::after,html[data-skin=wkw][data-tod=day
 html[data-skin=wkw] #prep>h1::after{top:190px;right:-4px;font-size:60px;z-index:0;opacity:.85}
 html[data-skin=wkw] #me>h1::after{top:92px;right:4px;font-size:28px;letter-spacing:.08em}
 html[data-skin=wkw] #prep>h1,html[data-skin=wkw] #me>h1{z-index:0}
+/* 노랑 줄이기 — 번호=객실 열쇠 태그, 역판=바랜 페인트, 날짜칩=빨간 고무도장 */
+html[data-skin=wkw] .row .no,html[data-skin=wkw] .mpin{position:relative;border-radius:13px 13px 6px 6px;background:linear-gradient(#c4302b,#8e1f23);color:#fbe9d0;border:0;padding-top:5px;box-sizing:border-box;font-family:Georgia,'Noto Serif TC',serif;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+html[data-skin=wkw] .row .no{width:24px;height:30px}
+html[data-skin=wkw] .mpin{min-width:24px;height:30px}
+html[data-skin=wkw] .row .no::before,html[data-skin=wkw] .mpin::before{content:"";position:absolute;top:4px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--bg)}
+html[data-skin=wkw] .stopx.done>.row .no,html[data-skin=wkw] .mpin.done{background:linear-gradient(#5a4a3a,#3f342a);color:#b9a888}
+html[data-skin=wkw][data-tod=day] .mpin,html[data-skin=wkw][data-tod=day] .row .no{color:#fbe9d0}
+html[data-skin=wkw] .stn{filter:saturate(.55) sepia(.35) brightness(.9)}
+html[data-skin=wkw] .exp,html[data-skin=wkw] .can,html[data-skin=wkw] .can.red,html[data-skin=wkw] .can.soon{background:none;color:#c8332e;box-shadow:inset 0 0 0 1.5px #c8332e;font-family:Georgia,serif;letter-spacing:.04em;transform:rotate(-3deg);opacity:.92}
+html[data-skin=wkw][data-tod=night] .exp,html[data-skin=wkw][data-tod=night] .can{color:#e0544c;box-shadow:inset 0 0 0 1.5px #e0544c}
+html[data-skin=wkw]{--route:#b8473f}
+html[data-skin=wkw] .mgrp{position:relative;border-radius:13px 13px 6px 6px;background:linear-gradient(#c4302b,#8e1f23);color:#fbe9d0;border:0;padding:8px 9px 3px;font-family:Georgia,serif;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+html[data-skin=wkw] .mgrp::before{content:"";position:absolute;top:3px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--bg)}
