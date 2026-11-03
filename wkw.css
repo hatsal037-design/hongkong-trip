@@ -43,7 +43,7 @@ html[data-skin=wkw] time,html[data-skin=wkw] .num{font-variant-numeric:tabular-n
 html[data-skin=wkw] .daycap{gap:4px;padding:4px 6px;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 html[data-skin=wkw] .daycap button{min-width:36px;height:36px;border-radius:6px;background:linear-gradient(#2c2620 0 50%,#211c17 50%);color:#a39478;font-weight:600;box-shadow:0 2px 5px rgba(0,0,0,.4)}
 html[data-skin=wkw] .daycap button::after{left:0;right:0;bottom:auto;top:50%;height:1px;border-radius:0;background:rgba(0,0,0,.6)}
-html[data-skin=wkw] .daycap button[aria-selected=true]{color:#ffd400}
+html[data-skin=wkw] .daycap button[aria-selected=true]{background:linear-gradient(#a3262a 0 50%,#8e1f23 50%);color:#f3e6c8;-webkit-mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
 html[data-skin=wkw] .daycap button.today::before{background:#9cff57;bottom:2px}
 html[data-skin=wkw] .daycap button.go{animation:wflip .38s ease-out}
 @keyframes wflip{0%{transform:scaleY(1)}45%{transform:scaleY(.06);filter:brightness(.5)}100%{transform:scaleY(1)}}
