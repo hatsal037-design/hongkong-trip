@@ -485,7 +485,7 @@ const KSVG={plane:'<path fill="#fff" stroke="none" d="M21 16v-2l-8-5V3.5a1.5 1.5
 
 // ── 태그 이름·장소 사진·항공편 (base.html 1025~1027행)
 const TAGNM={film:'영화',night:'야경',gone:'없어짐',opt:'선택',must:'필수'};
-const PHOTO={aos:'tst_aos_0',ferry:'tst_ferry_0',esc:'cen_esc_0',peak:'cen_peak_0',lugard:'cen_peak_0',temple:'mk_temple_0',apliu:'mk_apliu_2',disney:'dis_castle_1','disney-show':'dis_frozen_0',pmq:'cen_pmq_2'};
+const PHOTO={h1881:'tst_1881_0',mk:'mk_neon_0',yick:'np_monster_1',hkia:'x_hkia',kowloon:'x_kowloon',ckm:'x_ckm',lfy:'x_lfy',potti:'x_potti',soho:'x_soho',bakehouse:'x_bakehouse',gdi:'x_gdi',bubba:'x_bubba',choi:'x_choi',adc:'x_adc',tbm:'x_tbm',sim:'x_sim',cht:'x_cht',npgo:'x_npgo',gold:'x_gold',lym:'x_lym',aos:'tst_aos_0',ferry:'tst_ferry_0',esc:'cen_esc_0',peak:'cen_peak_0',lugard:'cen_peak_0',temple:'mk_temple_0',apliu:'mk_apliu_2',disney:'dis_castle_1','disney-show':'dis_frozen_0',pmq:'cen_pmq_2'};
 const FLIGHTS={'24':['인천','ICN','홍콩','HKG','UO619 · 홍콩익스프레스','12:25','T1','15:30','T1','4시간 5분'],'return':['홍콩','HKG','인천','ICN','UO626 · 홍콩익스프레스','16:40','T2','21:05','T1','3시간 25분']};
 
 // ── 인스타 저장 38 (base.html 1053~1091행)
