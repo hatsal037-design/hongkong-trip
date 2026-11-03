@@ -356,9 +356,9 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .trow{display:flex;align-items:center;position:relative}
 .trow+.trow::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
 .talk-main{flex:1;min-width:0;display:flex;flex-direction:column;padding:10px 4px 10px 16px;min-height:56px;text-align:left}
-.talk-ko{font-size:.8125rem;color:var(--sub)}
+.talk-ko{font-size:1.0625rem;font-weight:600;color:var(--label);line-height:1.35}
 .talk-zh{font-size:1.1875rem;font-weight:700;line-height:1.35}
-.talk-say{font-size:.875rem;color:var(--sub)}
+.talk-say{font-size:1rem;color:var(--sub)}
 .talk-play{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin-right:10px;flex:none;color:var(--blue)}
 .talk-play i{width:32px;height:32px;border-radius:50%;background:var(--fill);display:grid;place-items:center}
 .talk-play svg{width:16px;height:16px;fill:currentColor}
