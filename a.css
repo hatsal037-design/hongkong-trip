@@ -559,3 +559,10 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 /* 왕가위 결 전용 요소 — 기본 결에선 숨김(wkw.css 가 켬) */
 .pb,.stn,.stn-or,.exitx,.wroute,.wneon,.flipT,.subt,.can,.exp,.door2046{display:none}
 .skin-btn{font-size:.8125rem;font-weight:600;color:var(--blue);min-height:32px;padding:0 10px;border-radius:999px;background:var(--fill);white-space:nowrap}
+/* 당겨서 새로고침 */
+.ptr{position:fixed;left:50%;top:calc(var(--safe-t) + 4px);z-index:50;width:36px;height:36px;margin-top:-40px;border-radius:50%;background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.25);display:grid;place-items:center;opacity:0;transform:translate(-50%,0);pointer-events:none}
+.ptr i{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--done);border-top-color:transparent;opacity:.6}
+.ptr.arm i{border-color:var(--blue);border-top-color:transparent;opacity:1}
+.ptr.spin i{animation:ptrs .7s linear infinite}
+@keyframes ptrs{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ptr.spin i{animation:ptrb 1s ease-in-out infinite}@keyframes ptrb{50%{opacity:.3}}}

@@ -701,4 +701,15 @@ save();renderTrip();render();renderPrep();setSeg(toolSeg,false);
  if(h0==='talk')openTools('talk')}
 /* 네온은 스크롤의 1/4만 따라가되, 시트 위 끝을 넘지 않게 */
 slist.addEventListener('scroll',()=>{const n=sbody.querySelector('.wneon');if(!n)return;const c=n.firstElementChild,lim=c?Math.max(0,c.offsetTop-24):0;const y=`0 ${-Math.min(slist.scrollTop*.25,lim)}px`;for(const e of n.children)e.style.translate=y},{passive:true});
+/* 당겨서 새로고침 — 창 스크롤 쓰는 탭(준비·나)에서, 맨 위일 때만. 여행 탭은 시트 끌기와 겹쳐서 제외 */
+{const ind=document.createElement('div');ind.className='ptr';ind.setAttribute('aria-hidden','true');ind.innerHTML='<i></i>';document.body.appendChild(ind);
+ const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;let y0=null,d=0;
+ const ok=()=>!$('trip')||$('trip').hidden;
+ addEventListener('touchstart',e=>{y0=ok()&&scrollY<=0&&!document.querySelector('dialog[open]')&&e.touches.length===1?e.touches[0].clientY:null;d=0},{passive:true});
+ addEventListener('touchmove',e=>{if(y0===null)return;const dy=e.touches[0].clientY-y0;if(dy<=0||scrollY>0){d=0;ind.style.cssText='';return}
+  d=Math.min(110,dy*.55);ind.style.transform=`translate(-50%,${d}px)`;ind.style.opacity=Math.min(1,d/40);ind.classList.toggle('arm',d>=64);
+  if(!RM)ind.firstChild.style.transform=`rotate(${d*4}deg)`},{passive:true});
+ addEventListener('touchend',()=>{if(y0===null)return;y0=null;
+  if(d>=64){ind.classList.add('spin');ind.style.transition='transform .35s cubic-bezier(.2,1.4,.4,1)';ind.style.transform='translate(-50%,64px)';setTimeout(()=>location.reload(),450)}
+  else{ind.style.transition='transform .3s ease,opacity .3s';ind.style.transform='';ind.style.opacity=0;setTimeout(()=>ind.style.cssText='',320)}d=0},{passive:true})}
 })();

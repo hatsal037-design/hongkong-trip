@@ -174,3 +174,6 @@ html[data-skin=wkw] .exp,html[data-skin=wkw] .can,html[data-skin=wkw] .can.red,h
 html[data-skin=wkw] .can.red,html[data-skin=wkw] .can.soon{color:#7a1a14}
 /* 위 날짜 줄은 다시 영화표 */
 html[data-skin=wkw] .daycap button[aria-selected=true]{background:linear-gradient(#a3262a 0 50%,#8e1f23 50%);color:#f3e6c8;text-shadow:none;box-shadow:0 2px 5px rgba(0,0,0,.4);-webkit-mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
+html[data-skin=wkw] .ptr{background:#211c17}
+html[data-skin=wkw] .ptr i{border:0;border-radius:0;opacity:.55;background:url(img/wkw/b/can.webp) center/contain no-repeat}
+html[data-skin=wkw] .ptr.arm i{opacity:1}
