@@ -242,7 +242,8 @@ const leftTxt=(d,tm)=>{if(todayChip()!==d.k||!/^\d{1,2}:\d{2}$/.test(tm||''))ret
 let lastFlip='';
 /* 왕가위 결 — 기본 결에선 a.css 가 숨긴다 */
 const pb=(k,dict=WKW.prop)=>dict[k]?`<img class="pb" src="img/wkw/b/${dict[k]}.webp" alt="" loading="lazy">`:'';
-const stnHtml=(k,big)=>{const t=WKW.stn[k];if(!t)return '';const rb=t[2]==='rainbow';return `<span class="stn${big?' big':''}" style="${rb?'':'--c:'+t[2]+';'}--t:${t[3]}"${rb?' data-rb':''}><b lang="zh-HK">${t[0]}</b>${big?`<i>${t[1]}</i>`:''}</span>${big&&t[4]?`<span class="exitx">${t[4]}출구</span>`:''}`};
+const stnHtml=(k,big)=>{const a=big&&WKW.alt&&WKW.alt[k];return stnSign(WKW.stn[k],big)+(a?`<span class="stn-or">또는</span>`+stnSign(a,big):'')};
+const stnSign=(t,big)=>{if(!t)return '';const rb=t[2]==='rainbow';return `<span class="stn${big?' big':''}" style="${rb?'':'--c:'+t[2]+';'}--t:${t[3]}"${rb?' data-rb':''}><b lang="zh-HK">${t[0]}</b>${big?`<i>${t[1]}</i>`:''}</span>${big&&t[4]?`<span class="exitx">${t[4]}출구</span>`:''}`};
 const wneonHtml=(d,nx)=>{const f=nx?WKW.film[d.k]:WKW.film.end;if(!f)return '';const [z,e,c,v]=f;
  if(v==='C')return `<div class="wneon c" style="--n:${c}" aria-hidden="true"><span class="z">${z}</span><span class="big">2046</span></div>`;
  return `<div class="wneon ${v==='B'?'b':'a'}" style="--n:${c}" aria-hidden="true"><span class="z">${z}</span><small>${e}</small></div>`};
