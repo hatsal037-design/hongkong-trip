@@ -610,6 +610,7 @@ function chooseTab(k,{hash=true}={}){if(!TABS.some(t=>t[0]===k)||active===k)retu
  document.body.dataset.appTab=k;write('hk-a-tab-v1',{tab:k,hkDate:hkDate()});
  if(hash&&!/access_token|error_description/.test(location.hash))history.replaceState(history.state,'','#'+k);
  $('inlineBar').textContent=TITLE[k]||'';$('inlineBar').classList.remove('visible');
+ if(wide()){$('trip').hidden=false;if(initTripMap()){tmap.invalidateSize();if(!lastPts.length)drawPins(true)}}
  if(k==='trip'){fitHalf();if(initTripMap()){tmap.invalidateSize();if(!lastPts.length)drawPins(true)}}
  if(k==='prep')renderPrep();
  requestAnimationFrame(()=>window.scrollTo({top:k==='trip'?0:positions[k]||0,behavior:'instant'}))}

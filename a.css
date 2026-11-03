@@ -568,3 +568,10 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 @media (prefers-reduced-motion:reduce){.ptr.spin i{animation:ptrb 1s ease-in-out infinite}@keyframes ptrb{50%{opacity:.3}}}
 .reloadctl{position:absolute;right:0;top:-84px;pointer-events:auto}
 #reloadBtn.spin svg{animation:ptrs .7s linear infinite}
+/* PC: 준비·나·도구도 지도를 왼쪽에 두고 오른쪽 400px 패널로 */
+@media(min-width:900px){
+ body:not([data-app-tab=trip]) #sheet,body:not([data-app-tab=trip]) .float{display:none}
+ #prep.page,#me.page{margin:0 0 0 auto;max-width:400px;position:relative;z-index:2;background:var(--bg);min-height:100dvh;padding-left:16px;padding-right:16px;padding-top:24px;box-shadow:-.5px 0 0 var(--line);box-sizing:border-box}
+ .dock{right:400px;max-width:none}
+ dialog.sheet,dialog.sheet.h62,dialog.sheet.h62.expanded{inset:0 0 0 auto;margin:0;max-width:400px;height:100dvh;border-radius:0;box-shadow:-.5px 0 0 var(--line)}
+}
