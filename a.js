@@ -91,7 +91,11 @@ const LEGACY={24:'d1',25:'disney',26:'d2',27:'d3',28:'d4'};
 const DATES=[['24','24 화','도착'],['25','25 수','디즈니'],['26','26 목','센트럴'],['27','27 금','구룡'],['28','28 토','귀국']];
 let day=read('hk-trip-day-v1','24');if(day==='return')day='28';if(!DAYKEYS.includes(day))day='24';
 if(todayChip())day=todayChip();
-const directions=s=>'https://www.google.com/maps/dir/?api=1&travelmode=transit&destination='+encodeURIComponent([s[3]||s[4],s[5]||'',s[4]].join(' '));
+/* 내리는 곳: DROP에 찍어 둔 점이 있으면 그 점, 없으면 장소 좌표 */
+const dropOf=s=>{const d=DROP[s[0]];return d?d:Number.isFinite(s[6])&&Number.isFinite(s[7])?[s[6],s[7],'']:null};
+const directions=(s,m='transit')=>{const d=dropOf(s);return 'https://www.google.com/maps/dir/?api=1&travelmode='+m+'&destination='+(d?d[0]+','+d[1]:encodeURIComponent([s[3]||s[4],s[5]||'',s[4]].join(' ')))};
+const uberUrl=s=>{const d=dropOf(s);return d&&'https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]='+d[0]+'&dropoff[longitude]='+d[1]+'&dropoff[nickname]='+encodeURIComponent(s[4]||s[2])};
+const rideBtns=s=>{const u=uberUrl(s);return `<div class="show-btns"><a href="${directions(s)}" target="_blank" rel="noopener">${ICO.map}대중교통</a>${u?`<a href="${u}" target="_blank" rel="noopener">우버</a>`:''}</div>`};
 const hotelStop=(time='숙소')=>{const h=TripState.get().hotel;return ['hotel',time,h?.ko||'숙소 미정',h?.zh||'',h?.en||'',h?.addrZh||h?.addrEn||'',h?.lat,h?.lng,'','']};
 const airport=(time='14:10')=>['hkia-t2',time,'홍콩국제공항 T2 (체크인)','香港國際機場 二號客運大樓','HKIA Terminal 2','大嶼山赤鱲角',22.3168,113.9363,'홍콩익스프레스 U 구역 체크인·수하물 → T2 출국심사 → APM으로 탑승구 · UO626 16:40 출발',''];
 function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().hotel?.area]||'가까운 MTR → 퉁청선 → 써니베이';return [home,
@@ -507,8 +511,8 @@ function renderRef(){const cats=[...new Set(IG.map(r=>r[4]))],areas=[...new Set(
 function showBig(kind,payload){const el=$('showIn'),dlg=$('show');
  if(kind==='taxi'){const s=findStop(payload);if(!s)return;
   if(s[0]==='hotel'){const h=TripState.get().hotel;if(!h){openPick();return}
-   el.innerHTML=`<p class="lead">師傅，唔該載我去：</p><div class="big" lang="en">${esc(h.en||h.ko)}</div><p class="addr">${esc(AREA_EN[h.area]||'')}</p><p class="warn">중문 없음 — 영문명과 동네를 보여 주세요</p><p class="en">${esc(h.ko)}</p><div class="show-btns"><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((h.en||h.ko)+' Hong Kong')}" target="_blank" rel="noopener">${ICO.map}지도</a></div>`}
-  else el.innerHTML=`<p class="lead">師傅，唔該載我去：</p><div class="big" lang="zh-HK">${esc(s[3]||s[4]||s[2])}</div>${s[5]?`<p class="addr" lang="zh-HK">${esc(s[5])}</p>`:''}<p class="en">${esc([s[4],s[2]].filter(Boolean).join(' · '))}</p>`;
+   el.innerHTML=`<p class="lead">師傅，唔該載我去：</p><div class="big" lang="en">${esc(h.en||h.ko)}</div><p class="addr">${esc(AREA_EN[h.area]||'')}</p><p class="warn">중문 없음 — 영문명과 동네를 보여 주세요</p><p class="en">${esc(h.ko)}</p>${rideBtns(s)}`}
+  else el.innerHTML=`<p class="lead">師傅，唔該載我去：</p><div class="big" lang="zh-HK">${esc(s[3]||s[4]||s[2])}</div>${s[5]?`<p class="addr" lang="zh-HK">${esc(s[5])}</p>`:''}<p class="en">${esc([s[4],s[2]].filter(Boolean).join(' · '))}</p>${DROP[s[0]]?.[2]?`<p class="warn">내리는 곳 · ${esc(DROP[s[0]][2])}</p>`:''}${rideBtns(s)}`;
   el.innerHTML+=`<button type="button" class="to-talk" data-to-talk>기사님께 — 택시 회화 ${(TALK.find(t=>t[0]==='택시')||[,,[]])[2].length} ›</button>`;dlg.setAttribute('aria-label','택시 기사에게 보여주기')}
  else{const [gi,ri]=payload.split('-');const r=TALK[gi][2][ri];
   el.innerHTML=`<p class="lead">${esc(r[0])}</p><div class="big">${esc(r[1])}</div>${r[2]?`<p class="say">${esc(r[2])}</p>`:''}${r[3]?`<p class="en">${esc(r[3])}</p>`:''}<div class="show-btns"><button type="button" class="talk-play" data-speak="${payload}" style="width:auto;margin:0;border-radius:12px">${ICO.play} 듣기</button><a href="https://papago.naver.com/?sk=ko&tk=zh-TW&st=${encodeURIComponent(r[0])}" target="_blank" rel="noopener">파파고에서 이어서</a></div>`;dlg.setAttribute('aria-label','크게 보기')}
