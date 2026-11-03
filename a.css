@@ -573,5 +573,7 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
  body:not([data-app-tab=trip]) #sheet,body:not([data-app-tab=trip]) .float{display:none}
  #prep.page,#me.page{margin:0 0 0 auto;max-width:400px;position:relative;z-index:2;background:var(--bg);min-height:100dvh;padding-left:16px;padding-right:16px;padding-top:24px;box-shadow:-.5px 0 0 var(--line);box-sizing:border-box}
  .dock{right:400px;max-width:none}
- dialog.sheet,dialog.sheet.h62,dialog.sheet.h62.expanded{inset:0 0 0 auto;margin:0;max-width:400px;height:100dvh;border-radius:0;box-shadow:-.5px 0 0 var(--line)}
+ #tools{inset:0 0 0 auto!important;margin:0!important;max-width:400px!important;height:100dvh!important;border-radius:0!important;box-shadow:-.5px 0 0 var(--line)}
+ /* 꿀팁·인스타·숙소·디즈니 등: 지도 쪽 왼쪽 아래에 크게 */
+ dialog.sheet:not(#tools),dialog.sheet.h62:not(#tools),dialog.sheet.h62.expanded:not(#tools){inset:auto auto 16px 16px;margin:0;width:calc(100vw - 400px - 32px);max-width:880px;height:calc(100dvh - 32px);max-height:none;border-radius:22px;box-shadow:0 12px 48px rgba(0,0,0,.35)}
 }
