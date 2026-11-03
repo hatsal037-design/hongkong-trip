@@ -45,7 +45,7 @@ html[data-skin=wkw] .daycap button{min-width:36px;height:36px;border-radius:6px;
 html[data-skin=wkw] .daycap button::after{left:0;right:0;bottom:auto;top:50%;height:1px;border-radius:0;background:rgba(0,0,0,.6)}
 html[data-skin=wkw] .daycap button[aria-selected=true]{background:linear-gradient(#a3262a 0 50%,#8e1f23 50%);color:#f3e6c8;-webkit-mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 3px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 3px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat}
 html[data-skin=wkw] .daycap button.today::before{background:#9cff57;bottom:2px}
-html[data-skin=wkw] .daycap button.go{animation:wflip .38s ease-out}
+html[data-skin=wkw] .daycap button.flp{animation:wflip .38s ease-out}
 @keyframes wflip{0%{transform:scaleY(1)}45%{transform:scaleY(.06);filter:brightness(.5)}100%{transform:scaleY(1)}}
 
 /* ── 다음 시각: 플립 시계 ── */
@@ -53,7 +53,7 @@ html[data-skin=wkw] .flipT{display:inline-flex;gap:3px;float:right;margin:-2px 0
 html[data-skin=wkw] .flipT b{position:relative;width:24px;height:33px;border-radius:5px;background:linear-gradient(#2c2620 0 50%,#211c17 50%);color:#efe2c4;font:600 21px/33px Pretendard,sans-serif;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 5px rgba(0,0,0,.45)}
 html[data-skin=wkw] .flipT b::before{content:"";position:absolute;left:0;right:0;top:50%;height:1.5px;background:#000}
 html[data-skin=wkw] .flipT em{font:600 17px/33px Pretendard,sans-serif;font-style:normal;color:#ffd400}
-html[data-skin=wkw] .flipT b.go{animation:wflip .38s ease-out}
+html[data-skin=wkw] .flipT b.flp{animation:wflip .38s ease-out}
 
 /* ── 사진: 잔상 + 이중 자막 ── */
 html[data-skin=wkw] .next .ph{overflow:hidden}
@@ -130,7 +130,7 @@ html[data-skin=wkw] .wneon.c .z{left:26px;top:40px;font-size:22px;letter-spacing
 html[data-skin=wkw] .wneon.c .big{left:12px;top:70px;font-family:'Josefin Sans',sans-serif;font-size:clamp(110px,38vw,150px);letter-spacing:-.02em}
 html[data-skin=wkw][data-tod=day] .wneon .z,html[data-skin=wkw][data-tod=day] .wneon .big,html[data-skin=wkw][data-tod=day] .wneon small{color:transparent;-webkit-text-stroke:1.2px color-mix(in srgb,var(--n) 55%,#8a7a5a);text-shadow:none;animation:none;opacity:.7}
 @keyframes whum{0%,93%,96%,100%{opacity:1}94.5%{opacity:.72}}
-@media (prefers-reduced-motion:reduce){html[data-skin=wkw] .wneon *,html[data-skin=wkw] .can.soon{animation:none}html[data-skin=wkw] .daycap button.go,html[data-skin=wkw] .flipT b.go{animation:none}}
+@media (prefers-reduced-motion:reduce){html[data-skin=wkw] .wneon *,html[data-skin=wkw] .can.soon{animation:none}html[data-skin=wkw] .daycap button.flp,html[data-skin=wkw] .flipT b.flp{animation:none}}
 
 /* ── 준비 탭: 2046 네온 ── */
 html[data-skin=wkw] #prep>h1{position:relative}
@@ -145,3 +145,4 @@ html[data-skin=wkw] .door2046 small{position:absolute;left:50%;top:calc(44% + 22
 html[data-skin=wkw] .prow .lrow .t b{white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3}
 html[data-skin=wkw] .prow .lrow .r{gap:2px}
 html[data-skin=wkw] .stn-or{display:inline;font-size:.75rem;color:var(--sub);margin:0 2px}
+html[data-skin=wkw] .slist{position:relative;z-index:1}

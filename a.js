@@ -226,7 +226,7 @@ let toastT=null;function toast(t){let el=document.querySelector('.toast');if(!el
 function renderDates(){const t=todayChip();$('dates').innerHTML=DATES.map(([k,lab,sub])=>`<button type="button" role="tab" id="date-${k}" data-day="${k}" class="${k===t?'today':''}" aria-selected="${k===day}" tabindex="${k===day?0:-1}" aria-controls="tripDay" aria-label="${lab} ${sub}${k===t?' · 오늘':''}">${k}</button>`).join('')}
 $('dates').addEventListener('click',e=>{const b=e.target.closest('[data-day]');if(b)setDay(b.dataset.day)});
 $('dates').addEventListener('keydown',e=>{const i=DAYKEYS.indexOf(day);const n=e.key==='ArrowRight'?(i+1)%5:e.key==='ArrowLeft'?(i+4)%5:e.key==='Home'?0:e.key==='End'?4:null;if(n==null)return;e.preventDefault();setDay(DAYKEYS[n]);$('date-'+DAYKEYS[n]).focus()});
-function setDay(k){if(!DAYKEYS.includes(k))return;day=k;write('hk-trip-day-v1',k);selKey=null;renderTrip({fit:true});slist.scrollTo({top:0,behavior:'instant'});$('date-'+k)?.classList.add('go')}
+function setDay(k){if(!DAYKEYS.includes(k))return;day=k;write('hk-trip-day-v1',k);selKey=null;renderTrip({fit:true});slist.scrollTo({top:0,behavior:'instant'});$('date-'+k)?.classList.add('flp')}
 
 /* 카드·행 마크업 */
 const gchkId=(L,k)=>L+'-'+k;
@@ -295,7 +295,7 @@ function renderTrip({fit=false,keep=true}={}){
  const flightFirst=d.k==='24'&&(mode()==='pre'||(todayChip()==='24'&&!checks['d1-hkia']&&hkMin()<930));
  const fl=(d.k==='24'||d.k==='28')?flightCard(d.k==='24'?'24':'return'):'';
  const notes_=d.steps?`<div class="sec"><h2>알아둘 것</h2></div>${d.steps}`:'';
- setTod();slist.innerHTML=wneonHtml(d,nx)+(flightFirst?fl+nextCard(d,nx)+dayCard(d,nx):nextCard(d,nx)+dayCard(d,nx)+fl)+notes_;{const ft=slist.querySelector('#nextCard .flipT');if(ft){const v=ft.textContent;if(lastFlip&&lastFlip!==v)ft.querySelectorAll('b').forEach((c,n)=>{if(c.textContent!==lastFlip.replace(':','')[n])c.classList.add('go')});lastFlip=v}}
+ setTod();sbody.querySelector('.wneon')?.remove();sbody.insertAdjacentHTML('afterbegin',wneonHtml(d,nx));slist.innerHTML=(flightFirst?fl+nextCard(d,nx)+dayCard(d,nx):nextCard(d,nx)+dayCard(d,nx)+fl)+notes_;{const ft=slist.querySelector('#nextCard .flipT');if(ft){const v=ft.textContent;if(lastFlip&&lastFlip!==v)ft.querySelectorAll('b').forEach((c,n)=>{if(c.textContent!==lastFlip.replace(':','')[n])c.classList.add('flp')});lastFlip=v}}
  slist.setAttribute('aria-labelledby','date-'+day);
  if(keep)slist.scrollTop=st;
  fitHalf();drawPins(fit);applySel();
