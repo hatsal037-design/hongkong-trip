@@ -572,9 +572,9 @@ document.addEventListener('click',e=>{const t=e.target;
  if(d.tripFav){favs[d.tripFav]=!favs[d.tripFav];saveFavs();renderTrip();return}
  if(d.tripNote){const el=b.closest('.stopx,.next')?.querySelector('.note-w');if(!el)return;el.hidden=!el.hidden;b.setAttribute('aria-expanded',String(!el.hidden));if(!el.hidden)el.querySelector('textarea').focus({preventScroll:false});return}
  if(d.gchk){const [id,i]=[d.gchk.slice(0,d.gchk.lastIndexOf(':')),+d.gchk.slice(d.gchk.lastIndexOf(':')+1)];const on=new Set(gchk[id]||[]);on.has(i)?on.delete(i):on.add(i);gchk[id]=[...on].sort();write('hk-a-gchk-v1',gchk);document.querySelectorAll(`[data-gchk="${CSS.escape(d.gchk)}"]`).forEach(x=>x.setAttribute('aria-pressed',String(on.has(i))));return}
- if(d.guideDone){const key=d.guideDone.slice(d.guideDone.indexOf('-')+1);setCheck(d.guideDone,true);lastArrive={key,t:Date.now()};delete nextPin[curD.legacy];if(selKey===key)selKey=null;renderTrip();$('selLive').textContent=`${findStop(key)?.[2]||''} 도착`;return}
+ if(d.guideDone){const key=d.guideDone.slice(d.guideDone.indexOf('-')+1);if(!confirm(`${findStop(key)?.[2]||'이곳'}에 도착했어요?`))return;setCheck(d.guideDone,true);lastArrive={key,t:Date.now()};delete nextPin[curD.legacy];if(selKey===key)selKey=null;renderTrip();$('selLive').textContent=`${findStop(key)?.[2]||''} 도착`;return}
  if(d.unskip){setNext(d.unskip);return}
- if(d.guideSkip){const all=read('hk-skip',{}),L=curD.legacy;all[L]=[...new Set([...(all[L]||[]),d.guideSkip])];write('hk-skip',all);delete nextPin[L];renderTrip();undoToast('건너뛰었어요',()=>setNext(d.guideSkip));return}
+ if(d.guideSkip){if(!confirm(`${findStop(d.guideSkip)?.[2]||'이곳'}을(를) 건너뛸까요?`))return;const all=read('hk-skip',{}),L=curD.legacy;all[L]=[...new Set([...(all[L]||[]),d.guideSkip])];write('hk-skip',all);delete nextPin[L];renderTrip();undoToast('건너뛰었어요',()=>setNext(d.guideSkip));return}
  if('openPick' in d){openPick(b);return}
  if(d.open){openSheet($(d.open),b);return}
  if(d.tools){openTools(d.tools);return}
