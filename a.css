@@ -581,3 +581,6 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .xp .unskip{width:100%;margin:2px 0 8px}
 @media(min-width:900px){dialog.sheet:not(#tools)[open]{animation:pop .2s ease-out}dialog.sheet:not(#tools) .grabber{visibility:hidden}}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+
+/* 준비 목록 줄 — 배지·개수를 제목 아래 줄로 (2026-11-16 시안 B 확정) */
+.prow .lrow{flex-wrap:wrap;row-gap:4px}.prow .lrow .t{flex:1 1 calc(100% - 90px)}.prow .lrow .r{flex:1 0 100%;padding-left:46px;justify-content:flex-start}
