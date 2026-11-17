@@ -239,7 +239,7 @@ const WKW = {
   stn:{hkia:['機場','Airport','#808080','#111',''],kowloon:['九龍','Kowloon','#ACA28A','#111',''],hotel:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','A1'],ckm:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],aos:['尖東','East TST','#FFFF00','#111','J'],ferry:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],h1881:['尖東','East TST','#FFFF00','#111','L6'],lfy:['中環','Central','#AA0000','#fff','D2'],esc:['中環','Central','#AA0000','#fff','D2'],potti:['中環','Central','#AA0000','#fff','D2'],soho:['中環','Central','#AA0000','#fff','D2'],bakehouse:['中環','Central','#AA0000','#fff','D2'],gdi:['上環','Sheung Wan','#FFD280','#6B4513','C'],peak:['中環','Central','#AA0000','#fff','J2'],adc:['佐敦','Jordan','#307D6B','#fff','C2'],tbm:['沙田','Sha Tin','#BB7796','#fff','B'],sim:['旺角','Mong Kok','#BE2700','#fff','D3'],mk:['旺角','Mong Kok','#BE2700','#fff','E2'],apliu:['深水埗','Sham Shui Po','#016258','#fff','A2'],temple:['油麻地','Yau Ma Tei','#CCCCCC','#111','C'],yick:['太古','Tai Koo','#BB2200','#fff','B'],npgo:['北角','North Point','#E86220','#111',''],gold:['銅鑼灣','Causeway Bay','#C8A2C8','#111','F1'],choi:['彩虹','Choi Hung','rainbow','#fff','C4']},
   // 날짜별 영화 네온 [한자, 영문, 색, 배치 A=카드 뒤 가로 · B=작은 세로 간판]
   film:{'24':['重慶森林','CHUNGKING EXPRESS','#3dff8a','A'],'25':['春光乍洩','HAPPY TOGETHER','#ff7ad9','A'],'26':['阿飛正傳','DAYS OF BEING WILD','#3dff8a','B'],'27':['墮落天使','FALLEN ANGELS','#ff3b5c','B'],'28':['無間道','INFERNAL AFFAIRS','#4fc3ff','A'],end:['花樣年華','IN THE MOOD FOR LOVE','#ffb347','C']},
-  prep:{'p-disney25':'ticket','p-deposit':'key','p-latein':'key','p-octo':'octopus','p-klook':'envelope','p-esim':'phone','p-esim2':'phone','p-esim-ipad':'phone','p-home':'passport','p-trans':'jukebox','p-applepay':'octopus','p-kakao':'octopus','p-uber':'taxi','p-insure':'passport','p-checkin':'ticket','p-arrive':'key','p-battery':'phone','p-bubba':'envelope','p-gmap':'map','p-city':'tram','p-mtr':'ticket','p-hktaxi':'taxi','p-openrice':'milktea'},
+  prep:{'p-disney25':'ticket','p-deposit':'key','p-latein':'key','p-octo':'octopus','p-klook':'envelope','p-esim':'phone','p-esim2':'phone','p-esim-ipad':'phone','p-home':'passport','p-trans':'jukebox','p-applepay':'octopus','p-kakao':'octopus','p-uber':'taxi','p-checkin':'ticket','p-arrive':'key','p-battery':'phone','p-bubba':'envelope','p-gmap':'map','p-city':'tram','p-mtr':'ticket','p-hktaxi':'taxi','p-openrice':'milktea'},
 };
 
 // ── 준비 — 등록·안 되는 것·출국·버스·귀국·꿀팁 (base.html 737~866행)
@@ -273,9 +273,6 @@ const PREP = [
     ['p-esim','eSIM 사기','출발 1주 전','홍콩 전용 · 설치는 아래',
       ['홍콩 전용 eSIM 구매 → QR로 설치(집 와이파이에서)','출발 전엔 «회선 끔», 도착 후 켜고 데이터 로밍 ON','선전·마카오 넘어갈 거면 «홍콩+중국» 겸용 (중국에선 구글·카톡 막힘)'],
       ''],
-    ['p-insure','여행자보험','출발 전','둘 다 — 견적에선 꺼 둔 항목',
-      ['보험사·카드사 앱에서 홍콩 11/24~28, 2인 가입','휴대품·항공 지연 보장 확인','증권은 폰에 저장'],
-      '가입 여부는 문서에 기록 없음 — 이미 했으면 체크만'],
     ['p-checkin','온라인 체크인','출발 전','11/23(월) 12:25부터 — 출발 24시간 전',
       ['홍콩익스프레스 앱·웹에서 예약번호로 체크인','모바일 탑승권 지갑에 저장','위탁 20kg 1개(에센셜) 확인'],
       ''],
