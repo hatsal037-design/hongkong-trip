@@ -99,10 +99,10 @@ const uberUrl=s=>{const d=dropOf(s);return d&&'https://m.uber.com/ul/?action=set
 const rideBtns=s=>{const u=uberUrl(s);return `<div class="show-btns"><a href="${directions(s)}" target="_blank" rel="noopener">${ICO.map}대중교통</a>${u?`<a href="${u}" target="_blank" rel="noopener">${ACT_TAXI}우버</a>`:''}</div>`};
 const hotelStop=(time='숙소')=>{const h=TripState.get().hotel;return ['hotel',time,h?.ko||'숙소 미정',h?.zh||'',h?.en||'',h?.addrZh||h?.addrEn||'',h?.lat,h?.lng,'','']};
 const airport=(time='13:40')=>['hkia-t2',time,'홍콩국제공항 T2 (체크인)','香港國際機場 二號客運大樓','HKIA Terminal 2','大嶼山赤鱲角',22.3168,113.9363,'홍콩익스프레스 U 구역 체크인·수하물 → T2 출국심사 → APM으로 탑승구 · UO626 16:40 출발',''];
-function disney(){const home=hotelStop('08:30');home[8]=routes[TripState.get().hotel?.area]||'가까운 MTR → 퉁청선 → 써니베이';return [home,
- ['sunny','09:10쯤','써니베이역 환승','欣澳站','Sunny Bay Station','',22.3317,114.0290,'퉁청선 → 디즈니랜드 리조트선',''],
- ['disney-station','09:20쯤','디즈니랜드역','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'파크까지 걷기 · 게이트 대기',''],
- ['disney','10:00','홍콩 디즈니랜드','香港迪士尼樂園','Hong Kong Disneyland','大嶼山 香港迪士尼樂園',22.3130,114.0413,'겨울왕국부터. 오전은 광산열차·아이언맨·하이퍼스페이스 마운틴, 오후는 미스틱 매너. 대기시간은 앱에서 확인.',''],
+function disney(){const home=hotelStop('09:00');home[8]=routes[TripState.get().hotel?.area]||'가까운 MTR → 퉁청선 → 써니베이';return [home,
+ ['sunny','09:40쯤','써니베이역 환승','欣澳站','Sunny Bay Station','',22.3317,114.0290,'퉁청선 → 디즈니랜드 리조트선',''],
+ ['disney-station','09:50쯤','디즈니랜드역','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'파크까지 걷기 · 게이트 대기',''],
+ ['disney','10:30','홍콩 디즈니랜드','香港迪士尼樂園','Hong Kong Disneyland','大嶼山 香港迪士尼樂園',22.3130,114.0413,'10:30 개장(11/17 공식 달력). 겨울왕국부터. 오전은 광산열차·아이언맨·하이퍼스페이스 마운틴, 오후는 미스틱 매너. 대기시간은 앱에서 확인.',''],
  ['disney-show','17:30','파크 나오기','迪士尼樂園 出口','Hong Kong Disneyland exit','香港迪士尼樂園',22.3130,114.0413,'야간쇼는 안 봄. 해 지기 전(일몰 17:40 안팎)에 나와 사람 몰리기 전 기차 타기. 기념품은 나오는 길 메인스트리트에서.',''],
  ['disney-last','17:45쯤','디즈니랜드역 → 올림픽역','迪士尼站','Disneyland Resort Station','',22.3155,114.0452,'써니베이에서 퉁청선 시내 방향 → 올림픽역(18:15쯤)',''],...EVE25.map(s=>[...s]),(()=>{const h=hotelStop('21:00');h[8]='과일시장에서 네이선로드 따라 걸어서 20분쯤';return h})()];}
 function proc(title,steps,open){return `<details class="dcard"${open?' open':''}><summary><span>${esc(title)}</span>${CHEV}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></details>`}
