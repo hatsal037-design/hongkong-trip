@@ -173,7 +173,7 @@ const TRIP_DAYS = {
       ['dried','15:20','건어물 거리','德輔道西 海味街','Des Voeux Road West','上環德輔道西',22.2875,114.1475,'옛 간판·건어물 상점 정면. 광동투자빌딩에서 걸어서 5~10분. 끝나면 택시 10분쯤 피크트램역',''],
       ['peak','17:00','피크트램 → 빅토리아 피크','山頂纜車 花園道總站','Peak Tram Lower Terminus','中環花園道33號',22.2777,114.1597,'11/26 해 지는 시각 17:40쯤 — 노을부터 보려면 17시 전 탑승. 올라갈 땐 오른쪽, 내려올 땐 왼쪽 자리가 전망. 표는 공식 웹스토어(줄 안 섬): 밤만 볼 거면 19시 이후 «야간 콤보» 왕복+스카이테라스428 HK$155, 편도만 HK$82~. 운행 7:30~23:00, 스카이테라스 22:00까지. 대기 길면 15번 버스','night'],
       ['lugard','18:00','루가드 로드 전망대','盧吉道觀景台','Lugard Road Lookout','山頂盧吉道',22.2781,114.1447,'무료. 피크타워에서 평지 산책길 15분 — 사진은 여기가 정면 야경. 길이 어두우니 폰 불빛','night'],
-      ['bubba','19:00','부바검프 (피크타워)','阿甘蝦餐廳 山頂凌霄閣','Bubba Gump Shrimp Co., The Peak Tower','山頂道128號凌霄閣',22.2711,114.1500,'피크 저녁 — 창가 자리면 야경 보면서 새우 요리. 창가는 예약 때 요청','must'],
+      ['d2din','19:30','저녁 — 내려와서 센트럴','中環 威靈頓街','Wellington Street, Central','中環威靈頓街',22.2832,114.1548,'피크트램으로 내려와 걸어서 15분쯤(내리막) 또는 택시 5분. 웰링턴·스탠리 거리에 완탕면·거위구이 집이 모여 있음 — 가게는 아직 안 정함(영업시간은 가는 날 지도에서 확인). 트램 줄이 길어 늦어지면 스타페리로 건너가 침사추이에서',''],
     ]},
   d3: { label:'D3 구룡', sub:'만불사 → 카메라 거리 → 몽콕', desc:'북쪽으로 한 줄 — 이스트레일 하나로 사틴 → 몽콕. 저녁은 숙소 근처로 돌아와서. 심시티는 정품보증가·병행가를 따로 부르니 둘 다 물어볼 것.', opt:[['choi','09:45','초이홍 아파트 (무지개 아파트)','彩虹邨','Choi Hung Estate','九龍彩虹邨',22.3352,114.2058,'무지개색 공공아파트 + 농구장. 주민 사는 곳이라 조용히, 옥상 금지. MTR 초이홍역 C3 출구','must'],['pingshek','09:45','핑섹 단지 (초이홍 대신)','坪石邨','Ping Shek Estate','九龍坪石邨',22.3366,114.2093,'초이홍 바로 옆 공공주택 단지. 위로 올려다보는 중정 사진, 한국 인증샷 줄이 없다. 주민 사는 곳이라 조용히','']],
     stops:[
@@ -217,7 +217,7 @@ const HOURS = {
   adc:['07:30~23:00 · 목 휴무','23:00'],
   tbm:['09:00~17:00','17:00'],
   peak:['피크트램 23:00까지','23:00'],
-  bubba:['피크트램 내려가는 막차 23:00쯤',''],
+  d2din:['돌아갈 땐 스타페리 10분 → 숙소까지 걸어서 10분',''],
   temple:['숙소까지 걸어서 20분 · MTR 조던→침사추이 1정거장',''],
   'n-otd':['데크 22:00쯤 닫음(확인 필요)','22:00'],
   'n-wk':['돌아올 땐 택시 10분',''],
@@ -233,13 +233,13 @@ const DROP = {
 
 // 왕가위 결(skin=wkw)에서만 보이는 것 — 장소 배지·내릴 역·날짜별 영화 네온. 역 색은 중문 위키 港鐵車站顏色 기준 근삿값(2026-11-03 조사)
 const WKW = {
-  prop:{hkia:'cap','hkia-t2':'cap',kowloon:'ticket',hotel:'f_happy',ckm:'f_chungking',aos:'camera',ferry:'lifebuoy',h1881:'camera',lfy:'milktea',esc:'escalator',potti:'f_chungking',lkf:'polaroid',soho:'map',kaukee:'thermos',bakehouse:'eggtart',wall:'f_wild',gdi:'f_infernal',peak:'peaktram',lugard:'camera',bubba:'f_blueberry',choi:'laundry',adc:'toast',tbm:'buddha',sim:'camera',mk:'f_fallen',apliu:'cassette',temple:'thermos',yick:'aircon',cht:'bus',npgo:'f_infernal',gold:'f_mood',lym:'f_infernal','n-wk':'camera','n-otd':'camera','n-clock':'alarm','n-tste':'camera',disney:'ticket','disney-show':'stamp',dried:'shrimp',sycs:'neon',chunyeung:'tram',tram2:'octopus',pingshek:'laundry',wingl:'mailbox',booth:'polaroid',manmo:'angkor',fruit:'pineapple'},
+  prop:{hkia:'cap','hkia-t2':'cap',kowloon:'ticket',hotel:'f_happy',ckm:'f_chungking',aos:'camera',ferry:'lifebuoy',h1881:'camera',lfy:'milktea',esc:'escalator',potti:'f_chungking',lkf:'polaroid',soho:'map',kaukee:'thermos',bakehouse:'eggtart',wall:'f_wild',gdi:'f_infernal',peak:'peaktram',lugard:'camera',d2din:'f_blueberry',choi:'laundry',adc:'toast',tbm:'buddha',sim:'camera',mk:'f_fallen',apliu:'cassette',temple:'thermos',yick:'aircon',cht:'bus',npgo:'f_infernal',gold:'f_mood',lym:'f_infernal','n-wk':'camera','n-otd':'camera','n-clock':'alarm','n-tste':'camera',disney:'ticket','disney-show':'stamp',dried:'shrimp',sycs:'neon',chunyeung:'tram',tram2:'octopus',pingshek:'laundry',wingl:'mailbox',booth:'polaroid',manmo:'angkor',fruit:'pineapple'},
   // [역 한자, 영문, 벽 색, 글자색, 출구]
   alt:{yick:['鰂魚涌','Quarry Bay','#00918C','#fff','A']},
   stn:{hkia:['機場','Airport','#808080','#111',''],kowloon:['九龍','Kowloon','#ACA28A','#111',''],hotel:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','A1'],ckm:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],aos:['尖東','East TST','#FFFF00','#111','J'],ferry:['尖沙咀','Tsim Sha Tsui','#FFEF00','#111','E'],h1881:['尖東','East TST','#FFFF00','#111','L6'],lfy:['中環','Central','#AA0000','#fff','D2'],esc:['中環','Central','#AA0000','#fff','D2'],potti:['中環','Central','#AA0000','#fff','D2'],soho:['中環','Central','#AA0000','#fff','D2'],bakehouse:['中環','Central','#AA0000','#fff','D2'],gdi:['上環','Sheung Wan','#FFD280','#6B4513','C'],peak:['中環','Central','#AA0000','#fff','J2'],adc:['佐敦','Jordan','#307D6B','#fff','C2'],tbm:['沙田','Sha Tin','#BB7796','#fff','B'],sim:['旺角','Mong Kok','#BE2700','#fff','D3'],mk:['旺角','Mong Kok','#BE2700','#fff','E2'],apliu:['深水埗','Sham Shui Po','#016258','#fff','A2'],temple:['油麻地','Yau Ma Tei','#CCCCCC','#111','C'],yick:['太古','Tai Koo','#BB2200','#fff','B'],npgo:['北角','North Point','#E86220','#111',''],gold:['銅鑼灣','Causeway Bay','#C8A2C8','#111','F1'],choi:['彩虹','Choi Hung','rainbow','#fff','C4']},
   // 날짜별 영화 네온 [한자, 영문, 색, 배치 A=카드 뒤 가로 · B=작은 세로 간판]
   film:{'24':['重慶森林','CHUNGKING EXPRESS','#3dff8a','A'],'25':['春光乍洩','HAPPY TOGETHER','#ff7ad9','A'],'26':['阿飛正傳','DAYS OF BEING WILD','#3dff8a','B'],'27':['墮落天使','FALLEN ANGELS','#ff3b5c','B'],'28':['無間道','INFERNAL AFFAIRS','#4fc3ff','A'],end:['花樣年華','IN THE MOOD FOR LOVE','#ffb347','C']},
-  prep:{'p-disney25':'ticket','p-deposit':'key','p-latein':'key','p-octo':'octopus','p-klook':'envelope','p-esim':'phone','p-esim2':'phone','p-esim-ipad':'phone','p-home':'passport','p-trans':'jukebox','p-applepay':'octopus','p-kakao':'octopus','p-uber':'taxi','p-checkin':'ticket','p-arrive':'key','p-battery':'phone','p-bubba':'envelope','p-gmap':'map','p-city':'tram','p-mtr':'ticket','p-hktaxi':'taxi','p-openrice':'milktea'},
+  prep:{'p-disney25':'ticket','p-deposit':'key','p-latein':'key','p-octo':'octopus','p-klook':'envelope','p-esim':'phone','p-esim2':'phone','p-esim-ipad':'phone','p-home':'passport','p-trans':'jukebox','p-applepay':'octopus','p-kakao':'octopus','p-uber':'taxi','p-checkin':'ticket','p-arrive':'key','p-battery':'phone','p-gmap':'map','p-city':'tram','p-mtr':'ticket','p-hktaxi':'taxi','p-openrice':'milktea'},
 };
 
 // ── 준비 — 등록·안 되는 것·출국·버스·귀국·꿀팁 (base.html 737~866행)
@@ -282,9 +282,6 @@ const PREP = [
     ['p-battery','보조배터리 정리','출발 전','기내 반입만 — 위탁 금지',
       ['보조배터리는 들고 타는 가방에','개수·용량 제한 확인(1인 2개·160Wh 이하로 알려짐)','기내에서 충전·사용 금지, 단자는 테이프나 파우치로'],
       '규정은 2026-04 기준 조사값 — 항공사 공지로 한 번 더'],
-    ['p-bubba','부바검프 예약 (26일 19:00)','날짜 확정 후','피크타워 — 창가 자리 요청',
-      ['공식 사이트·전화로 2인 19:00 예약','요청 사항에 «창가(야경)» 적기'],
-      '예약 기록 없음'],
   ]},
   { grp:'아이폰에서 할 것', items:[
     ['p-home','이 앱을 홈 화면에','지금','사파리로 열고 앱처럼 쓰기',
@@ -354,7 +351,7 @@ const TIPS = [
     ['굳이?','제니베이커리 — 기다려서 먹을 정도는 아님. 줄 없으면 그때'],
     ['시간 되면 마카오','셩완·침사추이에서 페리로 약 1시간, 강주아오 대교 버스도 있음. 당일치기면 11/27(구룡) 대신. 가면 베네치안(실내 운하·곤돌라) 꼭 — 코타이 쪽, 호텔 무료 셔틀'],
     ['디즈니 좋아하면','디즈니랜드 — 11/25(수)로 잡아둠'],
-    ['부바검프','어차피 피크트램 탈 거면 피크타워에서 저녁 — 11/26에 넣어둠'],
+    ['부바검프','피크타워 새우 식당 — 11/26에 넣었다가 뺌(11/17). 저녁은 내려와서 센트럴에서'],
   ]],
   ['교통', [
     ['옥토퍼스 충전액','3박4일 교통비 1인 HK$300~400 정도면 된다는 후기. 모자라면 편의점에서 충전'],
@@ -510,7 +507,7 @@ const routes={tst:'침사추이 → 라이킹 → 써니베이 · 약 40분',mk:
 
 // ── 야경 카메라·다음 갈 곳 안내 (base.html 1007~1017행)
 // 야경 보는 곳 — 가기 전에 기상청 실시간 카메라로 안개 확인 (인스타 34, 2026-10-22)
-const VIEW={peak:'피크',lugard:'피크',bubba:'피크',aos:'침사추이',ferry:'침사추이·센트럴'};
+const VIEW={peak:'피크',lugard:'피크',aos:'침사추이',ferry:'침사추이·센트럴'};
 const HKO_CAM='https://www.hko.gov.hk/en/wxinfo/ts/index_webcam.htm';
 // «다음 갈 곳» 안내 — 2026-10-24엔 첫날만 채움. 일정 확정되면 나머지 날도 같은 모양으로 (go·check·apps)
 const GUIDE={
@@ -529,7 +526,7 @@ const KSVG={plane:'<path fill="#fff" stroke="none" d="M21 16v-2l-8-5V3.5a1.5 1.5
 
 // ── 태그 이름·장소 사진·항공편 (base.html 1025~1027행)
 const TAGNM={film:'영화',night:'야경',gone:'없어짐',opt:'선택',must:'필수'};
-const PHOTO={h1881:'tst_1881_0',mk:'mk_neon_0',yick:'np_monster_1',hkia:'x_hkia',kowloon:'x_kowloon',ckm:'x_ckm',lfy:'x_lfy',potti:'x_potti',soho:'x_soho',bakehouse:'x_bakehouse',gdi:'x_gdi',bubba:'x_bubba',choi:'x_choi',adc:'x_adc',tbm:'x_tbm',sim:'x_sim',cht:'x_cht',npgo:'x_npgo',gold:'x_gold',lym:'x_lym',aos:'tst_aos_0',ferry:'tst_ferry_0',esc:'cen_esc_0',peak:'cen_peak_0',lugard:'cen_peak_0',temple:'mk_temple_0',apliu:'mk_apliu_2',disney:'dis_castle_1','disney-show':'dis_frozen_0',pmq:'cen_pmq_2'};
+const PHOTO={h1881:'tst_1881_0',mk:'mk_neon_0',yick:'np_monster_1',hkia:'x_hkia',kowloon:'x_kowloon',ckm:'x_ckm',lfy:'x_lfy',potti:'x_potti',soho:'x_soho',bakehouse:'x_bakehouse',gdi:'x_gdi',choi:'x_choi',adc:'x_adc',tbm:'x_tbm',sim:'x_sim',cht:'x_cht',npgo:'x_npgo',gold:'x_gold',lym:'x_lym',aos:'tst_aos_0',ferry:'tst_ferry_0',esc:'cen_esc_0',peak:'cen_peak_0',lugard:'cen_peak_0',temple:'mk_temple_0',apliu:'mk_apliu_2',disney:'dis_castle_1','disney-show':'dis_frozen_0',pmq:'cen_pmq_2'};
 const FLIGHTS={'24':['인천','ICN','홍콩','HKG','UO619 · 홍콩익스프레스','12:25','T1','15:30','T1','4시간 5분'],'return':['홍콩','HKG','인천','ICN','UO626 · 홍콩익스프레스','16:40','T2','21:05','T1','3시간 25분']};
 
 // ── 인스타 저장 38 (base.html 1053~1091행)
@@ -577,7 +574,7 @@ const IG=[[1,'_tmsae','reel/DdQx0o5x0hK','아이폰 옥토퍼스(애플페이) �
 
 // ── 인스타 → 장소·준비·꿀팁 연결 (base.html 1093~1096행)
 // 인스타 → 일정 장소(키)·준비 항목·꿀팁 묶음에 하나하나 연결 (2026-10-22)
-const IG_AT={hkia:[29,1,19],kowloon:[12],ckm:[15],aos:[34,23],ferry:[34,17],lfy:[9,18],esc:[15,21],lkf:[21],soho:[16,33,38],bakehouse:[9,8],cheunwo:[39],gdi:[10,28,37,36],peak:[34,15,21],lugard:[34,26],bubba:[34],choi:[25,33,15],mk:[27,3,36,26],apliu:[26],duck:[18,22],temple:[30,16],yick:[26,33],npgo:[16],'hkia-t2':[32,40],disney:[6,23],'disney-show':[6],
+const IG_AT={hkia:[29,1,19],kowloon:[12],ckm:[15],aos:[34,23],ferry:[34,17],lfy:[9,18],esc:[15,21],lkf:[21],soho:[16,33,38],bakehouse:[9,8],cheunwo:[39],gdi:[10,28,37,36],peak:[34,15,21],lugard:[34,26],choi:[25,33,15],mk:[27,3,36,26],apliu:[26],duck:[18,22],temple:[30,16],yick:[26,33],npgo:[16],'hkia-t2':[32,40],disney:[6,23],'disney-show':[6],
  'p-octo':[1,19,29,30],'p-applepay':[1,19],'p-hktaxi':[17,30],'p-openrice':[8,18],'p-klook':[36],'p-mtr':[17],
  'tip:야경 보는 날':[34],'tip:들은 추천':[21,22,33,4,13,14,35,11,31],'tip:교통':[17,12],'tip:돈':[30,29,1],'tip:식당':[8,18,9,10,36,2,13],'tip:사진':[15,16,24,26,20,5],'tip:카메라 쇼핑':[28],'tip:안전·날씨':[7,25,34]};
 
@@ -590,7 +587,7 @@ const TIP_AT={hkia:['교통:공항버스','교통:옥토퍼스 충전액','돈:�
  aos:['사진:윈터페스트','사진:크리스마스 조명','야경 보는 날:어떻게','야경 보는 날:판단'],ferry:['교통:스타페리','야경 보는 날:판단'],
  lfy:['식당:합석','식당:차찬텡은 빨리','돈:소액 현금'],adc:['식당:차찬텡은 빨리','식당:합석','돈:소액 현금'],esc:['안전·날씨:신발'],
  lkf:['식당:란콰이퐁 술','안전·날씨:호객','안전·날씨:소매치기'],soho:['안전·날씨:호객'],bakehouse:['들은 추천:굳이?'],
- peak:['야경 보는 날:왜','야경 보는 날:어떻게','야경 보는 날:언제','야경 보는 날:판단','야경 보는 날:카메라'],lugard:['야경 보는 날:판단','안전·날씨:11월 날씨'],bubba:['들은 추천:부바검프'],
+ peak:['야경 보는 날:왜','야경 보는 날:어떻게','야경 보는 날:언제','야경 보는 날:판단','야경 보는 날:카메라'],lugard:['야경 보는 날:판단','안전·날씨:11월 날씨'],d2din:['들은 추천:부바검프','식당:합석','돈:소액 현금'],
  sim:['카메라 쇼핑:모델명·한국가 들고 가기','카메라 쇼핑:보증 확인','카메라 쇼핑:구성품','카메라 쇼핑:새 제품은 체인','카메라 쇼핑:피할 곳','카메라 쇼핑:사기 신고'],
  mk:['카메라 쇼핑:새 제품은 체인'],apliu:['카메라 쇼핑:구성품','카메라 쇼핑:새 제품은 체인'],duck:['돈:팁','안전·날씨:복장'],temple:['안전·날씨:소매치기','돈:소액 현금'],
  yick:['사진:몬스터빌딩(익청빌딩)'],disney:['들은 추천:디즈니 좋아하면'],
