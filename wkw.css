@@ -104,7 +104,7 @@ html[data-skin=wkw] .act.main{color:var(--label)}
 /* ── 하단 탭 ── */
 html[data-skin=wkw] #tabs button svg,html[data-skin=wkw] #toolsBtn svg{display:none}
 html[data-skin=wkw] #tabs button::after,html[data-skin=wkw] #toolsBtn::after{content:"";order:-1;width:28px;height:26px;background:center/contain no-repeat;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
-html[data-skin=wkw] #tabs button[data-tab=prep]::after{background-image:url(img/wkw/b/can.webp)}
+html[data-skin=wkw] #tabs button[data-tab=today]::after{background-image:url(img/wkw/b/can.webp)}
 html[data-skin=wkw] #tabs button[data-tab=trip]::after{background-image:url(img/wkw/b/tram.webp)}
 html[data-skin=wkw] #tabs button[data-tab=me]::after{background-image:url(img/wkw/b/passport.webp)}
 html[data-skin=wkw] #tabs #toolsBtn::after{background-image:url(img/wkw/b/jukebox.webp)}

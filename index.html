@@ -20,7 +20,13 @@
 <body data-app-tab="trip">
 
 <!-- 여행: 지도 + 시트 -->
-<main id="trip" class="tab-panel" role="tabpanel" aria-labelledby="tab-trip">
+<main id="today" class="tab-panel page" role="tabpanel" aria-labelledby="tab-today">
+ <h1 tabindex="-1">오늘</h1>
+ <p class="dek td-dek"><span id="todayTitle"></span><span id="todayClock" class="num"></span></p>
+ <div class="td-days" id="todayDays" aria-label="날짜 고르기"></div>
+ <div id="todayBody"></div>
+</main>
+<main id="trip" class="tab-panel" role="tabpanel" aria-labelledby="tab-trip" hidden>
  <div id="map" role="region" aria-label="그날 동선 지도"></div>
  <p class="map-off" id="mapOff" hidden>지도를 불러오지 못했어요 · 목록은 그대로</p>
  <div id="sheet" data-detent="half">
@@ -41,8 +47,9 @@
 </main>
 
 <!-- 준비·예약 -->
-<main id="prep" class="tab-panel page" role="tabpanel" aria-labelledby="tab-prep" hidden>
- <h1 tabindex="-1">준비·예약</h1>
+<main id="prep" class="tab-panel page" role="tabpanel" aria-labelledby="tab-me" hidden>
+ <button type="button" class="td-back" data-tab-go="me">‹ 지갑</button>
+ <h1 tabindex="-1">준비·비용</h1>
  <p class="dek" id="prepDek"></p>
  <div class="sec"><h2>할 것</h2><small id="prepCount"></small></div>
  <div class="card flush" id="prepContent"></div>
@@ -64,8 +71,11 @@
 
 <!-- 나 -->
 <main id="me" class="tab-panel page" role="tabpanel" aria-labelledby="tab-me" hidden>
- <h1 tabindex="-1">나</h1>
- <p class="dek" id="meHint" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>항공·여권·숙소·서류</span><button type="button" id="skinBtn" class="skin-btn">기본 화면으로</button></p>
+ <h1 tabindex="-1">지갑</h1>
+ <p class="dek" id="meHint" style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>예약·표·서류를 한곳에</span><button type="button" id="skinBtn" class="skin-btn">기본 화면으로</button></p>
+ <div class="sec"><h2>예약 · 표</h2><small id="walletCount"></small></div>
+ <div class="card flush" id="walletBook"></div>
+ <div class="card flush"><button type="button" class="lrow" data-tools="docs"><span class="t"><b>서류 열기</b><small>탑승권 · 여권 · 바우처 · QR</small></span></button><button type="button" class="lrow" data-tab-go="prep"><span class="t"><b>준비 목록 · 비용</b><small>아직 안 한 일 · 쓴 돈 · 숙소 정보</small></span></button></div>
  <div class="sec"><h2>항공</h2></div>
  <div class="card flush">
   <div class="info"><span class="k">가는 편</span><b>UO619 · 11/24(화) <span class="nw">12:25 인천 T1 → 15:30 홍콩 T1</span></b></div>
