@@ -292,7 +292,8 @@ function flightCard(k){const f=FLIGHTS[k],iso=k==='24'?'2026-11-24T12:25:00+09:0
 setInterval(()=>document.querySelectorAll('.cd[data-iso]').forEach(el=>el.textContent=countdown(el.dataset.iso)),60000);
 
 /* 시트 내용 — 순서: 다음 갈 곳 → 하루 일정 → 항공(24·28) → 알아둘 것. 24일 도착 전(출발 전 포함)엔 항공 카드가 맨 위 */
-function renderTrip({fit=false,keep=true}={}){
+let tripNeedsFit=true;
+function renderTrip({fit=false,keep=true}={}){if(fit&&$('trip').hidden)tripNeedsFit=true;
  curD=buildDay();const d=curD,nx=nextOf(d),st=slist.scrollTop;
  renderDates();
  const flightFirst=d.k==='24'&&(mode()==='pre'||(todayChip()==='24'&&!checks['d1-hkia']&&hkMin()<930));
@@ -621,7 +622,7 @@ function behindStops(d){if(!isTodayView(d.k))return [];const sk=(read('hk-skip',
 function nowCardHtml(d,pre,nx){const live=isTodayView(d.k);
  if(pre){const iso=pre.at||'';return `<section class="card td-now" aria-label="지금 할 일"><p class="td-k"><span>${live?'지금 할 일':'이날 미리 보기'}</span>${pre.tm!=='지금'?`<time>${esc(pre.tm)}</time>`:''}${leftHtml(iso)}</p><h2>${esc(pre.name)}</h2><p class="td-how">${esc(pre.how)}</p>${passHtml(pre.pass?{t:pre.pass,docs:pre.docs}:null)}${pre.link?`<a class="primary td-main" href="${pre.link[1]}" target="_blank" rel="noopener">${esc(pre.link[0])}</a>`:''}<button type="button" class="${pre.link?'td-sec':'primary td-main'}" data-trip-check="${pre.id}">끝났어요 · 다음으로</button></section>`}
  if(!nx){const back=d.k==='28';return `<section class="card td-now" aria-label="이날 일정 끝"><p class="td-k"><span>${back?'마지막 단계':'오늘 일정 끝'}</span>${back?'<time>16:40</time>':''}</p><h2>${back?'탑승구로 가요':'수고했어요'}</h2><p class="td-how">${back?'UO626 16:40 출발, 21:05 인천 T1 도착이에요. 집으로는 6100 공항버스를 타요.':'숙소로 돌아가서 쉬어요. 다음 날 일정은 위 날짜에서 미리 볼 수 있어요.'}</p>${back?`<button type="button" class="primary td-main" data-tools="docs">탑승권 열기</button>`:`<button type="button" class="primary td-main" data-trip-taxi="hotel">숙소 택시카드</button>`}</section>`}
- const s=nx,L=d.legacy,g=GUIDE[s[0]]||{},tm=/\d/.test(s[1]||'')?s[1]:'',iso=stopIso(d.k,tm),memo=s[8]||'',how=g.go||memo.split(/(?<=[.。])\s|\s—\s/)[0],more=(g.go?memo:memo.slice(how.length).replace(/^\s*(—\s*)?/,'')).trim(),link=STOP_LINKS[s[0]],i=d.stops.indexOf(s),leave=s[0]==='hotel'&&i===0,behind=behindStops(d).length;
+ const s=nx,L=d.legacy,g=GUIDE[s[0]]||{},tm=/\d/.test(s[1]||'')?s[1]:'',iso=stopIso(d.k,tm),memo=s[8]||'',how=g.go||(()=>{let t='';for(const x of memo.split(/(?<=[.。])\s/)){t+=(t?' ':'')+x;if(t.length>=38)break}return t})(),more=(g.go?memo:memo.slice(how.length)).trim(),link=STOP_LINKS[s[0]],i=d.stops.indexOf(s),leave=s[0]==='hotel'&&i===0,behind=behindStops(d).length;
  return `<section class="card td-now" data-key="${esc(s[0])}" aria-label="${live?'지금 갈 곳':'이날 미리 보기'}"><p class="td-k"><span>${live?(leave?'지금 할 일':i>-1?`지금 갈 곳 ${i+1}/${d.stops.length}`:'지금 갈 곳'):'이날 미리 보기'}</span>${tm?`<time>${esc(tm)}</time>`:''}${live?leftHtml(iso):''}</p><h2>${esc(leave?s[2]+'에서 출발':s[2])}</h2>${s[3]?`<p class="td-zh" lang="zh-HK">${esc(s[3])}</p>`:''}${how?`<p class="td-how">${esc(how)}</p>`:''}${passHtml(TODAY.pass[s[0]])}${behind?`<button type="button" class="td-sync" data-today-sync>일정보다 늦었어요 · 지난 ${behind}곳 넘기기</button>`:''}${link?`<a class="primary td-main" href="${link[1]}" target="_blank" rel="noopener">${esc(link[0])}</a>`:''}<div class="td-acts${live?'':' two'}"><a href="${directions(s)}" target="_blank" rel="noopener">${ACT_GO}<span>길찾기</span></a><button type="button" data-trip-taxi="${esc(s[0])}">${ACT_TAXI}<span>택시카드</span></button>${live?`<button type="button" data-guide-skip="${esc(s[0])}">${SKIP_ICON}<span>건너뛰기</span></button><button type="button" class="on" data-guide-done="${L}-${esc(s[0])}"${leave?' data-done-msg="숙소에서 출발했어요?"':''}><i>${ICO.arrive}</i><span>${leave?'출발':'도착'}</span></button>`:''}</div>${g.check||more?`<details class="td-more"><summary>자세히 보기${CHEV}</summary>${g.check?gchkList(L,s[0],g.check):''}${more?`<p>${esc(more)}</p>`:''}</details>`:''}</section>`}
 function timelineHtml(d,pre,nx){const rows=[];
  if(d.k==='24')TODAY.pre.forEach(p=>{const done=!!checks[p.id]||!preLeft().length,on=pre===p;rows.push(`<button type="button" class="td-row${done?' done':''}${on?' on':''}" data-trip-check="${p.id}" aria-pressed="${!!checks[p.id]}"><time>${esc(p.tm)}</time><span class="dot"></span><b>${esc(p.name)}</b></button>`)});
@@ -653,7 +654,7 @@ function chooseTab(k,{hash=true}={}){if(!TABS.some(t=>t[0]===k)||active===k)retu
  if(hash&&!/access_token|error_description/.test(location.hash))history.replaceState(history.state,'','#'+k);
  $('inlineBar').textContent=TITLE[k]||'';$('inlineBar').classList.remove('visible');
  if(wide()){$('trip').hidden=false;if(initTripMap()){tmap.invalidateSize();if(!lastPts.length)drawPins(true)}}
- if(k==='trip'){fitHalf();if(initTripMap()){tmap.invalidateSize();if(!lastPts.length)drawPins(true)}}
+ if(k==='trip'){fitHalf();if(initTripMap()){tmap.invalidateSize();if(tripNeedsFit||!lastPts.length){drawPins(true);tripNeedsFit=false}}}
  if(k==='prep')renderPrep();
  if(k==='today')renderToday();
  requestAnimationFrame(()=>window.scrollTo({top:k==='trip'?0:positions[k]||0,behavior:'instant'}))}
