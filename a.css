@@ -559,7 +559,7 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 
 /* 왕가위 결 전용 요소 — 기본 결에선 숨김(wkw.css 가 켬) */
 .pb,.stn,.stn-or,.exitx,.wroute,.wneon,.flipT,.subt,.can,.exp,.door2046{display:none}
-.skin-btn{font-size:.8125rem;font-weight:600;color:var(--blue);min-height:32px;padding:0 10px;border-radius:999px;background:var(--fill);white-space:nowrap}
+.skin-btn{font-size:.8125rem;font-weight:600;color:var(--blue);min-height:44px;padding:0 10px;border-radius:999px;background:var(--fill);white-space:nowrap}
 /* 당겨서 새로고침 */
 .ptr{position:fixed;left:50%;top:calc(var(--safe-t) + 4px);z-index:50;width:36px;height:36px;margin-top:-40px;border-radius:50%;background:var(--card);box-shadow:0 2px 8px rgba(0,0,0,.25);display:grid;place-items:center;opacity:0;transform:translate(-50%,0);pointer-events:none}
 .ptr i{width:22px;height:22px;border-radius:50%;border:2.5px solid var(--done);border-top-color:transparent;opacity:.6}
@@ -578,7 +578,7 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
  /* 꿀팁·인스타·숙소·디즈니 등: 화면 가운데 팝업 */
  dialog.sheet:not(#tools),dialog.sheet.h62:not(#tools),dialog.sheet.h62.expanded:not(#tools){inset:0;margin:auto;width:min(640px,90vw);max-width:none;height:min(720px,82dvh);max-height:none;border-radius:22px;box-shadow:0 12px 48px rgba(0,0,0,.35)}
 }
-.toast .undo{margin-left:8px;color:var(--blue);font-weight:700;padding:6px 4px}
+.toast .undo{margin-left:8px;color:var(--blue);font-weight:700;min-height:44px;min-width:56px;padding:6px 8px}
 .xp .unskip{width:100%;margin:2px 0 8px}
 @media(min-width:900px){dialog.sheet:not(#tools)[open]{animation:pop .2s ease-out}dialog.sheet:not(#tools) .grabber{visibility:hidden}}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
@@ -591,8 +591,8 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .td-days{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 16px}
 .td-days button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:54px;border-radius:14px;background:var(--fill);color:var(--label)}
 .td-days b{font-size:1.0625rem;font-variant-numeric:tabular-nums}.td-days small{font-size:.6875rem;color:var(--sub)}
-:root{--td-on:#fff}html[data-skin=wkw][data-tod=night]{--td-on:#000}
-.td-days [aria-pressed=true]{background:var(--blue);color:var(--td-on)}.td-days [aria-pressed=true] small{color:inherit}
+:root{--td-on:#fff;--td-accent:#0058c4}html[data-skin=wkw]{--td-accent:var(--blue)}html[data-skin=wkw][data-tod=night]{--td-on:#000}
+.td-days [aria-pressed=true]{background:var(--td-accent);color:var(--td-on)}.td-days [aria-pressed=true] small{color:inherit}
 .td-now{padding:18px 18px 16px;outline:1.5px solid var(--blue);outline-offset:-1.5px}
 .td-k{display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--sub);font-weight:600}
 .td-k time{color:var(--label);font-size:.9375rem;font-weight:800}.td-k em{margin-left:auto;font-style:normal;color:var(--blue);font-variant-numeric:tabular-nums}
@@ -606,11 +606,11 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .td-sec{display:flex;align-items:center;justify-content:center;width:100%;min-height:46px;margin-top:6px;color:var(--blue);font-weight:600}
 .td-acts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:12px}
 .td-acts>*{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:60px;border-radius:12px;background:var(--fill);color:var(--label);font-size:.75rem;font-weight:600}
-.td-acts svg{width:22px;height:22px}.td-acts .on{background:var(--blue);color:var(--td-on)}.td-acts.two{grid-template-columns:repeat(2,1fr)}.td-acts i{display:grid;place-items:center}
+.td-acts svg{width:22px;height:22px}.td-acts .on{background:var(--td-accent);color:var(--td-on)}.td-acts.two{grid-template-columns:repeat(2,1fr)}.td-acts i{display:grid;place-items:center}
 .td-more{margin-top:10px}.td-more summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:.875rem;font-weight:600;color:var(--sub);list-style:none;cursor:pointer}
 .td-more summary::-webkit-details-marker{display:none}.td-more[open] .chev{transform:rotate(90deg)}.td-more p{font-size:.875rem;line-height:1.55;color:var(--sub);margin-top:6px}
 .td-list{padding:4px 0}
-.td-row{display:grid;grid-template-columns:4.1rem 14px minmax(0,1fr) 12px;align-items:center;gap:8px;width:100%;min-height:48px;padding:6px 14px;text-align:left}
+.td-row{display:grid;grid-template-columns:4.7rem 14px minmax(0,1fr) 12px;align-items:center;gap:8px;width:100%;min-height:48px;padding:6px 14px;text-align:left}
 .td-row time{font-size:.8125rem;color:var(--sub);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .td-row .dot{width:9px;height:9px;border-radius:50%;background:var(--tert);justify-self:center}
 .td-row b{font-size:.9375rem;font-weight:600;line-height:1.3}.td-row .chev{width:12px;height:12px;color:var(--tert)}
@@ -630,3 +630,10 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .td-k em.late{color:var(--red)}
 .td-sync{display:flex;align-items:center;justify-content:center;width:100%;min-height:46px;margin-top:10px;border-radius:12px;background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red);font-size:.875rem;font-weight:700}
 #walletCount{position:relative;z-index:2}
+.td-main.primary,button.td-main{background:var(--td-accent)}
+html:not([data-skin=wkw]) :is(#today,#me,#prep){--sub:#5c5c63;--red:#c4221a}
+@media(prefers-color-scheme:dark){html:not([data-skin=wkw]) :is(#today,#me,#prep){--sub:#b4b4ba;--red:#ff7b72}}
+html[data-skin=wkw][data-tod=day] :is(#today,#me,#prep){--sub:#5b5240;--red:#b3261e}
+.td-row.past b{color:var(--sub)}.td-row.past .dot{background:var(--sub)}
+.td-picked{padding:4px 16px}.td-picked summary{display:flex;align-items:center;justify-content:space-between;min-height:56px;list-style:none;cursor:pointer}.td-picked summary::-webkit-details-marker{display:none}
+.td-picked summary span{display:flex;flex-direction:column}.td-picked small{font-size:.75rem;color:var(--sub)}.td-picked summary b{font-size:1rem}.td-picked em{font-style:normal;color:var(--blue);font-weight:700;font-size:.875rem}.td-picked .npick{margin-bottom:8px}
