@@ -619,7 +619,7 @@ dialog::backdrop{background:rgba(0,0,0,.42)}
 .td-todo{display:flex;align-items:center;gap:10px;min-height:60px;padding:6px 14px}.td-todo .t{flex:1;min-width:0;display:flex;flex-direction:column}
 .td-todo b{font-size:.9375rem}.td-todo small{font-size:.78125rem;color:var(--sub)}.td-todo a{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
 .td-todo.done b{color:var(--sub);text-decoration:line-through}
-.td-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px}
+.td-quick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:16px}
 .td-quick button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;border-radius:14px;background:var(--fill);font-size:.75rem;font-weight:600}.td-quick svg{width:22px;height:22px}.td-quick .kico{width:24px;height:24px;background:none!important}.td-quick .kico svg{stroke:currentColor}
 .td-back{min-height:44px;margin:-44px 0 0 12px;padding:0 6px;color:var(--blue);font-weight:600;display:block}
 .wl-row{display:flex;align-items:center;gap:10px;min-height:68px;padding:8px 14px;border-top:.5px solid var(--line)}.wl-row:first-child{border-top:0}
@@ -637,3 +637,18 @@ html[data-skin=wkw][data-tod=day] :is(#today,#me,#prep){--sub:#5b5240;--red:#b32
 .td-row.past b{color:var(--sub)}.td-row.past .dot{background:var(--sub)}
 .td-picked{padding:4px 16px}.td-picked summary{display:flex;align-items:center;justify-content:space-between;min-height:56px;list-style:none;cursor:pointer}.td-picked summary::-webkit-details-marker{display:none}
 .td-picked summary span{display:flex;flex-direction:column}.td-picked small{font-size:.75rem;color:var(--sub)}.td-picked summary b{font-size:1rem}.td-picked em{font-style:normal;color:var(--blue);font-weight:700;font-size:.875rem}.td-picked .npick{margin-bottom:8px}
+/* 환율 계산기 */
+.fx-card{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:4px}
+.fx-card label,.fx-card small{font-size:.8125rem;font-weight:600;color:var(--sub)}
+.fx-in{min-width:0;display:flex;align-items:baseline;gap:8px;border-bottom:.5px solid var(--line);padding-bottom:8px;margin-bottom:8px}
+.fx-in span{font-size:1.25rem;font-weight:700;color:var(--sub)}
+.fx-in input{flex:1;width:0;min-width:0;border:0;background:none;color:var(--label);font:inherit;font-size:2.125rem;font-weight:700;font-variant-numeric:tabular-nums;padding:0;text-align:right;outline-offset:4px}
+.fx-out{display:block;min-width:0;text-align:right;font-size:2.125rem;line-height:1.15;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.fx-out.bad{font-size:1.0625rem;font-weight:600;color:var(--red)}
+.fx-chips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0 16px 12px}
+.fx-chips button{display:grid;place-items:center;padding:0;text-align:center;min-height:44px;border-radius:12px;background:var(--fill);font-size:.875rem;font-weight:700;font-variant-numeric:tabular-nums}
+.fx-rate{display:flex;align-items:center;gap:8px;padding-block:6px}
+.fx-rate label{font-weight:600;white-space:nowrap}
+.fx-rate input{flex:1;width:0;min-width:0;min-height:44px;border:0;background:none;color:var(--label);font:inherit;font-size:1.0625rem;font-weight:700;text-align:right}
+.fx-rate button{min-height:44px;padding:0 4px 0 8px;color:var(--blue);font-size:.875rem;font-weight:600;white-space:nowrap}
+.fx-note{margin:0 20px 16px;font-size:.8125rem}

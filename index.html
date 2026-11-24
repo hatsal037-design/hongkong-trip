@@ -9,13 +9,13 @@
 <title>홍콩 여행</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="a.css?v=11240835">
-<script>/* 청킹맨션 테마(기본값): ?skin=wkw|off 또는 «나» 탭 버튼 — 이 기기에만 저장 */try{var q=new URLSearchParams(location.search).get("skin");if(q!==null)localStorage.setItem("hk-skin",q==="wkw"?"wkw":"off");var v=localStorage.getItem("hk-skin");if(v===null||v==="wkw"){document.documentElement.setAttribute("data-skin","wkw");document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;900&family=Josefin+Sans:wght@300&display=swap"><link rel="stylesheet" href="wkw.css?v=11240835">')}}catch(e){}</script>
+<link rel="stylesheet" href="a.css?v=11240914">
+<script>/* 청킹맨션 테마(기본값): ?skin=wkw|off 또는 «나» 탭 버튼 — 이 기기에만 저장 */try{var q=new URLSearchParams(location.search).get("skin");if(q!==null)localStorage.setItem("hk-skin",q==="wkw"?"wkw":"off");var v=localStorage.getItem("hk-skin");if(v===null||v==="wkw"){document.documentElement.setAttribute("data-skin","wkw");document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;900&family=Josefin+Sans:wght@300&display=swap"><link rel="stylesheet" href="wkw.css?v=11240914">')}}catch(e){}</script>
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script defer src="talk-audio.js?v=11240835"></script>
-<script defer src="hk-data.js?v=11240835"></script>
+<script defer src="talk-audio.js?v=11240914"></script>
+<script defer src="hk-data.js?v=11240914"></script>
 <script defer src="https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script defer src="a.js?v=11240835"></script>
+<script defer src="a.js?v=11240914"></script>
 </head>
 <body data-app-tab="trip">
 
@@ -115,14 +115,15 @@
 
 <nav class="dock" aria-label="홍콩 여행">
  <div id="tabs" class="glass" role="tablist" aria-label="탭"></div>
- <button type="button" id="toolsBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="도구: 택시카드·회화·자료·서류"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M3 15h5l2 3h4l2-3h5M7 11V5h10v6"/></svg><span aria-hidden="true">도구</span></button>
+ <button type="button" id="toolsBtn" aria-haspopup="dialog" aria-expanded="false" aria-label="도구: 택시카드·환율·회화·자료·서류"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M3 15h5l2 3h4l2-3h5M7 11V5h10v6"/></svg><span aria-hidden="true">도구</span></button>
 </nav>
 
 <!-- 도구 서랍 -->
 <dialog class="sheet h62" id="tools" aria-label="도구">
  <div class="sh-top"><button type="button" class="grabber" id="toolsDetent" aria-expanded="false" aria-label="도구 크게 보기"></button>
-  <div class="sh-head"><div class="seg" id="toolSeg" role="tablist" aria-label="도구"><button type="button" role="tab" data-seg="taxi">택시</button><button type="button" role="tab" data-seg="talk">회화</button><button type="button" role="tab" data-seg="ref">자료</button><button type="button" role="tab" data-seg="docs">서류</button></div><button type="button" class="done" data-done>완료</button></div></div>
+  <div class="sh-head"><div class="seg" id="toolSeg" role="tablist" aria-label="도구"><button type="button" role="tab" data-seg="taxi">택시</button><button type="button" role="tab" data-seg="fx">환율</button><button type="button" role="tab" data-seg="talk">회화</button><button type="button" role="tab" data-seg="ref">자료</button><button type="button" role="tab" data-seg="docs">서류</button></div><button type="button" class="done" data-done>완료</button></div></div>
  <div class="tpanel" id="tp-taxi" role="tabpanel" aria-label="택시"></div>
+ <div class="tpanel" id="tp-fx" role="tabpanel" aria-label="환율" hidden></div>
  <div class="tpanel" id="tp-talk" role="tabpanel" aria-label="회화" hidden><div class="talkchips" id="talkChips"></div><div id="talkContent"></div><p class="muted" style="margin:16px">한글 발음은 비슷하게 적은 것 — 재생 버튼으로 들어 보거나, 눌러서 화면을 보여주세요.</p></div>
  <div class="tpanel" id="tp-ref" role="tabpanel" aria-label="자료" hidden></div>
  <div class="tpanel" id="tp-docs" role="tabpanel" aria-label="서류" hidden>

@@ -496,16 +496,29 @@ document.querySelectorAll('dialog.h62 button.grabber').forEach(b=>{let moved=fal
 {let y0=null;const sh=$('show');sh.addEventListener('pointerdown',e=>{y0=e.target.closest('.big,.addr,button,a')?null:e.clientY});sh.addEventListener('pointerup',e=>{if(y0!=null&&e.clientY-y0>80)closeSheet(sh);y0=null})}
 
 /* ══ 도구 서랍 ══════════════════════════════════════════ */
-let toolSeg=read('hk-a-tools-seg-v1','taxi');if(!['taxi','talk','ref','docs'].includes(toolSeg))toolSeg='taxi';
-const SEGS=['taxi','talk','ref','docs'];
+let toolSeg=read('hk-a-tools-seg-v1','taxi');const SEGS=['taxi','fx','talk','ref','docs'];if(!SEGS.includes(toolSeg))toolSeg='taxi';
+/* 홍콩달러 → 원 계산기. 환율은 이 기기에만 저장 */
+const fxNum=v=>{const t=String(v).replace(/,/g,'').trim();return t&&/^\d*\.?\d+$|^\d+\.$/.test(t)?Number(t):null};
+const fxGetRate=()=>{const r=Number(read('hk-fx-rate-v1',FX_RATE));return r>0&&r<10000?r:FX_RATE};
+function fxCalc(){const raw=$('fxHkd').value,h=fxNum(raw),r=fxNum($('fxRate').value),out=$('fxOut');
+ if(!raw.trim()){out.textContent='0원';out.classList.remove('bad');return}
+ if(h==null){out.textContent='숫자만 넣어 주세요';out.classList.add('bad');return}
+ if(!(r>0&&r<10000)){out.textContent='환율을 확인해 주세요';out.classList.add('bad');return}
+ out.classList.remove('bad');out.textContent=Math.round(h*r).toLocaleString('ko-KR')+'원'}
+function renderFx(){const el=$('tp-fx');if(el.innerHTML)return;
+ el.innerHTML=`<div class="card fx-card"><label for="fxHkd">홍콩달러</label><div class="fx-in"><span>HK$</span><input id="fxHkd" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="0" maxlength="9"></div><small>한국 돈</small><output class="fx-out" id="fxOut" for="fxHkd fxRate" aria-live="polite">0원</output></div><div class="fx-chips">${[10,50,100,500,1000].map(n=>`<button type="button" data-fx="${n}">${n.toLocaleString('en-US')}</button>`).join('')}</div><div class="card fx-rate"><label for="fxRate">1 HK$</label><input id="fxRate" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" maxlength="7" value="${fxGetRate()}"><span>원</span><button type="button" id="fxReset">기본값</button></div><p class="muted fx-note">기본 환율은 11/23 시세예요. 카드나 환전소 금액은 수수료 때문에 조금 달라요. 환전소 환율을 보면 위 칸을 바꿔 주세요.</p>`;
+ $('fxHkd').oninput=fxCalc;
+ $('fxRate').oninput=()=>{const r=fxNum($('fxRate').value);if(r>0&&r<10000)write('hk-fx-rate-v1',r);fxCalc()};
+ $('fxReset').onclick=()=>{$('fxRate').value=FX_RATE;write('hk-fx-rate-v1',FX_RATE);fxCalc()};
+ el.querySelector('.fx-chips').onclick=e=>{const b=e.target.closest('[data-fx]');if(!b)return;$('fxHkd').value=b.dataset.fx;fxCalc()}}
 function setToolsDetent(ex){$('tools').classList.toggle('expanded',ex);syncDetentBtn($('tools'))}
 function setSeg(seg,store=true){toolSeg=seg;if(store)write('hk-a-tools-seg-v1',seg);
  $('toolSeg').querySelectorAll('[data-seg]').forEach(b=>{const on=b.dataset.seg===seg;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;b.setAttribute('aria-controls','tp-'+b.dataset.seg)});
  SEGS.forEach(s=>$('tp-'+s).hidden=s!==seg);
- if(seg==='taxi')renderTaxi();if(seg==='talk'){if(!$('talkContent').innerHTML)renderTalk();setToolsDetent(true)}if(seg==='ref'&&!$('tp-ref').innerHTML)renderRef()}
+ if(seg==='taxi')renderTaxi();if(seg==='fx')renderFx();if(seg==='talk'){if(!$('talkContent').innerHTML)renderTalk();setToolsDetent(true)}if(seg==='ref'&&!$('tp-ref').innerHTML)renderRef()}
 function openTools(seg,arg){const d=$('tools'),ctx=!!seg;seg=seg||toolSeg;setSeg(seg,!ctx||true);if(seg!=='talk')setToolsDetent(false);if(!d.open)openSheet(d,$('toolsBtn'));$('toolsBtn').setAttribute('aria-expanded','true');if(seg==='talk')talkTo(arg)}
 $('toolsBtn').onclick=()=>openTools();
-$('toolSeg').addEventListener('keydown',e=>{const i=SEGS.indexOf(toolSeg);const n=e.key==='ArrowRight'?(i+1)%4:e.key==='ArrowLeft'?(i+3)%4:null;if(n==null)return;e.preventDefault();setSeg(SEGS[n]);$('toolSeg').querySelector(`[data-seg=${SEGS[n]}]`).focus()});
+$('toolSeg').addEventListener('keydown',e=>{const i=SEGS.indexOf(toolSeg);const n=e.key==='ArrowRight'?(i+1)%SEGS.length:e.key==='ArrowLeft'?(i+SEGS.length-1)%SEGS.length:null;if(n==null)return;e.preventDefault();setSeg(SEGS[n]);$('toolSeg').querySelector(`[data-seg=${SEGS[n]}]`).focus()});
 
 const taxiRow=(s,label)=>{const k=s[0],h=k==='hotel'?TripState.get().hotel:null;const sub=k==='hotel'?(h?(h.en||h.ko):'숙소 미정 · 고르기'):(s[3]||s[4]);return `<button type="button" class="lrow ico" data-trip-taxi="${k}">${kIco(s)}<span class="t"><b>${esc(label||s[2])}</b><small>${esc(sub)}</small></span>${CHEV}</button>`};
 function allStops(){const seen=new Set(),out=[];[...Object.values(DAYS).flatMap(d=>[...d.stops,...(d.opt||[])]),...disney(),airport(),...Object.values(FOOD)].forEach(s=>{if(!seen.has(s[0])){seen.add(s[0]);out.push(s)}});return out}
@@ -635,7 +648,7 @@ function picksHtml(k){const list=(MEAL_PICKS[k]||[]).filter(g=>!g.fixed&&!g.keep
 function renderToday(){const el=$('todayBody');if(!el)return;const d=curD,k=d.k,pre=k==='24'?preLeft()[0]||null:null,nx=nextOf(d),open=!!el.querySelector('.td-more[open]');
  $('todayTitle').textContent=d.title.split(' · ')[1]?`${d.title.split(' · ')[0]} ${d.title.split(' · ').slice(1).join(' · ')}`:d.title;$('todayClock').textContent=clockTxt();
  $('todayDays').innerHTML=DATES.map(([x,lab,sub])=>`<button type="button" data-today-day="${x}" aria-pressed="${x===k}" aria-label="${lab} ${sub}"><b>${x}</b><small>${sub}</small></button>`).join('');
- el.innerHTML=nowCardHtml(d,pre,nx)+todoHtml(k)+picksHtml(k)+timelineHtml(d,pre,nx)+`<div class="sec"><h2>이날 챙길 것</h2></div><div class="card td-carry">${gchkList('carry',k,TODAY.carry[k]||[])}</div><div class="td-quick"><button type="button" data-trip-taxi="hotel">${ACT_TAXI}<span>숙소로</span></button><button type="button" data-tools="talk">${ICO.play}<span>회화</span></button><button type="button" data-tools="docs">${ICO.cal}<span>서류</span></button><button type="button" data-tab-go="trip">${ACT_GO}<span>지도</span></button></div>`;
+ el.innerHTML=nowCardHtml(d,pre,nx)+todoHtml(k)+picksHtml(k)+timelineHtml(d,pre,nx)+`<div class="sec"><h2>이날 챙길 것</h2></div><div class="card td-carry">${gchkList('carry',k,TODAY.carry[k]||[])}</div><div class="td-quick"><button type="button" data-trip-taxi="hotel">${ACT_TAXI}<span>숙소로</span></button><button type="button" data-tools="fx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14l-4-4M20 16H6l4 4"/></svg><span>환율</span></button><button type="button" data-tools="talk">${ICO.play}<span>회화</span></button><button type="button" data-tools="docs">${ICO.cal}<span>서류</span></button><button type="button" data-tab-go="trip">${ACT_GO}<span>지도</span></button></div>`;
  if(open)el.querySelector('.td-more')?.setAttribute('open','');renderWallet()}
 function renderWallet(){const el=$('walletBook');if(!el)return;const stOf=b=>b.todo&&checks[b.todo]?'완료':b.st;const left=TODAY.book.filter(b=>stOf(b)!=='완료').length;$('walletCount').textContent=left?`남은 일 ${left}`:'모두 완료';
  el.innerHTML=TODAY.book.map(b=>{const st=stOf(b),act=b.docs?`<button type="button" data-tools="docs">서류</button>`:b.taxi?`<button type="button" data-trip-taxi="${b.taxi}">택시카드</button>`:b.tel?`<a href="tel:${b.tel}">전화</a>`:b.link?`<a href="${b.link}" target="_blank" rel="noopener">열기</a>`:'';return `<div class="wl-row"><span class="t"><small>${esc(b.d)}</small><b>${esc(b.n)}</b><small>${esc(b.s)}</small></span><em class="st${st==='완료'?' ok':''}">${esc(st)}</em>${act}</div>`}).join('')}
