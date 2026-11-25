@@ -248,6 +248,8 @@ const TODAY={
   {d:'11/28 16:40',n:'오는 편 UO626',st:'완료',s:'여권 · 탑승권',docs:true}
  ]
 };
+// «위치» 버튼을 이름 검색 대신 좌표로 찍을 곳 — 긴 곳은 시작점(에스컬레이터: 상행 시작, 皇后大道中·閣麟街)
+const PLACE_AT={esc:[22.2831,114.1547]};
 const STOP_LINKS={'f-oiman':['줄표 뽑기','https://web.thegulu.com/app/shop/144765']};
 const TRIP_DAYS = {
   d1: { label:'D1 도착', sub:'공항 → 침사추이', desc:'15:30 도착 → 입국·짐 45분 → GTC 버스터미널에서 A21 → Cameron Road 하차 → 17:45쯤 체크인. 저녁 1시간 → 청킹맨션 → 스타의 거리·윈터페스트 조명 → 스타페리 왕복.',
