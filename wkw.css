@@ -94,6 +94,8 @@ html[data-skin=wkw] .act::before{content:none;width:30px;height:30px;background:
 html[data-skin=wkw] .act[href*="/maps/dir"] svg,html[data-skin=wkw] .act[data-trip-taxi] svg,html[data-skin=wkw] .act[data-trip-note] svg,html[data-skin=wkw] .act[data-guide-skip] svg,html[data-skin=wkw] .act[href*="uber.com"] svg{display:none}
 html[data-skin=wkw] .act[href*="/maps/dir"]::before{content:"";background-image:url(img/wkw/b/map.webp)}
 html[data-skin=wkw] .act[data-trip-taxi]::before{content:"";background-image:url(img/wkw/b/taxi.webp)}
+/* 위치 버튼: 그림 배지가 없어 핀 선을 배지 크기·붉은 잉크로 */
+html[data-skin=wkw] .act[href*="/maps/search"] svg{width:30px;height:30px;color:#b3261e;stroke-width:2.2;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35))}
 html[data-skin=wkw] .act[href*="uber.com"]::before{content:"";background-image:url(img/wkw/b/taxi.webp);filter:hue-rotate(170deg) drop-shadow(0 1px 1.5px rgba(0,0,0,.45))}
 html[data-skin=wkw] .act[data-trip-note]::before{content:"";background-image:url(img/wkw/b/memo.webp)}
 html[data-skin=wkw] .act[data-guide-skip]::before{content:"";background-image:url(img/wkw/b/skip.webp);opacity:.8}
