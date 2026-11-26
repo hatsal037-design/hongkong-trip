@@ -752,7 +752,7 @@ const ACT_GO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 const ACT_LIST='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="18" r="1" fill="currentColor"/></svg>';
 
 // ── 내 정보 — 앱 구분값·입력 칸(F → ME_FIELDS)·서류 슬롯 (base.html 1148행)
-const APP='hk',ME_FIELDS=['name','name_en','passport_no','passport_exp','flight','seat_out','seat_ret','bag','hotel','hotel_info','esim','octopus','card','ins','emer','memo'],SLOTS=[['eticket','항공권 e티켓'],['boarding','탑승권'],['passport','여권'],['passport_yj','동행 여권'],['hotelv','숙소 바우처'],['insdoc','보험증서'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
+const APP='hk',ME_FIELDS=['name','name_en','passport_no','passport_exp','flight','seat_out','seat_ret','bag','hotel','hotel_info','door_front','door_room','esim','octopus','card','ins','emer','memo'],SLOTS=[['eticket','항공권 e티켓'],['boarding','탑승권'],['passport','여권'],['passport_yj','동행 여권'],['hotelv','숙소 바우처'],['insdoc','보험증서'],['disney','디즈니 티켓 QR'],['etc','기타 서류']];
 
 // ── 내 정보 — 동기화 대상 localStorage 키 (base.html 1164행)
 const KINDS=['hk-check','hk-fav','hk-note'];
