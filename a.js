@@ -271,12 +271,16 @@ function nextCard(d,nx){
  const addr=[s[5],s[4]!==s[3]&&s[4]].filter(Boolean).join(' · ');
  const cam=VIEW[s[0]]&&!(g.apps||[]).some(a=>a[1]===HKO_CAM)?` <a href="${HKO_CAM}" target="_blank" rel="noopener">${LINK_ICON}날씨캠</a>`:'';
  const memo=!g.check&&(s[8]||VIEW[s[0]])?`<p class="memo"><span class="b">${esc(s[8])}</span>${viewTail(s[0])}${go?'':appLinks(g)}${cam}</p>`:'';
- return `<section class="card next" id="nextCard" data-key="${s[0]}" aria-label="다음 갈 곳">${ph?`<div class="ph" style="--ph:url('img/area/${ph}.jpg')"><img src="img/area/${ph}.jpg" alt="" loading="lazy" onerror="this.remove()">${s[3]&&s[3]!==s[4]?`<span class="subt" aria-hidden="true"><b lang="zh-HK">${esc(s[3])}</b><i>${esc(s[2])}</i></span>`:''}<span class="bdg">${esc(badge.replace('다음 갈 곳 · ',''))}</span></div>`:''}<div class="in"><span class="bdg">${esc(badge)}</span>${flipHtml(tm)}<h3>${pb(s[0])}${esc(s[2])}${s[0]==='hotel'&&!hotelNull?` <span class="badge" style="vertical-align:4px">${hotelBadge()}</span>`:''}</h3>${s[3]?`<p class="zh">${esc(s[3])}</p>`:''}${addr?`<p class="ad">${esc(addr)}</p>`:''}${WKW.stn[s[0]]?`<div class="wroute">${stnHtml(s[0],true)}</div>`:''}${go?`<div class="go">${goHtml(go)}${appLinks(g)}</div>`:''}${g.check?`<details class="gfold" open><summary>확인할 것 ${g.check.length}${CHEV}</summary>${gchkList(L,s[0],g.check)}</details>`:''}${memo}${hotelNull?`<button type="button" class="primary" style="margin-top:10px" data-open-pick>숙소 고르기</button>`:''}</div>${actsRow(s,L,`<button type="button" class="act sub" data-guide-skip="${s[0]}">${SKIP_ICON}<span>건너뛰기</span></button><button type="button" class="act main" data-guide-done="${L}-${s[0]}"><i>${ICO.arrive}</i><span>도착</span></button>`)}</section>`}
+ return `<section class="card next" id="nextCard" data-key="${s[0]}" aria-label="다음 갈 곳">${ph?`<div class="ph" style="--ph:url('img/area/${ph}.jpg')"><img src="img/area/${ph}.jpg" alt="" loading="lazy" onerror="this.remove()">${s[3]&&s[3]!==s[4]?`<span class="subt" aria-hidden="true"><b lang="zh-HK">${esc(s[3])}</b><i>${esc(s[2])}</i></span>`:''}<span class="bdg">${esc(badge.replace('다음 갈 곳 · ',''))}</span></div>`:''}<div class="in"><span class="bdg">${esc(badge)}</span>${flipHtml(tm)}<h3>${pb(s[0])}${esc(s[2])}${s[0]==='hotel'&&!hotelNull?` <span class="badge" style="vertical-align:4px">${hotelBadge()}</span>`:''}</h3>${s[3]?`<p class="zh">${esc(s[3])}</p>`:''}${addr?`<p class="ad">${esc(addr)}</p>`:''}${doorHtml(s[0])}${WKW.stn[s[0]]?`<div class="wroute">${stnHtml(s[0],true)}</div>`:''}${go?`<div class="go">${goHtml(go)}${appLinks(g)}</div>`:''}${g.check?`<details class="gfold" open><summary>확인할 것 ${g.check.length}${CHEV}</summary>${gchkList(L,s[0],g.check)}</details>`:''}${memo}${hotelNull?`<button type="button" class="primary" style="margin-top:10px" data-open-pick>숙소 고르기</button>`:''}</div>${actsRow(s,L,`<button type="button" class="act sub" data-guide-skip="${s[0]}">${SKIP_ICON}<span>건너뛰기</span></button><button type="button" class="act main" data-guide-done="${L}-${s[0]}"><i>${ICO.arrive}</i><span>도착</span></button>`)}</section>`}
+function doorHtml(k){if(k!=='hotel'&&k!=='hotel-back')return '';const v=i=>(document.getElementById(i)?.value||'').trim(),f=v('me_door_front'),r=v('me_door_room'),inn=document.getElementById('meIn'),logged=inn&&!inn.hidden;
+ if(f||r)return `<div class="doorpin" data-doorpin><span><small>현관 번호</small><b>${esc(f||'—')}</b></span><span><small>방 번호</small><b>${esc(r||'—')}</b></span></div>`;
+ return `<a class="doorpin none" data-doorpin href="#me">${logged?'문 번호 — 내 정보에서 넣기':'문 번호 — 로그인하면 보여요'}</a>`}
+window.refreshDoor=()=>document.querySelectorAll('[data-doorpin]').forEach(e=>{e.outerHTML=doorHtml('hotel')});
 function xpHtml(s,L){const k=s[0],id=L+'-'+k,g=(k==='hotel'&&L!=='d1'?{}:GUIDE[k])||{},hotelNull=k==='hotel'&&!TripState.get().hotel;
  const zhLine=k==='hotel'&&!s[3]?(hotelNull?'':`<b>${esc(s[4]||s[2])}</b><small>${esc(AREA_EN[TripState.get().hotel?.area]||'')} · 중문 주소 없음</small>`):`${s[3]?`<b>${esc(s[3])}</b>`:''}${s[5]||s[4]?`<small>${esc([s[5],s[4]].filter(Boolean).join(' · '))}</small>`:''}`;
  const pic=PHOTO[k]?`img/area/${PHOTO[k]}.jpg`:s[10];
  const skN=((read('hk-skip',{})[L])||[]).includes(k)&&!checks[id];
- return (skN?`<button type="button" class="primary unskip" data-unskip="${k}">건너뛴 거 취소 · 다음 갈 곳으로</button>`:'')+`${pic?`<img class="xph" src="${pic}" alt="" loading="lazy" onerror="this.remove()">`:''}<div class="top"><div class="zh">${zhLine}</div><button type="button" class="ibtn fav" data-trip-fav="${k}" aria-pressed="${!!favs[k]}" aria-label="${esc(s[2])} 별">${ICO.star}</button><button type="button" class="ibtn done" data-trip-check="${id}" aria-pressed="${!!checks[id]}" aria-label="${esc(s[2])} 완료"><span class="chk">${ICO.check}</span></button></div>${g.go?`<div class="go">${goHtml(g.go)}${appLinks(g)}</div>`:''}${g.check?`<details class="gfold" open><summary>확인할 것 ${g.check.length}${CHEV}</summary>${gchkList(L,k,g.check)}</details>`:''}${s[8]||VIEW[k]?`<p class="memo">${esc(s[8])}${viewTail(k)}${g.go?'':appLinks(g)}</p>`:''}${hotelNull?`<button type="button" class="primary pick" data-open-pick>숙소 고르기</button>`:''}${actsRow(s,L)}`}
+ return (skN?`<button type="button" class="primary unskip" data-unskip="${k}">건너뛴 거 취소 · 다음 갈 곳으로</button>`:'')+`${pic?`<img class="xph" src="${pic}" alt="" loading="lazy" onerror="this.remove()">`:''}<div class="top"><div class="zh">${zhLine}</div><button type="button" class="ibtn fav" data-trip-fav="${k}" aria-pressed="${!!favs[k]}" aria-label="${esc(s[2])} 별">${ICO.star}</button><button type="button" class="ibtn done" data-trip-check="${id}" aria-pressed="${!!checks[id]}" aria-label="${esc(s[2])} 완료"><span class="chk">${ICO.check}</span></button></div>${doorHtml(k)}${g.go?`<div class="go">${goHtml(g.go)}${appLinks(g)}</div>`:''}${g.check?`<details class="gfold" open><summary>확인할 것 ${g.check.length}${CHEV}</summary>${gchkList(L,k,g.check)}</details>`:''}${s[8]||VIEW[k]?`<p class="memo">${esc(s[8])}${viewTail(k)}${g.go?'':appLinks(g)}</p>`:''}${hotelNull?`<button type="button" class="primary pick" data-open-pick>숙소 고르기</button>`:''}${actsRow(s,L)}`}
 function stopRow(s,i,d,o){const L=d.legacy,k=s[0],id=L+'-'+k,done=!!checks[id],sk=((read('hk-skip',{})[L])||[]).includes(k);
  const [tm,tmx]=String(s[1]||'').split(/\s*·\s*/);const hasLL=Number.isFinite(s[6])&&Number.isFinite(s[7]);
  let sub;if(o.now)sub='다음 갈 곳';else if(k==='hotel')sub=TripState.get().hotel?[hotelBadge(),o.after?legText(o.prev,s):''].filter(Boolean).join(' · '):'숙소 미정';else if(o.after)sub=legText(o.prev,s)||s[4];else sub=[TAGNM[s[9]],HOURS[k]?'':s[4]].filter(Boolean).join(' · ');
@@ -699,12 +703,12 @@ addEventListener('storage',e=>{if(e.key==='hk-trip-state-v1'){renderTrip({fit:tr
  async function show(user){
   uid=user?.id||null;$('meOut').hidden=!!uid;$('meIn').hidden=!uid;$('docsOut').hidden=!!uid;$('meFiles').hidden=!uid;
   $('meHint').firstElementChild.textContent=uid?'예약·표·서류 · 개인 칸은 나만 보여요':'예약·표·서류를 한곳에';
-  if(!uid){$('syncState').textContent='체크·별·메모 — 이 기기에만 저장 · 로그인하면 같이 쓰는 사람과 공유';return}
+  if(!uid){F.forEach(k=>$('me_'+k).value='');window.refreshDoor?.();$('syncState').textContent='체크·별·메모 — 이 기기에만 저장 · 로그인하면 같이 쓰는 사람과 공유';return}
   const nick=user.user_metadata?.name||user.user_metadata?.full_name||user.user_metadata?.preferred_username||'';
   $('meWho').textContent=nick?`카카오 · ${nick}`:'카카오 로그인됨';
   const {data}=await sb.from('my_info').select('data').eq('app',APP).maybeSingle();
   const d=data?.data||{};F.forEach(k=>$('me_'+k).value=d[k]||'');
-  if(!d.name&&nick)$('me_name').value=nick;
+  if(!d.name&&nick)$('me_name').value=nick;window.refreshDoor?.();
   
   files();pullMarks(true);
  }
@@ -722,7 +726,7 @@ addEventListener('storage',e=>{if(e.key==='hk-trip-state-v1'){renderTrip({fit:tr
  async function saveMe(){
   const d={};F.forEach(k=>d[k]=$('me_'+k).value.trim());
   const {error}=await sb.from('my_info').upsert({user_id:uid,app:APP,data:d,updated_at:new Date().toISOString()});
-  $('meSaved').textContent=error?'저장 실패 — '+error.message:'저장됨';
+  $('meSaved').textContent=error?'저장 실패 — '+error.message:'저장됨';window.refreshDoor?.();
   
  }
  F.forEach(k=>$('me_'+k).addEventListener('input',()=>{$('meSaved').textContent='저장 중…';clearTimeout(timer);timer=setTimeout(saveMe,800)}));

@@ -652,3 +652,9 @@ html[data-skin=wkw][data-tod=day] :is(#today,#me,#prep){--sub:#5b5240;--red:#b32
 .fx-rate input{flex:1;width:0;min-width:0;min-height:44px;border:0;background:none;color:var(--label);font:inherit;font-size:1.0625rem;font-weight:700;text-align:right}
 .fx-rate button{min-height:44px;padding:0 4px 0 8px;color:var(--blue);font-size:.875rem;font-weight:600;white-space:nowrap}
 .fx-note{margin:0 20px 16px;font-size:.8125rem}
+
+.doorpin{display:flex;gap:10px;margin:10px 0 2px;text-decoration:none;color:inherit}
+.doorpin span{flex:1;min-width:0;background:var(--soft,rgba(120,120,128,.12));border-radius:12px;padding:8px 12px}
+.doorpin small{display:block;font-size:.72rem;opacity:.6}
+.doorpin b{font-size:1.25rem;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums;user-select:all;-webkit-user-select:all}
+.doorpin.none{display:block;font-size:.85rem;opacity:.6;padding:8px 0}
